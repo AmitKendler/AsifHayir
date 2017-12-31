@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Platform, StatusBar, StyleSheet } from "react-native";
 import {
   Header,
   Title,
@@ -9,13 +9,24 @@ import {
   Button,
   Icon,
   Left,
-  Right
+  Right,
+  Text
 } from "native-base";
 import { Actions } from "react-native-router-flux";
 
+const styles = StyleSheet.create({
+  header: {
+    ...Platform.select({
+      android: {
+        marginTop: StatusBar.currentHeight
+      }
+    })
+  }
+});
+
 const NavbarContainer = ({ hasBack, hasMenu, children, title }) =>
   <View style={{ flex: 1 }}>
-    <Header hasTabs>
+    <Header hasTabs style={styles.header}>
       {hasBack &&
         <Left>
           <Button transparent onPress={() => Actions.pop()}>

@@ -29,7 +29,7 @@ const GiveawayItem = ({ data, index, children }) => {
       </Body>
       <Right>
         <Text note>איסוף בשעה</Text>
-        <Text note>3:43 pm</Text>
+        <Text note>3:43</Text>
         <Icon name="checkmark" style={{ color: "green" }} />
       </Right>
     </ListItem>
