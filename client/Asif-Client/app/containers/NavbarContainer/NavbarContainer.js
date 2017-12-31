@@ -13,9 +13,9 @@ import {
 } from "native-base";
 import { Actions } from "react-native-router-flux";
 
-const NavbarContainer = ({ hasBack, hasMenu, children }) =>
+const NavbarContainer = ({ hasBack, hasMenu, children, title }) =>
   <View style={{ flex: 1 }}>
-    <Header hasTabs searchBar rounded>
+    <Header hasTabs>
       {hasBack &&
         <Left>
           <Button transparent onPress={() => Actions.pop()}>
@@ -29,7 +29,7 @@ const NavbarContainer = ({ hasBack, hasMenu, children }) =>
           </Button>
         </Left>}
       <Body>
-        <Title>אסיף העיר</Title>
+        <Title>{title}</Title>
       </Body>
     </Header>
     {children}

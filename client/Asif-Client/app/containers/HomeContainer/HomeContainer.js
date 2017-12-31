@@ -1,17 +1,27 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView, Animated, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  ScrollView,
+  Animated,
+  StyleSheet,
+  Dimensions
+} from "react-native";
 import { GiveawaysList } from "./../../components";
 import NavbarContainer from "./../NavbarContainer/NavbarContainer";
 import { Actions } from "react-native-router-flux";
 import { observer, inject } from "mobx-react/native";
 import UserContainer from "./../UserContainer/UserContainer";
+import LeaderBoardContainer from "./../LeaderBoardContainer/LeaderBoardContainer";
 import GiveawaysListContainer from "./../GiveawaysListContainer/GiveawaysListContainer";
+
 import {
   Button,
   Icon,
   Fab,
   Container,
   Tab,
+  TabHeading,
   Tabs,
   Header,
   ScrollableTab
@@ -27,6 +37,8 @@ const styles = StyleSheet.create({
   }
 });
 
+const tabsTitles = ["איזור אישי", "רשמת מסירות", "טבלת המובילים"];
+
 @inject("giveawaysStore")
 @observer
 class HomeContainer extends Component {
@@ -34,27 +46,62 @@ class HomeContainer extends Component {
     super(props);
 
     this.state = {
-      activeFabs: false
+      activeFabs: false,
+      title: tabsTitles[0]
     };
+  }
+
+  changeTitleByTab(i) {
+    this.setState({ title: tabsTitles[i] });
   }
 
   render() {
     const { giveaways } = this.props.giveawaysStore; // fetch from server []
     return (
       <Container>
-        <NavbarContainer hasMenu>
-          <Tabs renderTabBar={() => <ScrollableTab />}>
-            <Tab heading="איזור אישי">
+        <NavbarContainer hasMenu hasTabs title={this.state.title}>
+          <Tabs
+            renderTabBar={() => <ScrollableTab />}
+            onChangeTab={({ i, ref, from }) => this.changeTitleByTab(i)}
+          >
+            <Tab
+              tabStyle={{ width: "100%" }}
+              heading={
+                <TabHeading
+                  style={{ width: Dimensions.get("window").width / 3 }}
+                >
+                  <Icon name="person" />
+                </TabHeading>
+              }
+            >
               <ScrollView style={styles.userContainer}>
                 <UserContainer />
               </ScrollView>
             </Tab>
-            <Tab heading="מסירות">
+            <Tab
+              heading={
+                <TabHeading
+                  style={{ width: Dimensions.get("window").width / 3 }}
+                >
+                  <Icon name="list" />
+                </TabHeading>
+              }
+            >
               <ScrollView style={styles.giveawayItemsContainer}>
                 <GiveawaysListContainer giveaways={giveaways} />
               </ScrollView>
             </Tab>
-            <Tab heading="טבלת המובילים" />
+            <Tab
+              heading={
+                <TabHeading
+                  style={{ width: Dimensions.get("window").width / 3 }}
+                >
+                  <Icon name="trophy" />
+                </TabHeading>
+              }
+            >
+              <LeaderBoardContainer />
+            </Tab>
           </Tabs>
           <Fab
             active={this.state.activeFabs}
@@ -65,13 +112,22 @@ class HomeContainer extends Component {
               this.setState({ activeFabs: !this.state.activeFabs })}
           >
             <Icon name="add" />
-            <Button style={{ backgroundColor: "#34A34F" }}>
+            <Button
+              style={{ backgroundColor: "#34A34F" }}
+              onPress={Actions.FoodGiveawayContainer}
+            >
               <Icon name="pizza" />
             </Button>
-            <Button style={{ backgroundColor: "#3B5998" }}>
+            <Button
+              style={{ backgroundColor: "#3B5998" }}
+              onPress={Actions.ClothesGiveawayContainer}
+            >
               <Icon name="shirt" />
             </Button>
-            <Button style={{ backgroundColor: "#DD5144" }}>
+            <Button
+              style={{ backgroundColor: "#DD5144" }}
+              onPress={Actions.FurnitureGiveawayContainer}
+            >
               <Icon name="basket" />
             </Button>
           </Fab>
