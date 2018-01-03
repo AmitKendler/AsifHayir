@@ -29,9 +29,6 @@ import {
 import { Col, Row, Grid } from "react-native-easy-grid";
 
 const styles = StyleSheet.create({
-  userContainer: {
-    backgroundColor: "#fff"
-  },
   giveawayItemsContainer: {
     backgroundColor: "#fff"
   }
@@ -74,7 +71,7 @@ class HomeContainer extends Component {
                 </TabHeading>
               }
             >
-              <ScrollView style={styles.userContainer}>
+              <ScrollView>
                 <UserContainer />
               </ScrollView>
             </Tab>
@@ -103,7 +100,7 @@ class HomeContainer extends Component {
               <LeaderBoardContainer />
             </Tab>
           </Tabs>
-          <Fab
+          {/*       <Fab
             active={this.state.activeFabs}
             direction="left"
             style={{ backgroundColor: "#5067FF" }}
@@ -130,7 +127,7 @@ class HomeContainer extends Component {
             >
               <Icon name="basket" />
             </Button>
-          </Fab>
+          </Fab>*/}
         </NavbarContainer>
       </Container>
     );
