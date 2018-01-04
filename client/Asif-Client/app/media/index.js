@@ -1,4 +1,5 @@
 export default {
-    logos: {
-    }
-}
+	users: {
+		aroma: require("./images/aroma.jpg")
+	}
+};

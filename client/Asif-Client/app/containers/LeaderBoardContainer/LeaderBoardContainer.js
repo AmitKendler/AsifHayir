@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
 import { observer, inject } from "mobx-react/native";
 import { Button, Icon, Fab, Content, Text } from "native-base";
+import LeaderBoardListContainer from "./../LeaderboardListContainer/LeaderboardListContainer";
 
 const styles = StyleSheet.create({
     container: {
@@ -18,11 +19,8 @@ class LeaderBoardContainer extends Component {
     }
 
     render() {
-        return (
-            <View>
-                <Text>LeaderBoardContainer</Text>
-            </View>
-        );
+        const { leaderboard } = this.props;
+        return <LeaderboardListContainer leaderboard={leaderboard} />;
     }
 }
 

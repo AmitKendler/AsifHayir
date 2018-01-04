@@ -13,6 +13,7 @@ import { Actions } from "react-native-router-flux";
 import { observer, inject } from "mobx-react/native";
 import UserContainer from "./../UserContainer/UserContainer";
 import LeaderBoardContainer from "./../LeaderBoardContainer/LeaderBoardContainer";
+import LeaderboardListContainer from "./../LeaderboardListContainer/LeaderboardListContainer";
 import GiveawaysListContainer from "./../GiveawaysListContainer/GiveawaysListContainer";
 
 import {
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
 const tabsTitles = ["איזור אישי", "רשמת מסירות", "טבלת המובילים"];
 
 @inject("giveawaysStore")
+@inject("leaderboardStore")
 @observer
 class HomeContainer extends Component {
   constructor(props) {
@@ -44,16 +46,18 @@ class HomeContainer extends Component {
 
     this.state = {
       activeFabs: false,
-      title: tabsTitles[0]
+      title: tabsTitles[0],
+      currentTab: 0
     };
   }
 
   changeTitleByTab(i) {
-    this.setState({ title: tabsTitles[i] });
+    this.setState({ title: tabsTitles[i], currentTab: i });
   }
 
   render() {
     const { giveaways } = this.props.giveawaysStore; // fetch from server []
+    const { leaderboard } = this.props.leaderboardStore;
     return (
       <Container>
         <NavbarContainer hasMenu hasTabs title={this.state.title}>
@@ -97,37 +101,39 @@ class HomeContainer extends Component {
                 </TabHeading>
               }
             >
-              <LeaderBoardContainer />
+              <LeaderboardListContainer leaderboard={leaderboard} />
             </Tab>
           </Tabs>
-          {/*       <Fab
-            active={this.state.activeFabs}
-            direction="left"
-            style={{ backgroundColor: "#5067FF" }}
-            position="bottomRight"
-            onPress={() =>
-              this.setState({ activeFabs: !this.state.activeFabs })}
-          >
-            <Icon name="add" />
-            <Button
-              style={{ backgroundColor: "#34A34F" }}
-              onPress={Actions.FoodGiveawayContainer}
-            >
-              <Icon name="pizza" />
-            </Button>
-            <Button
-              style={{ backgroundColor: "#3B5998" }}
-              onPress={Actions.ClothesGiveawayContainer}
-            >
-              <Icon name="shirt" />
-            </Button>
-            <Button
-              style={{ backgroundColor: "#DD5144" }}
-              onPress={Actions.FurnitureGiveawayContainer}
-            >
-              <Icon name="basket" />
-            </Button>
-          </Fab>*/}
+          {this.state.currentTab !== 0
+            ? <Fab
+                active={this.state.activeFabs}
+                direction="left"
+                style={{ backgroundColor: "#5067FF" }}
+                position="bottomRight"
+                onPress={() =>
+                  this.setState({ activeFabs: !this.state.activeFabs })}
+              >
+                <Icon name="add" />
+                <Button
+                  style={{ backgroundColor: "#34A34F" }}
+                  onPress={Actions.FoodGiveawayContainer}
+                >
+                  <Icon name="pizza" />
+                </Button>
+                <Button
+                  style={{ backgroundColor: "#3B5998" }}
+                  onPress={Actions.ClothesGiveawayContainer}
+                >
+                  <Icon name="shirt" />
+                </Button>
+                <Button
+                  style={{ backgroundColor: "#DD5144" }}
+                  onPress={Actions.FurnitureGiveawayContainer}
+                >
+                  <Icon name="basket" />
+                </Button>
+              </Fab>
+            : null}
         </NavbarContainer>
       </Container>
     );

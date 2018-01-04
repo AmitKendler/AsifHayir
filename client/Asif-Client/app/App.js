@@ -9,11 +9,15 @@ import {
 import { Scene, Router, Actions } from "react-native-router-flux";
 import { Provider } from "mobx-react/native";
 import giveawaysStore from "./stores/giveaways";
+import leaderboardStore from "./stores/leaderboard";
 
 export default class App extends React.Component {
   render() {
     return (
-      <Provider giveawaysStore={giveawaysStore}>
+      <Provider
+        giveawaysStore={giveawaysStore}
+        leaderboardStore={leaderboardStore}
+      >
         <Router>
           <Scene key="root">
             <Scene

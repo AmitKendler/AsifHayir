@@ -28,8 +28,6 @@ export default class Setup extends Component {
     if (!this.state.isReady) {
       return <Expo.AppLoading />;
     }
-    return (
-        <App />
-    );
+    return <App />;
   }
 }
