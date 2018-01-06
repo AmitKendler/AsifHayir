@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     },
     actionTiles: {
         color: "#fff",
-        fontSize: 60
+        fontSize: 60,
+        textShadowRadius: 10
     },
     middleActionTile: {
         alignItems: "center",
