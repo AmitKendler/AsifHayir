@@ -32,10 +32,10 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 9000,
 
 //   }
 // }
-// var db = null,
-//     dbDetails = new Object();
+var db = null,
+    dbDetails = new Object();
 
-// var initDb = function(callback) {
+var initDb = function(callback) {
 //   if (mongoURL == null) return;
 
 //   var mongodb = require('mongodb');
@@ -54,32 +54,32 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 9000,
 
 //     console.log('Connected to MongoDB at: %s', mongoURL);
 //   });
-// };
+};
 
-// app.get('/', function (req, res) {
-//   // try to initialize the db on every request if it's not already
-//   // initialized.
-//   if (!db) {
-//     initDb(function(err){});
-//   }
-//   if (db) {
-//     var col = db.collection('counts');
-//     // Create a document with request IP and current time of request
-//     col.insert({ip: req.ip, date: Date.now()});
-//     col.count(function(err, count){
-//       if (err) {
-//         console.log('Error running count. Message:\n'+err);
-//       }
-//       res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
-//     });
-//   } else {
-//     res.render('index.html', { pageCountMessage : null});
-//   }
-// });
+app.get('/', function (req, res) {
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    var col = db.collection('counts');
+    // Create a document with request IP and current time of request
+    col.insert({ip: req.ip, date: Date.now()});
+    col.count(function(err, count){
+      if (err) {
+        console.log('Error running count. Message:\n'+err);
+      }
+      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
+    });
+  } else {
+    res.render('index.html', { pageCountMessage : null});
+  }
+});
 
-app.get('/', (req, res) => {
-    res.render('index.html');
-})
+// app.get('/', (req, res) => {
+//     res.render('index.html');
+// })
 
 app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
