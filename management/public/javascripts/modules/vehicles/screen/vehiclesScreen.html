@@ -1,0 +1,90 @@
+<div class="card container-fluid">
+    <!-- <vehicles-table vehicles="vehicles"></vehicles-table>    -->
+    <div class="row vehicles-section">
+        <div class="col-lg-9" style="margin-right: 12%">
+            <div class="row">
+                <div class="col-lg-3" ng-repeat="vehicle in vehicles track by $index">
+                    <div class="vehicle-item">
+                        <div class="vehicle-item__image">
+                            <img  ng-src="{{vehicle.image && vehicle.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-p06i7nVh_LwuG-D4j_xDCPwF3qzSZkajcaSAfWCStYgABV2uVQ'}}">
+                        </div>
+                        <div class="row vehicle-item__description">
+                            <div class="col-md-12">
+                                <div >
+                                    <h4 class="vehicle-item__description-type">{{vehicle.type}}</h4>
+                                </div>
+                                <div >
+                                    <h4 class="vehicle-item__description-number">{{formatCarNumber(vehicle.number)}}</h4>
+                                </div>
+                            </div>
+                        </div>                     
+                        <div class="row vehicle-item__edit"> 
+                            
+                            <div class="col-md-9" ng-style="vehicle.capacity && {'margin-top':'30px'}">                   
+                                <button class="btn btn-sm btn-warning" ng-click="onOpenDialog(vehicle)" data-toggle="modal" data-target="#vehicleModal">ערוך</button>
+                                <button class="btn btn-sm btn-danger" ng-click="deleteVehicle($index)">מחק</button>
+                            </div>
+                            <div ng-if="vehicle.capacity" class="col-md-3">
+                                <h4 class="round-label vehicle-item__description-capacity">{{vehicle.capacity}} ליטר</h4>
+                            </div> 
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="seperator"></div>
+<button type="button" ng-click="onOpenDialog()" data-toggle="modal" data-target="#vehicleModal" class="btn btn-primary btn-circle btn-xl btn-add">
+    <i class="fa fa-plus"></i>
+</button>
+
+
+<div class="modal fade" id="vehicleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>{{!vehicle.id ? "הוסף ניידת" : "ערוך ניידת"}}</h2>
+            </div>
+
+            <div class="modal-body">
+                <form id="vehicleForm" name="vehicleForm" novalidate>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="number">מספר רכב</label>
+                            <input type="number" name="number" class="form-control" id="number" ng-model="vehicle.number" placeholder="מספר רכב" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="type">סוג רכב</label>
+                            <input type="text" id="type" name="type" class="form-control" ng-model="vehicle.type" placeholder="סוג רכב">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="capacity">קיבולת (ק"ג)</label>
+                            <input type="number" id="capacity" class="form-control" id="capacity" placeholder="קיבולת" ng-model="vehicle.capacity">
+                         </div>
+                    </div>   
+                    <div class="row">   
+                        <div class="col-md-12 form-group">
+                            <label for="image">תמונה</label>
+                            <input type="text" class="form-control" id="image" placeholder="תמונה" ng-model="vehicle.image">
+                        </div>
+                    </div>                     
+                </form>                
+           </div>
+
+           <div class="modal-bottom">               
+                <button type="button" class="btn btn-warning" data-dismiss="modal">סגור</button>
+                <button type="button" class="btn btn-primary"  data-dismiss="modal" ng-click="vehicleForm.$valid && (!vehicle.id ? addVehicle() : updateVehicle())">
+                    שמור
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    

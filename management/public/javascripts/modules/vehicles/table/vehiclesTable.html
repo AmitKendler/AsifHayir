@@ -1,0 +1,18 @@
+<div class="card-block">
+  <table class="table table-striped" >
+      <thead>
+        <tr>
+          <th>מספר רכב</th>
+          <th>סוג</th>
+          <th>קיבולת</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="vehicle in vehicles">
+          <td>{{ vehicle.number }}</td>
+          <td>{{ vehicle.type }}</td>
+          <td>{{ vehicle.capacity }}</td>
+        </tr>        
+      </tbody>
+  </table>
+</div>
