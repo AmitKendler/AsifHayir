@@ -1,12 +1,12 @@
 import React from "react";
 import { Text } from "native-base";
 
-const LocationPickerContainer = () => {
+const GeneralInfoContainer = () => {
 	return (
 		<Text>
-			LocationPickerContainer
+			general info container
 		</Text>
 	);
 };
 
-export default LocationPickerContainer;
+export default GeneralInfoContainer;

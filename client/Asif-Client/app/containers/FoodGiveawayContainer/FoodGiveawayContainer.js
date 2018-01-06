@@ -32,35 +32,30 @@ const styles = StyleSheet.create({
     marginView: { marginTop: 10 }
 });
 
-const labels = [
-    "מידע כללי",
-    "מיקום האיסוף",
-    "מועד האיסוף",
-    "הערות נוספות",
-    "פרטי איש קשר"
-];
+const labels = ["מידע כללי", "מיקום האיסוף", "מועד האיסוף", "פרטי איש קשר"];
+
 const customStyles = {
     stepIndicatorSize: 25,
     currentStepIndicatorSize: 30,
     separatorStrokeWidth: 2,
     currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: "#fe7013",
+    stepStrokeCurrentColor: "rgb(64,56,115)",
     stepStrokeWidth: 3,
-    stepStrokeFinishedColor: "#fe7013",
+    stepStrokeFinishedColor: "rgb(64,56,115)",
     stepStrokeUnFinishedColor: "#aaaaaa",
-    separatorFinishedColor: "#fe7013",
+    separatorFinishedColor: "rgb(64,56,115)",
     separatorUnFinishedColor: "#aaaaaa",
-    stepIndicatorFinishedColor: "#fe7013",
+    stepIndicatorFinishedColor: "rgb(99,93,183)",
     stepIndicatorUnFinishedColor: "#ffffff",
     stepIndicatorCurrentColor: "#ffffff",
     stepIndicatorLabelFontSize: 13,
     currentStepIndicatorLabelFontSize: 13,
-    stepIndicatorLabelCurrentColor: "#fe7013",
+    stepIndicatorLabelCurrentColor: "rgb(64,56,115)",
     stepIndicatorLabelFinishedColor: "#ffffff",
     stepIndicatorLabelUnFinishedColor: "#aaaaaa",
     labelColor: "#999999",
     labelSize: 13,
-    currentStepLabelColor: "#fe7013"
+    currentStepLabelColor: "#rgb(99,93,183)"
 };
 
 class FoodGiveawayContainer extends Component {
@@ -70,7 +65,8 @@ class FoodGiveawayContainer extends Component {
         this.state = {
             isDateTimePickerVisible: false,
             timeInputValue: "",
-            currentPosition: 0
+            currentPosition: 0,
+            isCheckAvailable: false
         };
     }
 
@@ -88,21 +84,47 @@ class FoodGiveawayContainer extends Component {
     }
 
     handleSwipeChanged(i) {
-        this.setState({ currentPosition: i });
+        this.setState({
+            currentPosition: i,
+            isCheckAvailable: i === 3 ? true : false
+        });
+    }
+
+    moveNext() {
+        this.refs.mySwiper.scrollBy(1);
+    }
+
+    moveStep(i) {
+        this.refs.mySwiper.scrollBy(i - this.state.currentPosition);
     }
 
     render() {
         return (
             <Container style={styles.container}>
-                <NavbarContainer hasBack title={"מסירת מזון"}>
+                <NavbarContainer
+                    hasBack
+                    title={"מסירת מזון"}
+                    hasNext={!this.state.isCheckAvailable}
+                    onPressNext={this.moveNext.bind(this)}
+                    hasCheck={this.state.isCheckAvailable}
+                    onPressCheck={() => alert("ok!")}
+                >
                     <Content>
                         <View style={styles.marginView} />
                         <StepIndicator
+                            stepCount={4}
+                            customStyles={customStyles}
                             currentPosition={this.state.currentPosition}
                             labels={labels}
+                            onPress={this.moveStep.bind(this)}
                         />
 
+                        <View style={styles.marginView} />
                         <Swiper
+                            showsPagination={false}
+                            scrollEnabled={false}
+                            ref="mySwiper"
+                            activeDotColor="rgb(64,56,115)"
                             style={styles.container}
                             onIndexChanged={i => this.handleSwipeChanged(i)}
                         >
@@ -114,9 +136,6 @@ class FoodGiveawayContainer extends Component {
                             </Content>
                             <Content>
                                 <TimePickerContainer />
-                            </Content>
-                            <Content>
-                                <AdditionalAttributesContainer />
                             </Content>
                             <Content>
                                 <ContactInfoContainer />

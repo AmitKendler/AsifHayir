@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^6.2.2",
+    "@ptomasroos/react-native-multi-slider": "0.0.11",
     "expo": "^23.0.4",
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",

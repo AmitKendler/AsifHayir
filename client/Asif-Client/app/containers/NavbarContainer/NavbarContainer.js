@@ -24,7 +24,16 @@ const styles = StyleSheet.create({
   }
 });
 
-const NavbarContainer = ({ hasBack, hasMenu, children, title }) =>
+const NavbarContainer = ({
+  hasBack,
+  hasMenu,
+  children,
+  title,
+  hasNext,
+  onPressNext,
+  hasCheck,
+  onPressCheck
+}) =>
   <View style={{ flex: 1 }}>
     <Header hasTabs style={styles.header}>
       {hasBack &&
@@ -42,6 +51,18 @@ const NavbarContainer = ({ hasBack, hasMenu, children, title }) =>
       <Body>
         <Title>{title}</Title>
       </Body>
+      {hasNext &&
+        <Right>
+          <Button transparent onPress={onPressNext}>
+            <Text>הבא</Text>
+          </Button>
+        </Right>}
+      {hasCheck &&
+        <Right>
+          <Button transparent onPress={onPressCheck}>
+            <Icon name="checkmark" />
+          </Button>
+        </Right>}
     </Header>
     {children}
   </View>;
