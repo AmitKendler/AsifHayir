@@ -49,7 +49,7 @@ const ActionTile = ({ iconName, color, tileTitle, Action }) => {
                 <CardItem
                     button
                     style={{ backgroundColor: color }}
-                    onPress={Action}
+                    onPress={() => Action({ title: tileTitle })}
                 >
                     <Body style={styles.centerize}>
                         <Icon style={styles.actionTiles} name={iconName} />
@@ -113,30 +113,24 @@ class UserContainer extends Component {
 
                 <Grid>
                     <ActionTile
-                        Action={Actions.FoodGiveawayContainer}
+                        Action={Actions.ItemGiveawayContainer}
                         iconName="pizza"
                         color="#FFB74D"
-                        tileTitle="אוכל רטוב"
-                    />
-                    <ActionTile
-                        Action={Actions.FoodGiveawayContainer}
-                        iconName="nutrition"
-                        color="#AED581"
-                        tileTitle="אוכל יבש"
+                        tileTitle="מסירת מזון"
                     />
                 </Grid>
                 <Grid>
                     <ActionTile
-                        Action={Actions.FurnitureGiveawayContainer}
+                        Action={Actions.ItemGiveawayContainer}
                         iconName="basket"
-                        color="#FFF176"
-                        tileTitle="רהיטים"
+                        color="#AED581"
+                        tileTitle="מסירת רהיטים"
                     />
                     <ActionTile
-                        Action={Actions.ClothesGiveawayContainer}
+                        Action={Actions.ItemGiveawayContainer}
                         iconName="shirt"
                         color="#4FC3F7"
-                        tileTitle="בגדים"
+                        tileTitle="מסירת בגדים"
                     />
                 </Grid>
 

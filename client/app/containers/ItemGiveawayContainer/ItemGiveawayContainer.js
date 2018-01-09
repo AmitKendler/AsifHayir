@@ -13,10 +13,8 @@ import {
 } from "native-base";
 import { Actions } from "react-native-router-flux";
 import NavbarContainer from "./../NavbarContainer/NavbarContainer";
-import DateTimePicker from "react-native-modal-datetime-picker";
 import StepIndicator from "react-native-step-indicator";
 import Swiper from "react-native-swiper";
-
 import GeneralInfoContainer from "./GeneralInfoContainer";
 import AdditionalAttributesContainer from "./AdditionalAttributesContainer";
 import LocationPickerContainer from "./LocationPickerContainer";
@@ -58,29 +56,14 @@ const customStyles = {
     currentStepLabelColor: "#rgb(99,93,183)"
 };
 
-class FoodGiveawayContainer extends Component {
+class ItemGiveawayContainer extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            isDateTimePickerVisible: false,
-            timeInputValue: "",
             currentPosition: 0,
             isCheckAvailable: false
         };
-    }
-
-    showDateTimePicker() {
-        this.setState({ isDateTimePickerVisible: true });
-    }
-
-    hideDateTimePicker() {
-        this.setState({ isDateTimePickerVisible: false });
-    }
-
-    handleDatePicked(date) {
-        this.setState({ timeInputValue: date.toLocaleTimeString("en-GB") });
-        this.hideDateTimePicker();
     }
 
     handleSwipeChanged(i) {
@@ -103,7 +86,7 @@ class FoodGiveawayContainer extends Component {
             <Container style={styles.container}>
                 <NavbarContainer
                     hasBack
-                    title={"מסירת מזון"}
+                    title={this.props.title}
                     hasNext={!this.state.isCheckAvailable}
                     onPressNext={this.moveNext.bind(this)}
                     hasCheck={this.state.isCheckAvailable}
@@ -141,62 +124,6 @@ class FoodGiveawayContainer extends Component {
                                 <ContactInfoContainer />
                             </Content>
                         </Swiper>
-                        {/* <Form>
-                            <Item floatingLabel>
-                                <Label>פירוט</Label>
-                                <Input />
-                            </Item>
-                            <Item floatingLabel>
-                                <Label>הערות</Label>
-                                <Input />
-                            </Item>
-                            <Picker mode="dropdown" placeholder="Select One">
-                                <PickerItem label="ארוז" value="key0" />
-                                <PickerItem label="פתוח" value="key1" />
-                            </Picker>
-                            <Picker mode="dropdown" placeholder="Select One">
-                                <PickerItem label="כשר" value="key0" />
-                                <PickerItem label="לא כשא" value="key1" />
-                            </Picker>
-                            <Picker mode="dropdown" placeholder="Select One">
-                                <PickerItem label="בקירור" value="key0" />
-                                <PickerItem label="לא בקירור" value="key1" />
-                            </Picker>
-                            <Item floatingLabel>
-                                <Label>
-                                    מיקום האיסוף
-                                </Label>
-                                <Input />
-                                <Icon active name="navigate" />
-                            </Item>
-                            <Item
-                                floatingLabel
-                                onPress={() => this.showDateTimePicker()}
-                            >
-                                <Label>
-                                    זמן איסוף מתאים
-                                </Label>
-                                <Input
-                                    disabled
-                                    value={this.state.timeInputValue}
-                                />
-                                <Icon active name="time" />
-                            </Item>
-                            <Item floatingLabel>
-                                <Label>
-                                    תמונה
-                                </Label>
-                                <Input />
-                                <Icon active name="camera" />
-                            </Item>
-                            <DateTimePicker
-                                mode="time"
-                                isVisible={this.state.isDateTimePickerVisible}
-                                onConfirm={date => this.handleDatePicked(date)}
-                                onCancel={() => this.hideDateTimePicker()}
-                            />
-
-                        </Form>*/}
                     </Content>
                 </NavbarContainer>
             </Container>
@@ -204,4 +131,4 @@ class FoodGiveawayContainer extends Component {
     }
 }
 
-export default FoodGiveawayContainer;
+export default ItemGiveawayContainer;

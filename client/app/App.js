@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import {
-  HomeContainer,
-  FoodGiveawayContainer,
-  ClothesGiveawayContainer,
-  FurnitureGiveawayContainer
-} from "./containers";
+import { HomeContainer, ItemGiveawayContainer } from "./containers";
 import { Scene, Router, Actions } from "react-native-router-flux";
 import { Provider } from "mobx-react/native";
 import giveawaysStore from "./stores/giveaways";
@@ -27,18 +22,8 @@ export default class App extends React.Component {
               hideNavBar={true}
             />
             <Scene
-              key="FoodGiveawayContainer"
-              component={FoodGiveawayContainer}
-              hideNavBar={true}
-            />
-            <Scene
-              key="FurnitureGiveawayContainer"
-              component={FurnitureGiveawayContainer}
-              hideNavBar={true}
-            />
-            <Scene
-              key="ClothesGiveawayContainer"
-              component={ClothesGiveawayContainer}
+              key="ItemGiveawayContainer"
+              component={ItemGiveawayContainer}
               hideNavBar={true}
             />
           </Scene>

@@ -65,7 +65,7 @@ class TimePickerContainer extends Component {
 							color: this.state.isSpecificTimeSelected
 								? "black"
 								: "grey",
-							margin: 10
+							margin: 20
 						}}
 					>
 						{this.mapSliderValToHour(

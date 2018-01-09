@@ -13,26 +13,51 @@ import {
   Content
 } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
+import { ImagePicker } from "expo";
 import media from "./../../media";
 const PickerItem = Picker.Item;
 
-const CameraPicker = selectedPic => {
-  return (
-    <TouchableOpacity>
-      <Thumbnail large source={media.colors.lightgrey} />
-      <Icon
-        style={{
-          color: "#fff",
-          top: 24,
-          fontSize: 34,
-          left: 26,
-          position: "absolute"
-        }}
-        name="camera"
-      />
-    </TouchableOpacity>
-  );
-};
+class CameraPicker extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      itemImage: null
+    };
+  }
+
+  pickImage = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3]
+    });
+
+    if (!result.cancelled) {
+      this.setState({ itemImage: result.uri });
+    }
+  };
+
+  render() {
+    return (
+      <TouchableOpacity onPress={this.pickImage}>
+        {!this.state.itemImage
+          ? <Thumbnail large source={media.colors.lightgrey} />
+          : <Thumbnail large source={{ uri: this.state.itemImage }} />}
+        {!this.state.itemImage &&
+          <Icon
+            style={{
+              color: "#fff",
+              top: 24,
+              fontSize: 34,
+              left: 26,
+              position: "absolute"
+            }}
+            name="camera"
+          />}
+      </TouchableOpacity>
+    );
+  }
+}
 
 const AmountPicker = ({
   quantity,
