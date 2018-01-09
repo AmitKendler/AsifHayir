@@ -47,7 +47,7 @@ angular.module("AsifHayir").controller("vehicles", function ($scope, VehiclesSer
                 type: "tender",
                 capacity: 20,
                 image: "https://www.mazda.co.nz/sites/default/files/MDZ3986_Mazda2_GLX_HATCH_Snowflake%20Pearl%20White%20Mica_Front_0.png"                          
-            },
+            }
         ];
 
     });

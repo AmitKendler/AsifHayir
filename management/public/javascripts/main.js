@@ -13,11 +13,11 @@ app.config(function($routeProvider) {
             controller: 'vehicles'
         })    
         .when("/volunteers", {
-            templateUrl : "javascripts/modules/donations/screen/donationsScreen.html",
+            templateUrl : "javascripts/modules/volunteers/screen/volunteersScreen.html",
             controller: 'volunteers'
         })    
         .when("/statistics", {
-            templateUrl : "javascripts/modules/donations/screen/donationsScreen.html",
+            templateUrl : "javascripts/modules/statistics/statistics.html",
             controller: 'statistics'
         })        
         .otherwise({
