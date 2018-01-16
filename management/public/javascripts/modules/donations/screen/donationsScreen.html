@@ -1,0 +1,42 @@
+<div class="card">
+    <map-view-donations donations="donations"></map-view-donations>
+    <donations-table donations="donations"></donations-table>
+    
+</div>
+<div class="align-center">
+    <button type="button" data-toggle="modal" data-target="#runAlgoModal" class="btn btn-primary btn-lg btn-add">
+        <i class="fa fa-paper-plane">  תכנן מסלול איסוף </i>
+    </button>
+</div>
+
+<div class="modal fade" id="runAlgoModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content" style="width: 80%">
+                <div class="modal-header">
+                    <h2>תכנן מסלול איסוף</h2>
+                </div>
+    
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="vehicleAmount">תאריך</label>
+                            <input type="date" name="date" class="form-control" id="date" ng-model="date" placeholder="תאריך" required>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="vehicleAmount">מספר ניידות</label>
+                            <input type="number" name="vehicleAmount" class="form-control" id="vehicleAmount" ng-model="vehicleAmount" placeholder="מספר ניידות" required>
+                        </div>
+                    </div>    
+               </div>
+    
+               <div class="modal-bottom">               
+                    <button type="button" class="btn btn-close" data-dismiss="modal">סגור</button>
+                    <button type="button" class="btn btn-primary"  data-dismiss="modal" ng-click="runAlgo(date, vehicleAmount)">
+                        תכנן מסלול
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

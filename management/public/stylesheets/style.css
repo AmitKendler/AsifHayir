@@ -1,0 +1,207 @@
+@font-face {
+  font-family: nehama;
+  src: url(../style/fonts/nehama-webfont.woff);
+}
+
+@font-face {
+  font-family: dorian;
+  src: url(../style/fonts/dorianclm-book-webfont.woff);
+}
+
+@font-face {
+  font-family: asakim;
+  src: url(../style/fonts/asakim_bold-webfont.woff);
+}
+
+@font-face {
+  font-family: horev;
+  src: url(../style/fonts/horevclm-heavy-webfont.woff);
+}
+
+header {
+  margin-bottom: 80px;
+}
+  
+body {
+  background: #333;
+}
+
+.navbar * {
+  font-size: 30px; 
+  font-family: asakim; 
+}
+
+.nav-item {
+  color: rgba(255, 255, 255, 0.74);
+  border-top: 4px solid transparent;
+}
+
+.navbar-default {
+  background: #333;
+  margin: 0;
+  font-size: 1.1em;
+  border: 0;
+  font-family: Montserrat,Helvetica Neue,sans-serif;
+  box-shadow: 0 1px 0 hsla(0,0%,95%,.1);
+  z-index: 2!important;
+}
+
+.navbar-default a {
+  -webkit-transition: color .2s;
+  transition: color .2s
+}
+
+.navbar-fixed-top {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.nav-item:focus, .nav-item:hover {
+  color: rgba(255, 255, 255, 0.74);
+  border-top-color: #4eb7f5;
+}
+
+* {
+  font-family: arial;
+}
+
+th {
+  text-align: right;
+}
+
+th, td {
+  font-size: 16px;  
+}
+
+table.scroll {
+  border-spacing: 0;
+}
+
+table.scroll thead { width: 97%; }
+
+table.scroll tbody,
+table.scroll thead { display: block; }
+
+.donations-table {
+  overflow: hidden;
+  height: 300px;
+}
+
+thead tr th { 
+  height: 30px;
+  line-height: 30px;
+}
+
+table.scroll tbody {
+  height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.align-center {
+  display: flex;
+  justify-content: center;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.right-to-left {
+  direction: rtl;
+}
+
+.seperator {
+  margin-top: 3%;
+}
+
+.popover{
+  width: 270px;
+  max-width: 270px;
+  height: 200px;   
+  font-size: 20px; 
+}
+
+.success-icon {
+  color: green;
+}
+
+.danger-icon {
+  color: red;
+}
+
+.round-label {
+  border-radius: 2em;
+  background-color: #cdefcd;
+  padding: 2px;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+.btn-add {
+  position: absolute;
+  bottom: 3%;
+  margin-right: 20px;
+}
+
+.modal-header {
+  background-color: #0275d8;
+}
+
+.modal-header h2 {
+  color: white;
+}
+
+.modal-bottom {
+  padding: 10px;
+}
+
+.modal-bottom button {
+  float: left;
+  margin-left: 10px;
+}
+
+.vehicles-table {
+  overflow-y: auto;
+  max-height: 600px;
+}
+
+.btn-close {
+  background-color: #252020d1;
+  color: #fff;
+  border-color: #252020d1;
+}
+
+.td-button {
+  width: 4%;
+}
