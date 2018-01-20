@@ -9,7 +9,9 @@
       "bundleIdentifier": "com.kendler.asifhayir"
     },
     "android": {
-      "package": "com.yourcompany.asifhayir"
+      "package": "com.yourcompany.asifhayir",
+      "config" : {"googleMaps" : {"apiKey" : "AIzaSyCGYJV0FxTXfKgR9TrcZh7Z1rBc3L8zPKE"}}
     }
    }
  } 
+

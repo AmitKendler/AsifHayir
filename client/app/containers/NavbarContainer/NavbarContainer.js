@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
 const NavbarContainer = ({
   hasBack,
   hasMenu,
+  onMenuClick,
   children,
   title,
   hasNext,
@@ -44,7 +45,7 @@ const NavbarContainer = ({
         </Left>}
       {hasMenu &&
         <Left>
-          <Button transparent>
+          <Button transparent onPress={() => onMenuClick()}>
             <Icon name="menu" />
           </Button>
         </Left>}
