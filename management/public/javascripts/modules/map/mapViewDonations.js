@@ -5,7 +5,7 @@ angular.module('AsifHayir')
 	  	scope: {
 	      donations: '='
 	    },
-			template: '<div id="map" class="container-fluid" style="height: ' + window.innerHeight*0.5 + 'px; margin:auto;"></div>',
+			template: '<div id="map" class="container-fluid" style="height: ' + window.innerHeight*0.4 + 'px; margin:auto;"></div>',
 	    link: function(scope, element, attrs) {
 
 				var locations = [
