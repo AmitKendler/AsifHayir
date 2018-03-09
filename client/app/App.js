@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { HomeContainer, ItemGiveawayContainer } from "./containers";
+import {
+  HomeContainer,
+  ItemGiveawayContainer,
+  LoginContainer,
+  AboutUsContainer,
+  SettingsContainer
+} from "./containers";
 import { Scene, Router, Actions } from "react-native-router-flux";
 import { Provider } from "mobx-react/native";
 import giveawaysStore from "./stores/giveaways";
@@ -18,12 +24,27 @@ export default class App extends React.Component {
             <Scene
               key="HomeContainer"
               component={HomeContainer}
-              initial={true}
               hideNavBar={true}
             />
             <Scene
               key="ItemGiveawayContainer"
               component={ItemGiveawayContainer}
+              hideNavBar={true}
+            />
+            <Scene
+              key="SettingsContainer"
+              component={SettingsContainer}
+              hideNavBar={true}
+            />
+            <Scene
+              key="AboutUsContainer"
+              component={AboutUsContainer}
+              hideNavBar={true}
+            />
+            <Scene
+              key="LoginContainer"
+              component={LoginContainer}
+              initial={true}
               hideNavBar={true}
             />
           </Scene>
