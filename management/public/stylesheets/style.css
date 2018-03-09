@@ -18,25 +18,36 @@
   src: url(../style/fonts/horevclm-heavy-webfont.woff);
 }
 
+@font-face {
+  font-family: opensanshebrew;
+  src: url(../style/fonts/opensanshebrew-regular.woff);
+}
+
 header {
-  margin-bottom: 80px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
 }
   
+main {
+  padding-top: 42px;
+}
 body {
   background: #333;
 }
 
-.navbar * {
-  font-size: 30px; 
-  font-family: asakim; 
+header .navbar * {
+  font-size: 20px; 
+  font-family: opensanshebrew; 
 }
 
-.nav-item {
+header .nav-item {
   color: rgba(255, 255, 255, 0.74);
   border-top: 4px solid transparent;
 }
 
-.navbar-default {
+header .navbar-default {
   background: #333;
   margin: 0;
   font-size: 1.1em;
@@ -46,25 +57,18 @@ body {
   z-index: 2!important;
 }
 
-.navbar-default a {
+header .navbar-default a {
   -webkit-transition: color .2s;
   transition: color .2s
 }
 
-.navbar-fixed-top {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-}
-
-.nav-item:focus, .nav-item:hover {
+header .nav-item:focus, header .nav-item:hover, header .nav-item.active {
   color: rgba(255, 255, 255, 0.74);
   border-top-color: #4eb7f5;
 }
 
 * {
-  font-family: arial;
+  font-family: opensanshebrew;
 }
 
 th {
@@ -72,7 +76,7 @@ th {
 }
 
 th, td {
-  font-size: 16px;  
+  font-size: 14px;  
 }
 
 table.scroll {
@@ -81,12 +85,24 @@ table.scroll {
 
 table.scroll thead { width: 97%; }
 
-table.scroll tbody,
-table.scroll thead { display: block; }
+table.scroll tbody, table.scroll thead { 
+  display: block; 
+}
 
-.donations-table {
+table.scroll td, table.scroll th { 
+  width:10% 
+}
+
+#donationsTable .donations-table {
   overflow: hidden;
-  height: 300px;
+  height: 270px;
+  padding: 7px;
+}
+
+#routeDonationsTable .donations-table {
+  overflow: hidden;
+  height: 200px;
+  padding: 7px;
 }
 
 thead tr th { 
@@ -94,15 +110,27 @@ thead tr th {
   line-height: 30px;
 }
 
-table.scroll tbody {
-  height: 240px;
+table.scroll tbody {  
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+#donationsTable table.scroll tbody {  
+  height: 210px;
+}
+
+#routeDonationsTable table.scroll tbody {  
+  height: 180px;
 }
 
 .align-center {
   display: flex;
   justify-content: center;
+}
+
+.align-right {
+  display: flex;
+  justify-content: right;
 }
 
 .pull-right {
@@ -170,7 +198,7 @@ table.scroll tbody {
 
 .btn-add {
   position: absolute;
-  bottom: 3%;
+  bottom: 2%;
   margin-right: 20px;
 }
 
@@ -182,13 +210,10 @@ table.scroll tbody {
   color: white;
 }
 
-.modal-bottom {
-  padding: 10px;
-}
-
 .modal-bottom button {
   float: left;
   margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 .vehicles-table {
@@ -205,3 +230,124 @@ table.scroll tbody {
 .td-button {
   width: 4%;
 }
+
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 10%; /* Stay at the top */
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  right: 0;
+  width: 0;
+}
+
+.sidenav.open {
+  padding-top: 60px;
+  transition: 0.5s;
+}
+
+.sidenav.closed {
+  padding-top: 10px;
+  transition: 0.01s;
+}
+
+.sidenav.open.show {
+  width: 130px;
+}
+
+.sidenav.closed.show {
+  width: 50px;
+}
+
+.sidenav.closed button {
+  background: black;
+  color: #818181;
+  border: black;
+  font-size: 30px;
+}
+
+/* The navigation menu links */
+.sidenav.open a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav.open a:hover, .sidenav.open a:focus, .sidenav.open a.active {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav.open .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenavOpen (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav.open {padding-top: 15px;}
+  .sidenav.open a {font-size: 18px;}
+}
+
+#route-info-tabs {
+  padding: 0px;
+  background: #e4e4e475;
+}
+
+#route-info-tabs .nav-item{
+  border-left: 1px #a9a7a7a3 solid;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#route-info-tabs .nav-item:hover, #route-info-tabs .nav-item.active{
+  border: 1px #a9a7a7a3 solid;
+  background: white;
+  color: black;
+}
+
+.no-style {
+  background: none;
+  border: none;
+}
+
+.btn-route-settings {
+  position: absolute;
+  bottom: 1.4%;
+  margin-right: 20px;
+}
+
+.btn-route-settings i {
+  font-size: 30px;
+}
+
+.line-seperator {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to left, #4391D6 0, rgba(255,255,255,0) 100%);
+  margin-top: 1px;
+  margin-bottom: 10px;
+}
+
+.invalid-input {
+  border-color: red
+}
+
+.big-checkbox {
+  height: 20px;
+  width: 20px;
+}
+

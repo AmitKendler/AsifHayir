@@ -7,7 +7,6 @@ angular.module('AsifHayir')
 	    },
 		templateUrl: "/javascripts/modules/donations/table/donationsTable.html",
 	    link: function(scope, element, attrs) {
-			var n=5;
 		}
 	}
 }]);

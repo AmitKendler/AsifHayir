@@ -2,7 +2,7 @@
     <vehicles-table></vehicles-table>   
 </div>
 <div class="seperator"></div>
-<button type="button" ng-click="onOpenDialog()" data-toggle="modal" data-target="#vehicleModal" class="btn btn-primary btn-circle btn-xl btn-add">
+<button type="button" ng-click="onOpenDialog()" data-toggle="modal" data-target="#vehicleModal" class="btn btn-primary btn-circle btn-lg btn-add">
     <i class="fa fa-plus"></i>
 </button>
 
@@ -10,7 +10,7 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>{{!vehicle.id ? "הוסף ניידת" : "ערוך ניידת"}}</h2>
+                <h2>{{!vehicle._id ? "הוסף ניידת" : "ערוך ניידת"}}</h2>
             </div>
 
             <div class="modal-body">
@@ -38,7 +38,7 @@
 
            <div class="modal-bottom">               
                 <button type="button" class="btn btn-close" data-dismiss="modal">סגור</button>
-                <button type="button" class="btn btn-primary"  data-dismiss="modal" ng-click="vehicleForm.$valid && (!vehicle.id ? addVehicle() : updateVehicle())">
+                <button type="button" class="btn btn-primary"  data-dismiss="modal" ng-click="vehicleForm.$valid && (!vehicle._id ? addVehicle() : updateVehicle())">
                     שמור
                 </button>
             </div>
