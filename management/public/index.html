@@ -32,13 +32,22 @@
     <!--load all modules-->
     <script src="javascripts/main.js"></script>
     <script src="javascripts/modules/donations/screen/donationsScreen.js"></script>    
-    <script src="javascripts/modules/donations/table/donationsTable.js"></script>    
+    <script src="javascripts/modules/donations/table/donationsTable.js"></script>        
+    <script src="javascripts/modules/donations/donationsService.js"></script>   
     <script src="javascripts/modules/vehicles/screen/vehiclesScreen.js"></script>
     <script src="javascripts/modules/vehicles/table/vehiclesTable.js"></script>
+    <script src="javascripts/modules/vehicles/vehiclesService.js"></script>   
     <script src="javascripts/modules/volunteers/screen/volunteersScreen.js"></script>
     <script src="javascripts/modules/volunteers/table/volunteersTable.js"></script>
+    <script src="javascripts/modules/volunteers/volunteersService.js"></script>   
     <script src="javascripts/modules/statistics/statistics.js"></script>
-    <script src="javascripts/modules/map/mapViewDonations.js"></script>  
+    <script src="javascripts/modules/map/mapViewDonations.js"></script> 
+    <script src="javascripts/modules/routes/screen/routesScreen.js"></script> 
+    <script src="javascripts/modules/routes/table/routeInfo.js"></script> 
+    <script src="javascripts/modules/routes/routesService.js"></script>   
+    <script src="javascripts/modules/modals/planRouteModal/planRouteModal.js"></script>   
+    <script src="javascripts/modules/modals/routeIsReadyModal/routeIsReadyModal.js"></script>   
+    <script src="javascripts/modules/modals/routeSettingsModal/routeSettingsModal.js"></script> 
 
     <!--custom css-->
     <link rel="stylesheet" href="stylesheets/style.css"/>
@@ -50,10 +59,11 @@
 <header>
 <nav class="navbar navbar-default navbar-fixed-top navbar-toggleable-md">
     <div class="navbar-nav">
-        <a id="don" class="nav-item nav-link" ng-href="#!/donations">תרומות</a>
+        <a class="nav-item nav-link" ng-href="#!/donations">תרומות</a>
         <a class="nav-item nav-link" ng-href="#!/vehicles">ניידות</a>
         <a class="nav-item nav-link" ng-href="#!/volunteers">מתנדבים</a>
         <a class="nav-item nav-link" ng-href="#!/statistics">סטטיסטיקות</a>
+        <a class="nav-item nav-link" ng-href="#!/routes">מסלולים</a>
     </div>
 </nav>
 </header>

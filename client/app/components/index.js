@@ -1,8 +1,5 @@
-import GiveawaysList from './GiveawaysList/GiveawaysList';
-import GiveawayItem from './GiveawayItem/GiveawayItem';
+import GiveawaysList from "./GiveawaysList/GiveawaysList";
+import GiveawayItem from "./GiveawayItem/GiveawayItem";
+import Sidebar from "./Sidebar/Sidebar";
 
-
-export {
-    GiveawaysList,
-    GiveawayItem
-};
+export { GiveawaysList, GiveawayItem, Sidebar };
