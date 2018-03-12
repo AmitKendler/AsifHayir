@@ -26,14 +26,14 @@ const server = require('http').Server(app);
 
 
 // const connection = connect();
-const connection = mongoose.createConnection(config.db);
+// const connection = mongoose.createConnection(config.db);
 /**
  * Expose
  */
 
 module.exports = {
   app,
-  connection
+  // connection
 };
 
 // Bootstrap models
@@ -45,10 +45,16 @@ fs.readdirSync(models)
 require('./config/express')(app);
 require('./config/routes')(app);
 
-connection
-  .on('error', console.log)
-  .on('disconnected', connect)
-  .once('open', listen);
+// connection
+//   .on('error', console.log)
+//   .on('disconnected', connect)
+//   .once('open', listen);
+
+var options = { server: { socketOptions: { keepAlive: 1 } } };
+mongoose.connect(config.db, options).then(
+  listen,
+  console.log
+);
 
 function listen () {
   if (app.get('env') === 'test') return;
@@ -56,9 +62,9 @@ function listen () {
   console.log('Express app started on port ' + port);
 }
 
-function connect () {
-  var options = { server: { socketOptions: { keepAlive: 1 } } };
-  var connection = mongoose.connect(config.db, options).connection;
-  return connection;
-}
+// function connect () {
+//   var options = { server: { socketOptions: { keepAlive: 1 } } };
+//   var connection = mongoose.connect(config.db, options).connection;
+//   return connection;
+// }
 

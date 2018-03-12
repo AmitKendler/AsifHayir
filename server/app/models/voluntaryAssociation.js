@@ -14,7 +14,7 @@ const VoluntaryAssociationSchema = new Schema({
 	name: {type: String, default: "", required:true},
 	phone: {type: String, default:''},
 	address: {type: String, default: ''}
-})
+}, {collection: "voluntaryAssociations"})
 
 // Presave function for password checking
 VoluntaryAssociationSchema.pre('save', function(next) {
