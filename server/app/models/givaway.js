@@ -1,6 +1,7 @@
-import { TimePeriodSchema, ContactSchema } from "./commonModels";
-import { ProductSchema } from "./product";
-
+const commonModels = require('./commonModels');
+const TimePeriodSchema = commonModels.TimePeriodSchema;
+const ContactSchema = commonModels.ContactSchema;
+const ProductSchema = require('./product');
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
