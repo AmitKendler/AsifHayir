@@ -14,4 +14,18 @@ exports.ContactSchema = new Schema({
 exports.ProductAmountSchema = new Schema({
 	amount: {type: Number, required: true},
 	units: {type: String, required: true}
+});
+
+let LocationSchema = new Schema({
+	type: {type:String}, 
+	coordinates: [Number]
+});
+
+exports.AdderssSchema = new Schema({
+	location: LocationSchema,
+	streetName: {type: String, required: true},
+	houseNumber: {type: String, required: true},
+	aptNumber: Number
 })
+
+exports.LocationSchema = LocationSchema;
