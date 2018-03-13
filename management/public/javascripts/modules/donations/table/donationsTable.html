@@ -7,14 +7,13 @@
         <tr>
           <th >כלול באלגוריתם</th>
           <th >מזהה</th>
-          <th >תורם</th>
-          <th >עמותה</th>
-          <th >פירוט</th>
           <th >סוג</th>
+          <th >איש קשר</th>
+          <th >טלפון</th>
+          <th >תרומה</th>
+          <th >תיאור</th>          
           <th >כתובת לאיסוף</th>
-          <th >זמין בתאריך</th>
           <th >זמין בשעות</th>
-          <th >הערות</th>
           <th ></th>
         </tr>
       </thead>
@@ -24,14 +23,13 @@
                 <input type="checkbox" class="big-checkbox" ng-model="donation.includeInAlgorithm">
           </td>
           <td >{{ donation._id }}</td>
-          <td >{{ donation.donor }}</td>
-          <td >{{ donation.organization }}</td>
+          <td >{{ getTypeLabel(donation.type) }}</td>
+          <td >{{ donation.contactName }}</td>
+          <td >{{ donation.contactPhone }}</td>
+          <td >{{ donation.title }}</td>
           <td >{{ donation.description }}</td>
-          <td >{{ donation.type }}</td>
-          <td >{{ donation.address }}</td>
-          <td >{{ donation.date }}</td>
-          <td >{{ donation.fromHour + "-" +  donation.toHour }}</td>
-          <td >{{ donation.comments }}</td>
+          <td >{{ getAddressLabel(donation.pickupAddress) }}</td>  
+          <td >{{ getTimeLabel(donation.pickupTime) }}</td>
           <td >
               <popover-advanced-details class="btn btn-sm btn-info" type="donation.type" info="donation.advanced">i                
               </popover-advanced-details>
@@ -43,7 +41,7 @@
         
 <div id="foodPopover" ng-hide="true">  
   <div class="popover-data">
-    <div><label class="round-label" ng-bind="info.amount"></label> פריטים </div>
+    <div><label class="round-label" ng-bind="info.amount"></label>{{ getAmountTypeLabel(info.amountType) }}</div>
     <div>        
         <i ng-class="getIconClass('isPacked', true)"></i>        
         <label>ארוז</label>
@@ -63,7 +61,7 @@
 
 <div id="clothingPopover" ng-hide="true">  
     <div class="popover-data">
-        <div><label class="round-label" ng-bind="info.amount"></label> פריטים </div>
+        <div><label class="round-label" ng-bind="info.amount"></label> {{ getAmountTypeLabel(info.amountType) }} </div>
         <div>
             <i ng-class="getIconClass('condition', 'חדש')"></i>
             <label>חדש</label>
@@ -85,6 +83,7 @@
 
   <div id="furniturePopover" ng-hide="true">  
       <div class="popover-data">
+            <div><label class="round-label" ng-bind="info.amount"></label> {{ getAmountTypeLabel(info.amountType) }} </div>
           <div>
             <i ng-class="getIconClass('condition', 'חדש')"></i>
             <label>חדש</label>

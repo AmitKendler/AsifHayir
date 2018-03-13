@@ -6,133 +6,218 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
 
             var deferred = $q.defer();
             var donations = [
+                
+                // image	url	                
+                // pickupTime	PickupTim
                 {
                     _id: 1,
                     includeInAlgorithm: true,
-                    donor: "שמנצלר",
-                    organization: "",
-                    description: "פיתות",
-                    type: "אוכל",
-                    address: "חנה סנש 15 הרצליה",
-                    date: "4.1.2018",
-                    fromHour: "08:00",
-                    toHour: "22:00",
-                    comments: "אחלה פיתות",
+                    contactName: "שמנצלר",
+                    contactPhone: "0525310385",
+                    title: "פיתות",
+                    type: 0,
+                    pickupAddress: {
+                        location:{
+                            lat:33.12,
+                            lng:123.123
+                        },
+                        city: "הרצליה",
+                        streetName: "חנה סנש",
+                        houseNumber: "1",
+                        aptNumber: "13",
+                        isBuisness: true
+                    },
+                    pickupTime: {
+                        isAllDay: true
+                    },
+                    description: "אחלה פיתות",
                     status: "חדש",
                     advanced: {
                         isPacked: true,
                         isHot: false,
                         kosher: true,
-                        amount: 10
+                        amount: 10,
+                        amountType: 1
                     }
                 },
                 {
                     _id: 2,
                     includeInAlgorithm: true,
-                    donor: "מאי דרורי",
-                    organization: "",
-                    description: "כל מיני בגדים",
-                    type: "ביגוד",
-                    address: "השיטה 34 אורנית",
-                    date: "8.1.2018",
-                    fromHour: "10:00",
-                    toHour: "20:00",
-                    comments: "נעלי בית",
-                    status: "ממתין לשיבוץ",
+                    contactName: "מאי דרורי",
+                    contactPhone: "0525310388",
+                    title: "כל מיני בגדים",
+                    type: 1,
+                    pickupAddress: {
+                        location:{
+                            lat:33.12,
+                            lng:123.123
+                        },
+                        city: "אורנית",
+                        streetName: "השיטה",
+                        houseNumber: "34",
+                        aptNumber: "0",
+                        isBuisness: false
+                    },
+                    pickupTime: {
+                        isAllDay: false,
+                        start: "08:00",
+                        end: "22:00"
+                    },
+                    description: "אחלה מכנסיים",
+                    status: "חדש",
                     advanced: {
                         condition: "חדש",
                         type: "נשים",
-                        amount: 3
+                        amount: 3,
+                        amountType: 0
                     }
                 },
                 {
                     _id: 3,
                     includeInAlgorithm: true,
-                    donor: "צופן מזרחי",
-                    organization: "",
-                    description: "שולחן כתיבה",
-                    type: "ריהוט",
-                    address: "בן גוריון 5 רמת גן",
-                    date: "7.1.2018",
-                    fromHour: "16:00",
-                    toHour: "20:00",
-                    comments: "אחלה שולחן",
-                    status: "ממתין לאיסוף",
+                    contactName: "צופן מזרחי",
+                    contactPhone: "0525320388",
+                    title: "שולחן כתיבה",
+                    type: 2,
+                    pickupAddress: {
+                        location:{
+                            lat:33.12,
+                            lng:123.123
+                        },
+                        city: "רמת גן",
+                        streetName: "בן גוריון",
+                        houseNumber: "5",
+                        aptNumber: "0",
+                        isBuisness: true
+                    },
+                    pickupTime: {
+                        isAllDay: false,
+                        start: "08:00",
+                        end: "12:00"
+                    },
+                    description: "",
+                    status: "חדש",
                     advanced: {
-                        condition: "בלוי"
-                    }
-                },
-                {
-                    _id: 3,
-                    includeInAlgorithm: true,
-                    donor: "צופן מזרחי",
-                    organization: "",
-                    description: "שולחן כתיבה",
-                    type: "ריהוט",
-                    address: "בן גוריון 5 רמת גן",
-                    date: "7.1.2018",
-                    fromHour: "16:00",
-                    toHour: "20:00",
-                    comments: "אחלה שולחן",
-                    status: "ממתין לאיסוף",
-                    advanced: {
-                        condition: "בלוי"
-                    }
-                },
-                {
-                    _id: 3,
-                    includeInAlgorithm: false,
-                    donor: "צופן מזרחי",
-                    organization: "",
-                    description: "שולחן כתיבה",
-                    type: "ריהוט",
-                    address: "בן גוריון 5 רמת גן",
-                    date: "9.1.2018",
-                    fromHour: "16:00",
-                    toHour: "20:00",
-                    comments: "אחלה שולחן",
-                    status: "ממתין לאיסוף",
-                    advanced: {
-                        condition: "בלוי"
-                    }
-                },
-                {
-                    _id: 3,
-                    includeInAlgorithm: true,
-                    donor: "צופן מזרחי",
-                    organization: "",
-                    description: "שולחן כתיבה",
-                    type: "ריהוט",
-                    address: "בן גוריון 5 רמת גן",
-                    date: "6.1.2018",
-                    fromHour: "16:00",
-                    toHour: "20:00",
-                    comments: "אחלה שולחן",
-                    status: "ממתין לאיסוף",
-                    advanced: {
-                        condition: "בלוי"
-                    }
-                },
-                {
-                    _id: 3,
-                    includeInAlgorithm: false,
-                    donor: "צופן מזרחי",
-                    organization: "",
-                    description: "שולחן כתיבה",
-                    type: "ריהוט",
-                    address: "בן גוריון 5 רמת גן",
-                    date: "8.1.2018",
-                    fromHour: "16:00",
-                    toHour: "20:00",
-                    comments: "אחלה שולחן",
-                    status: "ממתין לאיסוף",
-                    advanced: {
-                        condition: "בלוי"
+                        condition: "בלוי",
+                        amount: 1,
+                        amountType: 0
                     }
                 }
             ];
             deferred.resolve(donations);
             return deferred.promise;   
+        },
+        getDonationsByIds: function(ids) {
+
+            // TODO
+            // return $http.get('/getDonationsByIds', {
+            // params: {
+            //      ids:ids
+            // }
+            // });
+
+            var deferred = $q.defer();
+            var donations = [
+                
+                // image	url	                
+                // pickupTime	PickupTim
+                {
+                    _id: 1,
+                    includeInAlgorithm: true,
+                    contactName: "שמנצלר",
+                    contactPhone: "0525310385",
+                    title: "פיתות",
+                    type: 0,
+                    pickupAddress: {
+                        location:{
+                            lat:33.12,
+                            lng:123.123
+                        },
+                        city: "הרצליה",
+                        streetName: "חנה סנש",
+                        houseNumber: "1",
+                        aptNumber: "13",
+                        isBuisness: true
+                    },
+                    pickupTime: {
+                        isAllDay: true
+                    },
+                    description: "אחלה פיתות",
+                    status: "חדש",
+                    advanced: {
+                        isPacked: true,
+                        isHot: false,
+                        kosher: true,
+                        amount: 10,
+                        amountType: 1
+                    }
+                },
+                {
+                    _id: 2,
+                    includeInAlgorithm: true,
+                    contactName: "מאי דרורי",
+                    contactPhone: "0525310388",
+                    title: "כל מיני בגדים",
+                    type: 1,
+                    pickupAddress: {
+                        location:{
+                            lat:33.12,
+                            lng:123.123
+                        },
+                        city: "אורנית",
+                        streetName: "השיטה",
+                        houseNumber: "34",
+                        aptNumber: "0",
+                        isBuisness: false
+                    },
+                    pickupTime: {
+                        isAllDay: false,
+                        start: "08:00",
+                        end: "22:00"
+                    },
+                    description: "אחלה מכנסיים",
+                    status: "חדש",
+                    advanced: {
+                        condition: "חדש",
+                        type: "נשים",
+                        amount: 3,
+                        amountType: 0
+                    }
+                },
+                {
+                    _id: 3,
+                    includeInAlgorithm: true,
+                    contactName: "צופן מזרחי",
+                    contactPhone: "0525320388",
+                    title: "שולחן כתיבה",
+                    type: 2,
+                    pickupAddress: {
+                        location:{
+                            lat:33.12,
+                            lng:123.123
+                        },
+                        city: "רמת גן",
+                        streetName: "בן גוריון",
+                        houseNumber: "5",
+                        aptNumber: "0",
+                        isBuisness: true
+                    },
+                    pickupTime: {
+                        isAllDay: false,
+                        start: "08:00",
+                        end: "12:00"
+                    },
+                    description: "",
+                    status: "חדש",
+                    advanced: {
+                        condition: "בלוי",
+                        amount: 1,
+                        amountType: 0
+                    }
+                }
+            ];
+            deferred.resolve(donations);
+            return deferred.promise;  
         },
         planRoute: function (donations, vehiclesAmount) {
             // return $http.post('/planRoute', {

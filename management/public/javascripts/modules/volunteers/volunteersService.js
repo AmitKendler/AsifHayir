@@ -12,15 +12,33 @@ angular.module("AsifHayir").factory('VolunteersService', function($http, $q) {
                     identity: 362236985,
                     firstName: "גל",
                     lastName: "דרורי",
-                    address: "השיטה 34 אורנית",
-                    phone: "052-5310385"                
+                    phone: "052-5310385",
+                    address: {
+                        location:{
+                            lat:33.12,
+                            lng:123.123
+                        },
+                        city: "הרצליה",
+                        streetName: "חנה סנש",
+                        houseNumber: "1",
+                        aptNumber: "13"
+                    }           
                 },
                 {
                     _id: 2,
                     identity: 362236985,
                     firstName: "מאי",
                     lastName: "דרורי",
-                    address: "השיטה 34 אורנית",
+                    address: {
+                        location:{
+                            lat:33.12,
+                            lng:123.123
+                        },
+                        city: "הרצליה",
+                        streetName: "חנה סנש",
+                        houseNumber: "1",
+                        aptNumber: "13"
+                    },    
                     phone: "052-5310385"                
                 },
                 {
@@ -28,7 +46,16 @@ angular.module("AsifHayir").factory('VolunteersService', function($http, $q) {
                     identity: 362236985,
                     firstName: "עדי",
                     lastName: "דרורי",
-                    address: "השיטה 34 אורנית",
+                    address: {
+                        location:{
+                            lat:33.12,
+                            lng:123.123
+                        },
+                        city: "הרצליה",
+                        streetName: "חנה סנש",
+                        houseNumber: "1",
+                        aptNumber: "13"
+                    }      ,
                     phone: "052-5310385"                
                 },
                 {
@@ -36,7 +63,16 @@ angular.module("AsifHayir").factory('VolunteersService', function($http, $q) {
                     identity: 362236985,
                     firstName: "איריס",
                     lastName: "דרורי",
-                    address: "השיטה 34 אורנית",
+                    address: {
+                        location:{
+                            lat:33.12,
+                            lng:123.123
+                        },
+                        city: "הרצליה",
+                        streetName: "חנה סנש",
+                        houseNumber: "1",
+                        aptNumber: "13"
+                    }      ,
                     phone: "052-5310385"                
                 }
             ];
