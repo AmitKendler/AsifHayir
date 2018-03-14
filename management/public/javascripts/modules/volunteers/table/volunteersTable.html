@@ -12,9 +12,9 @@
       </thead>
       <tbody>
         <tr ng-repeat="volunteer in volunteers track by $index">
-          <td>{{ volunteer.id }}</td>
+          <td>{{ volunteer.identity }}</td>
           <td>{{ volunteer.firstName }} {{ volunteer.lastName }}</td>
-          <td>{{ volunteer.address }}</td>
+          <td>{{ getAddressLabel(volunteer.address) }}</td>
           <td>{{ volunteer.phone }}</td>
           <td class="td-button">
               <button class="btn btn-sm btn-warning" ng-click="onOpenDialog(volunteer)" data-toggle="modal" data-target="#volunteerModal">ערוך</button>

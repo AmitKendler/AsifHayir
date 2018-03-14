@@ -1,0 +1,12 @@
+<div class="card-block donations-table">
+
+    <ul id="route-info-tabs" class="nav nav-tabs" role="tablist">
+        <li class="nav-item" ng-repeat="path in route.paths track by $index">
+            <a class="nav-link" ng-class="{'active': $index == currentTabIndex}" ng-click="onChangePath($index)" data-toggle="tab" role="tab">
+                מסלול {{$index + 1}}. נהג: {{getVolunteerName(path.driver)}}. עוזר נהג: {{getVolunteerName(path.helper)}}
+            </a>            
+        </li>    
+    </ul>
+        
+    <donations-table id="routeDonationsTable" donations="donations"></donations-table>
+</div>

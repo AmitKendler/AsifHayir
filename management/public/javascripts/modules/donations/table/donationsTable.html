@@ -1,31 +1,36 @@
+
+
 <div class="card-block donations-table">
+    
   <table class="table scroll table-striped" >
       <thead>
         <tr>
-          <th style="width: 5%">מזהה</th>
-          <th style="width: 10%">תורם</th>
-          <th style="width: 10%">עמותה</th>
-          <th style="width: 15%">פירוט</th>
-          <th style="width: 10%">סוג</th>
-          <th style="width: 15%">כתובת לאיסוף</th>
-          <th style="width: 15%">זמין בתאריך</th>
-          <th style="width: 10%">זמין בשעות</th>
-          <th style="width: 10%">הערות</th>
-          <th style="width: 5%"></th>
+          <th >כלול באלגוריתם</th>
+          <th >מזהה</th>
+          <th >סוג</th>
+          <th >איש קשר</th>
+          <th >טלפון</th>
+          <th >תרומה</th>
+          <th >תיאור</th>          
+          <th >כתובת לאיסוף</th>
+          <th >זמין בשעות</th>
+          <th ></th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="donation in donations">
-          <td style="width: 5%">{{ donation.id }}</td>
-          <td style="width: 10%">{{ donation.donor }}</td>
-          <td style="width: 10%">{{ donation.organization }}</td>
-          <td style="width: 15%">{{ donation.description }}</td>
-          <td style="width: 10%">{{ donation.type }}</td>
-          <td style="width: 15%">{{ donation.address }}</td>
-          <td style="width: 15%">{{ donation.date }}</td>
-          <td style="width: 10%">{{ donation.fromHour + "-" +  donation.toHour}}</td>
-          <td style="width: 10%"{{ donation.comments }}</td>
-          <td style="width: 5%">
+          <td >
+                <input type="checkbox" class="big-checkbox" ng-model="donation.includeInAlgorithm">
+          </td>
+          <td >{{ donation._id }}</td>
+          <td >{{ getTypeLabel(donation.type) }}</td>
+          <td >{{ donation.contactName }}</td>
+          <td >{{ donation.contactPhone }}</td>
+          <td >{{ donation.title }}</td>
+          <td >{{ donation.description }}</td>
+          <td >{{ getAddressLabel(donation.pickupAddress) }}</td>  
+          <td >{{ getTimeLabel(donation.pickupTime) }}</td>
+          <td >
               <popover-advanced-details class="btn btn-sm btn-info" type="donation.type" info="donation.advanced">i                
               </popover-advanced-details>
           </td>
@@ -36,7 +41,7 @@
         
 <div id="foodPopover" ng-hide="true">  
   <div class="popover-data">
-    <div><label class="round-label" ng-bind="info.amount"></label> פריטים </div>
+    <div><label class="round-label" ng-bind="info.amount"></label>{{ getAmountTypeLabel(info.amountType) }}</div>
     <div>        
         <i ng-class="getIconClass('isPacked', true)"></i>        
         <label>ארוז</label>
@@ -56,7 +61,7 @@
 
 <div id="clothingPopover" ng-hide="true">  
     <div class="popover-data">
-        <div><label class="round-label" ng-bind="info.amount"></label> פריטים </div>
+        <div><label class="round-label" ng-bind="info.amount"></label> {{ getAmountTypeLabel(info.amountType) }} </div>
         <div>
             <i ng-class="getIconClass('condition', 'חדש')"></i>
             <label>חדש</label>
@@ -74,10 +79,11 @@
             <label>ילדים</label>
         </div>        
     </div> 
-  </div>
+</div>
 
   <div id="furniturePopover" ng-hide="true">  
       <div class="popover-data">
+            <div><label class="round-label" ng-bind="info.amount"></label> {{ getAmountTypeLabel(info.amountType) }} </div>
           <div>
             <i ng-class="getIconClass('condition', 'חדש')"></i>
             <label>חדש</label>

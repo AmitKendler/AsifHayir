@@ -1,0 +1,34 @@
+<div class="modal fade" id="planRouteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content" style="width: 80%">
+            <div class="modal-header">
+                <h2>תכנן מסלול איסוף</h2>
+            </div>
+
+            <form id="planRouteForm" ng-submit="planRoute(date, vehicleAmount)" name="planRouteForm"> 
+                 <div class="modal-body">                          
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="vehicleAmount">תאריך</label>
+                            <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="left" title="תכנון המסלול יתבצע על התרומות אשר ניתנות לאסיפה בתאריך זה בלבד"></span>
+                            <input type="date" name="date"  class="form-control" id="date" ng-model="date" placeholder="תאריך" required>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="vehicleAmount">מספר ניידות</label>
+                            <input type="number" name="vehicleAmount" class="form-control" min="1" id="vehicleAmount" ng-model="vehicleAmount" placeholder="מספר ניידות" required>                            
+                        </div>
+                    </div>    
+                </div>                     
+
+                <div class="modal-bottom">               
+                    <button type="button" class="btn btn-close" data-dismiss="modal">סגור</button>
+                    <button type="submit" class="btn btn-primary" >
+                        תכנן מסלול
+                    </button>
+                </div>
+           </form>   
+        </div>
+    </div>
+</div>

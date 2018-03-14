@@ -1,48 +1,7 @@
-angular.module("AsifHayir").factory('VolunteersService', function($http) {
-    return {
-        getVolunteers: function() {
-            // TODO
-            return $http.get('https://jsonplaceholder.typicode.com/posts'); 
-        }
-    };
-});
-
 angular.module("AsifHayir").controller("volunteers", function ($scope, VolunteersService) {
     
     VolunteersService.getVolunteers().then(function (data) {
-        
-        // TODO
-        $scope.volunteers = [
-            {
-                id: 362236985,
-                firstName: "מאי",
-                lastName: "דרורי",
-                address: "השיטה 34 אורנית",
-                phone: "052-5310385"                
-            },
-            {
-                id: 362236985,
-                firstName: "מאי",
-                lastName: "דרורי",
-                address: "השיטה 34 אורנית",
-                phone: "052-5310385"                
-            },
-            {
-                id: 362236985,
-                firstName: "מאי",
-                lastName: "דרורי",
-                address: "השיטה 34 אורנית",
-                phone: "052-5310385"                
-            },
-            {
-                id: 362236985,
-                firstName: "מאי",
-                lastName: "דרורי",
-                address: "השיטה 34 אורנית",
-                phone: "052-5310385"                
-            }
-        ];
-
+        $scope.volunteers = data;       
     });
 
     $scope.onOpenDialog = function (volunteer) {
@@ -51,29 +10,33 @@ angular.module("AsifHayir").controller("volunteers", function ($scope, Volunteer
 
     $scope.addVolunteer = function() {
 
-        // TODO: delete this and make sure the volunteer get the next seq from the server
-        $scope.volunteer.id = 1;
+        // TODO: delete this 
+        $scope.volunteer._id = 1;
         $scope.volunteers.push($scope.volunteers);
 
-        // TODO call to server
+        // TODO remove from comment
+        // VolunteersService.addVolunteer($scope.volunteer).then(function () {
+        //     VolunteersService.getVolunteers().then(function (data) {
+        //         $scope.volunteers = data;
+        //     })
+        // })
     }
 
     $scope.updateVolunteer = function () {
 
         // Find the index of the volunteer we want to update
-        var volunteerToUpdateIndex = $scope.volunteers.findIndex(volunteer => volunteer.id == $scope.volunteer.id);
+        var volunteerToUpdateIndex = $scope.volunteers.findIndex(volunteer => volunteer._id == $scope.volunteer._id);
 
         // Udate the volunteer
-        $scope.volunteers[vehicleToUpdateIndex] = $scope.volunteer;
-   
-        // TODO call to server
+        VolunteersService.updateVolunteer($scope.volunteer).then(function () {
+            $scope.volunteers[volunteerToUpdateIndex] = $scope.volunteer;
+        })
     }
 
     $scope.deleteVolunteer = function (index) {
-
-        $scope.volunteers.splice(index, 1);
-
-        // TODO call to server
+        VolunteersService.deleteVolunteer($scope.volunteers[index]._id).then(function () {
+            $scope.volunteers.splice(index, 1)
+        })
     }
     
 });
