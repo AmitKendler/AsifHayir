@@ -7,21 +7,21 @@ const styles = StyleSheet.create({
 	mainLabel: { margin: 15, color: "#333333", fontSize: 18 }
 });
 
-const ContactInfoContainer = () => {
+const ContactInfoContainer = ({ phone, contact }) => {
 	return (
 		<Form>
 			<Text style={styles.mainLabel}>
 				אנא וודא שפרטי איש הקשר שלך נכונים
 			</Text>
 			<Item>
-				<Input placeholder="שם איש הקשר" value="עמית קנדלר" />
+				<Input placeholder="שם איש הקשר" value={contact} />
 				<Icon name="contact" />
 			</Item>
 			<Item>
 				<Input
 					keyboardType="phone-pad"
 					placeholder="טלפון"
-					value="0525888888"
+					value={phone}
 				/>
 				<Icon name="call" />
 			</Item>

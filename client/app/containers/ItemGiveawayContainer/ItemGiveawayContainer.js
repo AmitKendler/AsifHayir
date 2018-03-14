@@ -64,6 +64,22 @@ class ItemGiveawayContainer extends Component {
             currentPosition: 0,
             isCheckAvailable: false
         };
+
+        this.newGiveAway = {
+            image: "",
+            title: "",
+            description: "",
+            amount: "",
+            amountType: "",
+            pickupAddress: "",
+            pickupTime: {
+                isAllDay: false,
+                start: "",
+                end: ""
+            },
+            contactName: "",
+            contactPhone: ""
+        };
     }
 
     handleSwipeChanged(i) {
@@ -121,7 +137,10 @@ class ItemGiveawayContainer extends Component {
                                 <TimePickerContainer />
                             </Content>
                             <Content>
-                                <ContactInfoContainer />
+                                <ContactInfoContainer
+                                    phone={this.props.phone}
+                                    contact={this.props.contact}
+                                />
                             </Content>
                         </Swiper>
                     </Content>
