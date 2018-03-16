@@ -24,7 +24,7 @@ angular.module('AsifHayir')
 				var map = new google.maps.Map(document.getElementById('map'), {
 					zoom: 5,
 					center: new google.maps.LatLng(31.95906228990288,34.77139596361667),
-					mapTypeId: google.maps.MapTypeId.ROADMAP
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
 				});
 		
 				var infowindow = new google.maps.InfoWindow();
@@ -51,6 +51,36 @@ angular.module('AsifHayir')
 				// Add a marker clusterer to manage the markers.
         		var markerCluster = new MarkerClusterer(map, markers,
             	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+				
+				var directionsService = new google.maps.DirectionsService;
+				var directionsDisplay = new google.maps.DirectionsRenderer;
+				directionsDisplay.setMap(map);
+
+				directionsService.route({
+					origin: new google.maps.LatLng(locations[1][1], locations[1][2]),
+					destination: new google.maps.LatLng(locations[2][1], locations[2][2]),
+					waypoints: [{
+						location:  new google.maps.LatLng(locations[3][1], locations[3][2]),
+						stopover: true
+					},
+					{
+						location:  new google.maps.LatLng(locations[4][1], locations[4][2]),
+						stopover: true
+					}],
+					optimizeWaypoints: true,
+					travelMode: 'DRIVING'
+					}, function(response, status) {
+					if (status === 'OK') {
+						directionsDisplay.setDirections(response);
+					} else {
+						window.alert('Directions request failed due to ' + status);
+					}
+					});
+
+				function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+
+				}
 			}
 		}
 }]);
