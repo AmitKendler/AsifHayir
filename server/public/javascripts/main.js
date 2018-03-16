@@ -23,7 +23,11 @@ app.config(function($routeProvider) {
         .when("/routes", {
             templateUrl : "javascripts/modules/routes/screen/routesScreen.html",
             controller: 'routes'
-        })             
+        })    
+        .when("/findv", {
+            templateUrl : "javascripts/modules/findv/findv.html",
+            controller: 'findv'
+        })          
         .otherwise({
             redirectTo : "/donations"
         });
