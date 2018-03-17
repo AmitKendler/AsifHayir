@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>אסיף העיר</title>
-    
+    <link rel="icon" href="/food.png">
+
     <!--load jquery-->
     <script
-            src="https://code.jquery.com/jquery-2.2.4.min.js"
-            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-            crossorigin="anonymous"></script>
+  src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://momentjs.com/downloads/moment.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.8/d3.min.js"></script>
 
     <!--load bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
@@ -29,9 +28,6 @@
     <!-- load Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>      
-     
     <!--load all modules-->
     <script src="javascripts/main.js"></script>
     <script src="javascripts/modules/donations/screen/donationsScreen.js"></script>    
@@ -51,14 +47,21 @@
     <script src="javascripts/modules/modals/planRouteModal/planRouteModal.js"></script>   
     <script src="javascripts/modules/modals/routeIsReadyModal/routeIsReadyModal.js"></script>   
     <script src="javascripts/modules/modals/routeSettingsModal/routeSettingsModal.js"></script> 
+    <script src="javascripts/modules/findv/findv.js"></script> 
+    <script src="javascripts/modules/photolabels/photolabels.js"></script> 
+
+    <!--Niv-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
     <!--custom css-->
     <link rel="stylesheet" href="stylesheets/style.css"/>
 
     <!-- Google maps api -->
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 
-    <!-- Push notification for new donations -->
+    <!-- Push notification for a new donation -->
     <script>
         function notifyMe() {
             // Let's check if the browser supports notifications
@@ -98,6 +101,8 @@
         <a class="nav-item nav-link" ng-href="#!/vehicles">ניידות</a>
         <a class="nav-item nav-link" ng-href="#!/volunteers">מתנדבים</a>
         <a class="nav-item nav-link" ng-href="#!/statistics">סטטיסטיקות</a>
+        <a class="nav-item nav-link" ng-href="#!/findv">מציאת תרומה</a>
+        <a class="nav-item nav-link" ng-href="#!/photolabels">מרכיבי תרומה</a>
         <a class="nav-item nav-link" ng-href="#!/routes">מסלולים</a>
     </div>
 </nav>

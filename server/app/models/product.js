@@ -10,7 +10,7 @@ exports.ProductSchema = new Schema({
 	imageUrl: String,
 	amount: ProductAmountSchema,
 	comments: String,
-	status: String,
+	status: String, // PENDING, TAKEN
 	takenBy: {
 		type: Schema.Types.ObjectId, 
 		required: () => {
