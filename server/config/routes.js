@@ -4,17 +4,21 @@
  * Module dependencies.
  */
 const voluntaryAssociations = require("../app/controllers/voluntarAssociationController");
-
+const vehicles = require("../app/controllers/vehicleController");
 /**
  * Expose
  */
-
+ 
 module.exports = function(app) {
 
   app.get("/volas", voluntaryAssociations.getAll);
   app.get("/volas/:id", voluntaryAssociations.getById);
   app.post("/volas", voluntaryAssociations.create);
 
+  app.get("/vehicles", vehicles.getAll);
+  app.get("/vehicle/:id", vehicles.getById);
+  app.post("/vehicle", vehicles.create);
+  
   /**
    * Error handling
    */
