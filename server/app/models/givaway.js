@@ -3,7 +3,7 @@ const TimePeriodSchema = commonModels.TimePeriodSchema;
 const ContactSchema = commonModels.ContactSchema;
 const PickupAddressSchema = commonModels.AdderssSchema;
 const AddressSchema = commonModels.AdderssSchema;
-const ProductSchema = require('./product');
+// const ProductSchema = require('./product');
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -11,10 +11,10 @@ const Giveaway = new Schema({
 	userId: {type: Schema.Types.ObjectId, required: true},
 	title: {type: String, required: true},
 	description: String,
-	address: {type: AddressSchema, required: true},
+	address: {type: AddressSchema, required: false}, // temp false
 	pickupTime: TimePeriodSchema,
 	contact: ContactSchema,
-	products: [ProductSchema],
+	products: [{type: Schema.Types.ObjectId, ref: 'Product'}],
 	status: {type: String, required: true}
 }, {collection: 'givaways'})
 

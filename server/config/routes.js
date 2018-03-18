@@ -4,17 +4,27 @@
  * Module dependencies.
  */
 const voluntaryAssociations = require("../app/controllers/voluntarAssociationController");
-
+const giveaways = require("../app/controllers/giveawayController");
 /**
  * Expose
  */
 
 module.exports = function(app) {
 
+  /**
+   * Voluntary assoiciation
+   */
   app.get("/volas", voluntaryAssociations.getAll);
   app.get("/volas/:id", voluntaryAssociations.getById);
   app.post("/volas", voluntaryAssociations.create);
 
+  /**
+   * Givaway
+   */
+  app.get("/giveaways", giveaways.getAllGivaways);
+  app.get("/giveaways/:id", giveaways.getGiveawayById);
+  app.post("/giveaways", giveaways.createGiveaway);
+  app.post("/giveaways/:id/products", giveaways.addProductToGiveaway);
   /**
    * Error handling
    */
