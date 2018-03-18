@@ -26,3 +26,26 @@ exports.create = function(req, res) {
 		res.send(vehicle);
 	})
 }
+
+exports.update = function(req,res) {
+    let vehicleId = req.params.id;
+    Vehicle.findByIdAndUpdate(vehicleId, req.body, {new: true}).exec(function (err,vehicle) {
+        if (err) throw err;
+
+        res.send(vehicle);
+    })
+}
+
+exports.delete = function(req, res) {
+    let vehicleId = req.params.id;
+    Vehicle.findByIdAndRemove(vehicleId).exec(function (err, vehicle){
+        if(err) throw err;
+
+        const response = {
+            message: "vehicle successfully deleted",
+            id: vehicle._id
+        }
+
+        res.send(response);
+    })
+}
