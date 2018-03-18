@@ -22,6 +22,8 @@ angular.module('AsifHayir')
                     return currDonation.includeInAlgorithm && currDonation.date == date 
                 })
             } 
+
+            
 		}
 	}
 }]);

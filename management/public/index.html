@@ -29,6 +29,9 @@
     <!-- load Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>      
+     
     <!--load all modules-->
     <script src="javascripts/main.js"></script>
     <script src="javascripts/modules/donations/screen/donationsScreen.js"></script>    
@@ -54,6 +57,38 @@
 
     <!-- Google maps api -->
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+
+    <!-- Push notification for new donations -->
+    <script>
+        function notifyMe() {
+            // Let's check if the browser supports notifications
+            if (!("Notification" in window)) {
+                console.log("This browser does not support system notifications");
+            }
+
+            // Let's check whether notification permissions have already been granted
+            else if (Notification.permission === "granted") {
+                // If it's okay let's create a notification
+                var notification = new Notification("התקבלה תרומה חדשה! ראה במסך התרומות");
+            }
+
+            // Otherwise, we need to ask the user for permission
+            else if (Notification.permission !== 'denied') {
+                Notification.requestPermission(function(permission) {
+                    // If the user accepts, let's create a notification
+                    if (permission === "granted") {
+                        var notification = new Notification("התקבלה תרומה חדשה! ראה במסך התרומות");
+                    }
+                });
+            }
+
+            setTimeout(notification.close.bind(notification), 5000);
+            // Finally, if the user has denied notifications and you 
+            // want to be respectful there is no need to bother them any more.
+        }
+        notifyMe();
+
+    </script>
 </head>
 <body dir="rtl">
 <header>
