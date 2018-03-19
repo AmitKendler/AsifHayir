@@ -1,7 +1,7 @@
 angular.module("AsifHayir").controller("vehicles", function ($scope, VehiclesService) {
     
-    VehiclesService.getVehicles().then(function (data) {
-        $scope.vehicles = data;        
+    VehiclesService.getVehicles().then(function (res) {
+        $scope.vehicles = res.data;        
     });
 
     $scope.onOpenDialog = function (vehicle) {
@@ -10,16 +10,9 @@ angular.module("AsifHayir").controller("vehicles", function ($scope, VehiclesSer
 
     $scope.addVehicle = function() {
 
-        // TODO: delete this 
-        $scope.vehicle._id = 1;
-        $scope.vehicles.push($scope.vehicle);
-
-        // TODO remove from comment
-        // VehiclesService.addVehicle($scope.vehicle).then(function () {
-        //     VehiclesService.getVehicles().then(function (data) {
-        //         $scope.vehicles = data;
-        //     })
-        // })
+        VehiclesService.addVehicle($scope.vehicle).then(function (res) {
+                $scope.vehicles.push(res.data);
+        })
     }
 
     $scope.updateVehicle = function () {
@@ -28,8 +21,8 @@ angular.module("AsifHayir").controller("vehicles", function ($scope, VehiclesSer
         var vehicleToUpdateIndex = $scope.vehicles.findIndex(vehicle => vehicle._id == $scope.vehicle._id);
 
         // Udate the vehicle
-        VehiclesService.updateVehicle($scope.vehicle).then(function () {
-            $scope.vehicles[vehicleToUpdateIndex] = $scope.vehicle;
+        VehiclesService.updateVehicle($scope.vehicle).then(function (res) {
+            $scope.vehicles[vehicleToUpdateIndex] = res.data;
         })
     }
 

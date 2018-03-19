@@ -5,32 +5,20 @@
   <table class="table scroll table-striped" >
       <thead>
         <tr>
-          <th >כלול באלגוריתם</th>
-          <th >מזהה</th>
-          <th >סוג</th>
-          <th >איש קשר</th>
-          <th >טלפון</th>
-          <th >תרומה</th>
-          <th >תיאור</th>          
-          <th >כתובת לאיסוף</th>
-          <th >זמין בשעות</th>
-          <th ></th>
+          <th width="{{columnWidth}}" ng-if="!hideCheckboxes">כלול באלגוריתם</th>
+          <th width="{{columnWidth}}" ng-repeat="column in tableColumns">{{column.label}}</th>
+          <th width="{{columnWidth}}"></th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="donation in donations">
-          <td >
-                <input type="checkbox" class="big-checkbox" ng-model="donation.includeInAlgorithm">
+          <td  width="{{columnWidth}}" ng-if="!hideCheckboxes">
+              <input type="checkbox" class="big-checkbox" ng-model="donation.includeInAlgorithm">
           </td>
-          <td >{{ donation._id }}</td>
-          <td >{{ getTypeLabel(donation.type) }}</td>
-          <td >{{ donation.contactName }}</td>
-          <td >{{ donation.contactPhone }}</td>
-          <td >{{ donation.title }}</td>
-          <td >{{ donation.description }}</td>
-          <td >{{ getAddressLabel(donation.pickupAddress) }}</td>  
-          <td >{{ getTimeLabel(donation.pickupTime) }}</td>
-          <td >
+          <td  width="{{columnWidth}}" ng-repeat="column in tableColumns" >
+              {{ getValue(column, donation) }}
+          </td>
+          <td  width="{{columnWidth}}" >
               <popover-advanced-details class="btn btn-sm btn-info" type="donation.type" info="donation.advanced">i                
               </popover-advanced-details>
           </td>

@@ -2,7 +2,7 @@
         <div id="sidenavOpen" class="sidenav open show">
             <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
             <div ng-repeat="currRoute in routes track by $index">
-                <a href ng-class="{'active':currRoute == route}" ng-click="setRoute($index)" ng-bind="currRoute.date"></a>
+                <a href ="{'active':currRoute == route}" ng-click="setRoute($index)" ng-bind="currRoute.date"></a>
             </div>
         </div>
         

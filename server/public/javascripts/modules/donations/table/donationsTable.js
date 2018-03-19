@@ -3,10 +3,48 @@ angular.module('AsifHayir')
 	  return {
 	  	restrict: 'E',
 	  	scope: {
-			donations: '='
+			donations: '=',
+			hideCheckboxes: '='
 		},
 		templateUrl: "/javascripts/modules/donations/table/donationsTable.html",
 	    link: function(scope, element, attrs) {
+
+			scope.columnWidth = scope.hideCheckboxes ? "14%" : "13%";
+
+			scope.tableColumns = [
+				{
+					label: "סוג",
+					getValue: function (row) { return scope.getTypeLabel(row.type); }
+				},
+				{
+					label: "איש קשר",
+					getValue: "contactName"
+				},
+				{
+					label: "טלפון",
+					getValue: "contactPhone"
+				},
+				{
+					label: "תרומה",
+					getValue: "title"
+				},
+				{
+					label: "תיאור",
+					getValue: "description"
+				},
+				{
+					label: "כתובת לאיסוף",
+					getValue: function (row) { return scope.getAddressLabel(row.pickupAddress); }
+				},
+				{
+					label: "זמין בשעות",
+					getValue: function (row) { return scope.getTimeLabel(row.pickupTime); }
+				}
+			];
+
+			scope.getValue = function (column, row) {
+				return (typeof(column.getValue) == "string") ? row[column.getValue] : column.getValue(row);
+			}
 
 			scope.TYPE_ENUM = {
 				0: "אוכל",

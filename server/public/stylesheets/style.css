@@ -89,10 +89,6 @@ table.scroll tbody, table.scroll thead {
   display: block; 
 }
 
-table.scroll td, table.scroll th { 
-  width:11% 
-}
-
 #donationsTable .donations-table {
   overflow: hidden;
   height: 270px;
@@ -120,7 +116,7 @@ table.scroll tbody {
 }
 
 #routeDonationsTable table.scroll tbody {  
-  height: 180px;
+  height: 140px;
 }
 
 .align-center {
@@ -351,3 +347,10 @@ table.scroll tbody {
   width: 20px;
 }
 
+.modal-backdrop {
+  z-index: -1;
+}
+
+.modal {
+  margin-top: 70px;
+}
