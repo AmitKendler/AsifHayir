@@ -22,11 +22,11 @@ module.exports = function(app) {
    /**
    * Vehicle
    */
-  app.get("/getVehicles", vehicles.getAll);
-  app.get("/getVehicle/:id", vehicles.getById);
-  app.post("/addVehicle", vehicles.create);
-  app.delete("/deleteVehicle/:id", vehicles.delete);
-  app.put("/updateVehicle/:id", vehicles.update);
+  app.get("/getVehicles", vehicles.getAllVehicles);
+  app.get("/getVehicle/:id", vehicles.getVehicleById);
+  app.post("/addVehicle", vehicles.createVehicale);
+  app.delete("/deleteVehicle/:id", vehicles.deleteVehicle);
+  app.put("/updateVehicle/:id", vehicles.updateVehicle);
   
   /**
    * Givaway

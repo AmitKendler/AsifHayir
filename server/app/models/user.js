@@ -4,7 +4,7 @@ const commonModels = require('./commonModels');
 const AddressSchema = commonModels.AdderssSchema;
 const LocationSchema = commonModels.LocationSchema;
 
-exports.UserSchema = new Schema({
+const  UserSchema = new Schema({
 	authId: {type: String, required: true},
 	firstName: {type: String, required: true},
 	lastName: String,

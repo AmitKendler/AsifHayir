@@ -2,50 +2,44 @@ var _ = require('lodash');
 const mongoose = require("mongoose");
 const Vehicle = mongoose.model("Vehicle");
 
-exports.getAll = function(req, res) {
+exports.getAllVehicles = function(req, res, next) {
 	Vehicle.find({}).exec(function (err, data) {
-		if (err) throw err;
+		if (err) return next(err);
 
 		res.send(data);
 	})
 };
 
-exports.getById = function(req, res) {
-	let vehicleId = req.params.id;
-	Vehicle.find({_id: vehicleId}).exec(function (err, data) {
-		if (err) throw err;
+exports.getVehicleById = function(req, res, next) {
+	Vehicle.findById(req.params.id).exec(function (err, data) {
+		if (err) return next(err);
 
 		res.send(data);
 	});
 }
 
-exports.create = function(req, res) {
+exports.createVehicale = function(req, res, next) {
 	new Vehicle(req.body).save(function (err, vehicle) {
-		if (err) throw err;
+		if (err) return next(err);
 
 		res.send(vehicle);
 	})
 }
 
-exports.update = function(req,res) {
-    let vehicleId = req.params.id;
-    Vehicle.findByIdAndUpdate(vehicleId, req.body, {new: true}).exec(function (err,vehicle) {
-        if (err) throw err;
+exports.updateVehicle = function(req,res, next) {
+    Vehicle.findByIdAndUpdate(req.params.id, 
+                              req.body,
+                              {new: true}).exec(function (err,vehicle) {
+        if (err) return next(err);
 
         res.send(vehicle);
     })
 }
 
-exports.delete = function(req, res) {
-    let vehicleId = req.params.id;
-    Vehicle.findByIdAndRemove(vehicleId).exec(function (err, vehicle){
-        if(err) throw err;
+exports.deleteVehicle = function(req, res, next) {
+    Vehicle.findByIdAndRemove(req.params.id).exec(function (err, vehicle){
+        if(err) return next(err);
 
-        const response = {
-            message: "vehicle successfully deleted",
-            id: vehicle._id
-        }
-
-        res.send(response);
+        res.sendStatus(200);
     })
 }
