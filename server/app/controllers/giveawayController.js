@@ -3,23 +3,27 @@ const _ = require('lodash');
 const Giveaway = mongoose.model("Giveaway");
 const Product = mongoose.model("Product");
 
-exports.getAllGivaways = function(req, res) {
-	Giveaway.find({}).exec(function(err, data) {
-		if (err) throw err;
+exports.getAllGivaways = function(req, res, next) {
+	Giveaway.find({})
+			.populate('products')
+			.exec(function(err, data) {
+		if (err) return next(err);
 
 		res.send(data);
 	});
 }
 
-exports.getGiveawayById = function (req, res) {
-	Giveaway.findById(req.params.id).exec(function(err, data) {
-		if (err) throw err;
+exports.getGiveawayById = function (req, res, next) {
+	Giveaway.findById(req.params.id)
+			.populate('products')
+			.exec(function(err, data) {
+		if (err) return next(err);
 
 		res.send(data);
 	});
 }
 
-exports.createGiveaway = function(req, res) {
+exports.createGiveaway = function(req, res, next) {
 	let giveaway = req.body;
 	
 	// Converting to ObjectId id needed - for testing
@@ -33,25 +37,25 @@ exports.createGiveaway = function(req, res) {
 	}
 	
 	new Giveaway(req.body).save(function(err, giveaway) {
-		if (err) throw err;
+		if (err) return next(err);
 
 		res.send(giveaway);
 	})
 }
 
-exports.addProductToGiveaway = function(req, res) {
+exports.addProductToGiveaway = function(req, res, next) {
 	Giveaway.findById(req.params.id).exec(function (err, giveaway) {
-		if (err) throw err;
+		if (err) return next(err);
 
 		let prod = req.body;
 		prod.giveawayId = giveaway._id;
 
 		new Product(prod).save(function (err, product) {
-			if (err) throw err;
+			if (err) return next(err);
 
 			giveaway.products.push(product._id);						
 			giveaway.save(function(err, updatedGiveaway) {
-				if (err) throw res;
+				if (err) return next(err);
 
 				res.send(prod);				
 			})
@@ -59,41 +63,41 @@ exports.addProductToGiveaway = function(req, res) {
 	})	
 }
 
-exports.editGiveaway = function(req, res) {
+exports.editGiveaway = function(req, res, next) {
 	Giveaway.findById(req.params.id).exec(function (err, giveaway) {
-		if (err) throw err;
+		if (err) return next(err);
 
 		// Setting up chnages
 		Object.assign(giveaway, req.body);
 		giveaway.save(function(err, updatedGiveaway) {
-			if (err) throw err;
+			if (err) return next(err);
 
 			res.send(updatedGiveaway);
 		})
 	})
 }
 
-exports.editProductInGiveaway = function(req, res) {
+exports.editProductInGiveaway = function(req, res, next) {
 
 }
 
-exports.deleteProductFromGiveaway = function(req, res) {
+exports.deleteProductFromGiveaway = function(req, res, next) {
 	Giveaway.update({_id: req.params.giveawayId}, 
 					{$pullAll: {_id: req.params.productId}}
 				).exec(function (err, updatedGiveaway) {
-					if (err) throw err;
+					if (err) return next(err);
 
 					res.send(updatedGiveaway);
 				})
 }
 
-exports.deleteGiveaway = function(req, res) {
+exports.deleteGiveaway = function(req, res, next) {
 	Giveaway.deleteOne({_id: req.params.id}).exec(function(err) {
-		if (err) throw err;
+		if (err) return next(err);
 		res.sendStatus(200)
 	})
 }
 
-exports.associationTakesProduct = function(req, res) {
+exports.associationTakesProduct = function(req, res, next) {
 
 }
