@@ -14,3 +14,5 @@ exports.UserSchema = new Schema({
 	phone: {type: String, required: true},
 	address: AddressSchema
 }, {collection: 'users'})
+
+mongoose.model("User", UserSchema);
