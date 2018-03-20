@@ -52,6 +52,11 @@ module.exports = function(app) {
    */
   app.post("/addUser", users.addUser);
   app.get("/getAllUsers", users.getAllUsers);
+  app.get("/getDonors", users.getDonors);
+  app.get("/getVolunteers", users.getVolunteers);
+  app.get("/getUserById/:id", users.getUserById);
+  app.delete("/deleteUser/:id", users.deleteUser);
+  app.put("/updateUser/:id", users.updateUser);
 
   /**
    * Error handling

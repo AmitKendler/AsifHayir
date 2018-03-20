@@ -11,20 +11,31 @@ exports.getAllUsers = function(req, res, next) {
 }
 
 exports.getVolunteers = function(req, res, next){
-
+    User.find({isVolunteer: true}).exec(function(err, data) {
+        if (err) return next(err);
+        
+        res.send(data);
+    });
 }
 
 exports.getDonors = function(req, res,next) {
-
+    User.find({isVolunteer: false}).exec(function(err, data) {
+        if (err) return next(err);
+        
+        res.send(data);
+    });
 }
 
 exports.getUserById = function(req, res, next) {
-
+    User.findById(req.params.id).exec(function(err, user) {
+        if (err) return next(err);
+        
+        res.send(user);
+    });
 }
 
 exports.addUser = function(req, res, next) {
-    user = new User(req.body); 
-    user.save(function(err, user) {
+    new User(req.body).save(function(err, user) {
 		if (err) return next(err);
 
 		res.send(user);
@@ -32,9 +43,19 @@ exports.addUser = function(req, res, next) {
 }
 
 exports.updateUser = function(req, res, next) {
+    User.findByIdAndUpdate(req.params.id, 
+                           req.body,
+                           {new: true}).exec(function (err, user) { 
+        if (err) return next(err);
 
+        res.send(user);
+    });
 }
 
 exports.deleteUser = function(req, res, next) {
+    User.findByIdAndRemove(req.params.id).exec(function (err, user){
+        if(err) return next(err);
 
+        res.sendStatus(200);
+    });
 }
