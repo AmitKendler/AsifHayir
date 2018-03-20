@@ -6,6 +6,7 @@
 const voluntaryAssociations = require("../app/controllers/voluntarAssociationController");
 const giveaways = require("../app/controllers/giveawayController");
 const vehicles = require("../app/controllers/vehicleController");
+const routes = require("../app/controllers/routeController");
 /**
  * Expose
  */
@@ -36,7 +37,13 @@ module.exports = function(app) {
   app.post("/giveaways", giveaways.createGiveaway);
   app.post("/giveaways/:id/products", giveaways.addProductToGiveaway);
 
-  app.post("/saveRoute", giveaways.saveRoute);
+  /**
+   * Route
+   */
+  app.post("/addRoute", routes.createRoute);
+  app.put("/updateRoute/:id", routes.updateRoute);
+  app.get("/getRoutes", routes.getAllRoutes);
+  app.get("/getRoute/:id", routes.getRouteById);
 
   /**
    * Error handling

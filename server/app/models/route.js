@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const Route = new Schema({
 	date: Date,
-}, {collection: 'routes'}, { strict: false })
+	paths: Schema.Types.Mixed
+}, {collection: 'routes'})
 
 mongoose.model("Route", Route);

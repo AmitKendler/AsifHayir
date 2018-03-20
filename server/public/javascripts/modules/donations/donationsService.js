@@ -16,10 +16,9 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
                     contactPhone: "0525310385",
                     title: "פיתות",
                     type: 0,
-                    pickupAddress: {
+                    address: {
                         location:{
-                            lat:33.12,
-                            lng:123.123
+                            coordinates: [31.95906228990288,34.77139596361667]
                         },
                         city: "הרצליה",
                         streetName: "חנה סנש",
@@ -47,10 +46,9 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
                     contactPhone: "0525310388",
                     title: "כל מיני בגדים",
                     type: 1,
-                    pickupAddress: {
+                    address: {
                         location:{
-                            lat:33.12,
-                            lng:123.123
+                            coordinates: [32.013013644060564,34.7459377348423]
                         },
                         city: "אורנית",
                         streetName: "השיטה",
@@ -79,10 +77,9 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
                     contactPhone: "0525320388",
                     title: "שולחן כתיבה",
                     type: 2,
-                    pickupAddress: {
+                    address: {
                         location:{
-                            lat:33.12,
-                            lng:123.123
+                            coordinates: [32.017962429354704,34.79571953415871]
                         },
                         city: "רמת גן",
                         streetName: "בן גוריון",
@@ -128,10 +125,9 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
                     contactPhone: "0525310385",
                     title: "פיתות",
                     type: 0,
-                    pickupAddress: {
+                    address: {
                         location:{
-                            lat:33.12,
-                            lng:123.123
+                            coordinates: [31.95906228990288,34.77139596361667]
                         },
                         city: "הרצליה",
                         streetName: "חנה סנש",
@@ -159,10 +155,9 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
                     contactPhone: "0525310388",
                     title: "כל מיני בגדים",
                     type: 1,
-                    pickupAddress: {
+                    address: {
                         location:{
-                            lat:33.12,
-                            lng:123.123
+                            coordinates: [32.013013644060564,34.7459377348423]
                         },
                         city: "אורנית",
                         streetName: "השיטה",
@@ -191,10 +186,9 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
                     contactPhone: "0525320388",
                     title: "שולחן כתיבה",
                     type: 2,
-                    pickupAddress: {
+                    address: {
                         location:{
-                            lat:33.12,
-                            lng:123.123
+                            coordinates: [32.017962429354704,34.79571953415871]
                         },
                         city: "רמת גן",
                         streetName: "בן גוריון",

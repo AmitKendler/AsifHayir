@@ -1,8 +1,8 @@
 const commonModels = require('./commonModels');
 const TimePeriodSchema = commonModels.TimePeriodSchema;
 const ContactSchema = commonModels.ContactSchema;
-const PickupAddressSchema = commonModels.AdderssSchema;
-const AddressSchema = commonModels.AdderssSchema;
+const PickupAddressSchema = commonModels.AddressSchema;
+const AddressSchema = commonModels.AddressSchema;
 // const ProductSchema = require('./product');
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;

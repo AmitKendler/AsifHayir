@@ -34,7 +34,7 @@ angular.module('AsifHayir')
 				},
 				{
 					label: "כתובת לאיסוף",
-					getValue: function (row) { return scope.getAddressLabel(row.pickupAddress); }
+					getValue: function (row) { return scope.getAddressLabel(row.address); }
 				},
 				{
 					label: "זמין בשעות",
