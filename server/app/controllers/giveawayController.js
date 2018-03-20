@@ -2,6 +2,17 @@ const mongoose = require("mongoose");
 const _ = require('lodash');
 const Giveaway = mongoose.model("Giveaway");
 const Product = mongoose.model("Product");
+const Route = mongoose.model("Route");
+
+exports.saveRoute = function(req, res, next) {
+	let route = req.body;
+		
+	new Route(req.body).save(function(err, route) {
+		if (err) return next(err);
+
+		res.send(route);
+	})
+}
 
 exports.getAllGivaways = function(req, res, next) {
 	Giveaway.find({})

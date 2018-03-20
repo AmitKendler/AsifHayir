@@ -20,8 +20,8 @@ let LocationSchema = new Schema({
 	type: {type:String}, 
 	coordinates: [Number]
 });
-
-exports.AdderssSchema = new Schema({
+		
+exports.AddressSchema = new Schema({
 	location: LocationSchema,
 	streetName: {type: String, required: true},
 	houseNumber: {type: String, required: true},
