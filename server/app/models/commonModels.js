@@ -23,6 +23,7 @@ let LocationSchema = new Schema({
 		
 exports.AddressSchema = new Schema({
 	location: LocationSchema,
+	city: {type:String, required:true},
 	streetName: {type: String, required: true},
 	houseNumber: {type: String, required: true},
 	aptNumber: Number
