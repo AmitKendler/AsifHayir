@@ -11,8 +11,7 @@ exports.getAll = function(req, res) {
 };
 
 exports.getById = function(req, res) {
-
-	let volAsId = req.query.id;
+	let volAsId = req.params.id;
 	VoluntaryAssociation.find({_id: volAsId}).exec(function (err, data) {
 		if (err) throw err;
 

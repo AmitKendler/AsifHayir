@@ -4,13 +4,14 @@ const Schema = mongoose.Schema;
 const commonModels = require('./commonModels');
 const ProductAmountSchema = commonModels.ProductAmountSchema;
 
-exports.ProductSchema = new Schema({
+let ProductSchema = new Schema({
+	givaway: {type: Schema.Types.ObjectId, ref:'Giveaway'},
 	name: {type: String, required: true},
 	description: String,
 	imageUrl: String,
 	amount: ProductAmountSchema,
 	comments: String,
-	status: String,
+	status: String, // PENDING, TAKEN
 	takenBy: {
 		type: Schema.Types.ObjectId, 
 		required: () => {
@@ -24,7 +25,11 @@ exports.ProductSchema = new Schema({
 	kosher: {type: Boolean, required: requiredFor('FOOD')},
 	size: {type: String, required: requiredFor('CLOTHES')},
 	condition: {type: String, required: requiredFor('CLOTHES', 'OTHER')}
-})
+}, {collection: 'products'});
+
+mongoose.model("Product", ProductSchema);
+
+exports.ProductSchema = ProductSchema;
 
 function requiredFor() {
 	return () => {

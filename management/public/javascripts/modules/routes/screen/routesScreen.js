@@ -1,7 +1,7 @@
 angular.module("AsifHayir").controller("routes", function ($scope, RoutesService) {
     
-    RoutesService.getRoutes().then(function (data) {        
-        $scope.routes = data;
+    RoutesService.getRoutes().then(function (res) {        
+        $scope.routes = res.data;
 
         $scope.route = $scope.routes[0];
         $scope.donations = [];

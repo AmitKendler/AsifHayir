@@ -40,6 +40,10 @@ module.exports = function(app) {
     })
   );
   app.use(bodyParser.json());
+  app.use(function (err, req, res, next) {
+    console.error(err.stack)
+    res.status(500).send(err);
+  })
 
   // cookieParser should be above session
   // app.use(cookieParser());

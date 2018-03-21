@@ -1,0 +1,85 @@
+
+
+<div class="card-block donations-table">
+    
+  <table class="table scroll table-striped" >
+      <thead>
+        <tr>
+          <th width="{{columnWidth}}" ng-if="!hideCheckboxes">כלול באלגוריתם</th>
+          <th width="{{columnWidth}}" ng-repeat="column in tableColumns">{{column.label}}</th>
+          <th width="{{columnWidth}}"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="donation in donations">
+          <td  width="{{columnWidth}}" ng-if="!hideCheckboxes">
+              <input type="checkbox" class="big-checkbox" ng-model="donation.includeInAlgorithm">
+          </td>
+          <td  width="{{columnWidth}}" ng-repeat="column in tableColumns" >
+              {{ getValue(column, donation) }}
+          </td>
+          <td  width="{{columnWidth}}" >
+              <popover-advanced-details class="btn btn-sm btn-info" type="donation.type" info="donation.advanced">i                
+              </popover-advanced-details>
+          </td>
+        </tr>        
+      </tbody>
+  </table>
+</div>
+        
+<div id="foodPopover" ng-hide="true">  
+  <div class="popover-data">
+    <div><label class="round-label" ng-bind="info.amount"></label>{{ getAmountTypeLabel(info.amountType) }}</div>
+    <div>        
+        <i ng-class="getIconClass('isPacked', true)"></i>        
+        <label>ארוז</label>
+    </div>    
+    <div>
+        <i ng-class="getIconClass('kosher', true)"></i>            
+        <label>כשר</label>
+    </div>    
+    <div>
+        <i ng-class="getIconClass('isHot', true)"></i>    
+        <label>חם</label>
+        <i ng-class="getIconClass('isHot', false)"></i>    
+        <label>קר</label>
+    </div>     
+  </div> 
+</div>
+
+<div id="clothingPopover" ng-hide="true">  
+    <div class="popover-data">
+        <div><label class="round-label" ng-bind="info.amount"></label> {{ getAmountTypeLabel(info.amountType) }} </div>
+        <div>
+            <i ng-class="getIconClass('condition', 'חדש')"></i>
+            <label>חדש</label>
+            <i ng-class="getIconClass('condition', 'משומש')"></i>
+            <label>משומש</label>
+            <i ng-class="getIconClass('condition', 'בלוי')"></i>
+            <label>בלוי</label>
+        </div>   
+        <div>
+            <i ng-class="getIconClass('type', 'גברים')"></i>     
+            <label>גברים</label>
+            <i ng-class="getIconClass('type', 'נשים')"></i>   
+            <label>נשים</label>
+            <i ng-class="getIconClass('type', 'ילדים')"></i>
+            <label>ילדים</label>
+        </div>        
+    </div> 
+</div>
+
+  <div id="furniturePopover" ng-hide="true">  
+      <div class="popover-data">
+            <div><label class="round-label" ng-bind="info.amount"></label> {{ getAmountTypeLabel(info.amountType) }} </div>
+          <div>
+            <i ng-class="getIconClass('condition', 'חדש')"></i>
+            <label>חדש</label>
+            <i ng-class="getIconClass('condition', 'משומש')"></i>
+            <label>משומש</label>
+            <i ng-class="getIconClass('condition', 'בלוי')"></i>
+            <label>בלוי</label>
+          </div>   
+      </div> 
+    </div>
+  

@@ -1,0 +1,16 @@
+<div class="animated fadeIn">
+<div class="card" ng-if="donations">
+    <map-view-donations donations="donations"></map-view-donations>
+    <donations-table id="donationsTable" donations="donations"></donations-table>
+    
+</div>
+<div class="align-center">
+    <button type="button" data-toggle="modal" data-target="#planRouteModal" class="btn btn-primary btn-md btn-add">
+        <i class="fa fa-paper-plane"></i>
+        <i>תכנן מסלול איסוף</i>
+    </button>
+</div>
+
+<plan-route-modal></plan-route-modal>
+<route-is-ready-modal></route-is-ready-modal>
+</div>
