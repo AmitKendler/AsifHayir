@@ -146,7 +146,7 @@ class GeneralInfoContainer extends Component {
             <Input
               value={this.state.itemDescription}
               onChangeText={value => this.setState({ itemDescription: value })}
-              placeholder="תיאור: לדוג' : חדש באריזה"
+              placeholder="תיאור:  'חדש באריזה'"
             />
             <Icon name="paper" />
           </Item>
