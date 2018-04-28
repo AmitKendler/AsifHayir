@@ -1,31 +1,33 @@
-
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const commonModels = require('./commonModels');
+const commonModels = require("./commonModels");
 const ProductAmountSchema = commonModels.ProductAmountSchema;
 
-let ProductSchema = new Schema({
-	givaway: {type: Schema.Types.ObjectId, ref:'Giveaway'},
-	name: {type: String, required: true},
-	description: String,
-	imageUrl: String,
-	amount: ProductAmountSchema,
-	comments: String,
-	status: String, // PENDING, TAKEN
-	takenBy: {
-		type: Schema.Types.ObjectId, 
-		required: () => {
-			return this.status === 'TAKEN'
-		}
+let ProductSchema = new Schema(
+	{
+		giveawayId: { type: Schema.Types.ObjectId, ref: "Giveaway" },
+		name: { type: String, required: true },
+		description: String,
+		imageUrl: String,
+		amount: ProductAmountSchema,
+		comments: String,
+		status: { type: String, default: "NEW" }, //NEW, PENDING, TAKEN
+		takenBy: {
+			type: Schema.Types.ObjectId,
+			required: () => {
+				return this.status === "TAKEN";
+			}
+		},
+		prodType: { type: String, required: true }, // FOOD, CLOTHES, OTHER
+		packed: { type: Boolean, required: requiredFor("FOOD") },
+		requiresCool: { type: Boolean, required: requiredFor("FOOD") },
+		immediateUse: { type: Boolean, required: requiredFor("FOOD") },
+		kosher: { type: Boolean, required: requiredFor("FOOD") },
+		size: { type: String, required: requiredFor("CLOTHES") },
+		condition: { type: String, required: requiredFor("CLOTHES", "OTHER") }
 	},
-	prodType: {type: String, required:true}, // FOOD, CLOTHES, OTHER
-	packed: {type: Boolean, required: requiredFor('FOOD')},
-	requiresCool: {type: Boolean, required: requiredFor('FOOD')},
-	immediateUse: {type: Boolean, required: requiredFor('FOOD')},
-	kosher: {type: Boolean, required: requiredFor('FOOD')},
-	size: {type: String, required: requiredFor('CLOTHES')},
-	condition: {type: String, required: requiredFor('CLOTHES', 'OTHER')}
-}, {collection: 'products'});
+	{ collection: "products" }
+);
 
 mongoose.model("Product", ProductSchema);
 
@@ -44,6 +46,6 @@ function requiredFor() {
 			}
 		}
 
-		return false
-	}
+		return false;
+	};
 }

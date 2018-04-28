@@ -3,6 +3,7 @@ import { Dimensions, Platform, StyleSheet } from "react-native";
 import { Text, Content, Button, Icon, Item, Input } from "native-base";
 import { Constants, MapView, Location, Permissions } from "expo";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { observer } from "mobx-react/native";
 
 const styles = StyleSheet.create({
 	locationButton: {
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
 	},
 	mapStyle: {
 		flex: 1,
-		height: Dimensions.get("window").height - 100,
+		height: 200,
 		width: Dimensions.get("window").width
 	},
 	searchBarStyle: {
@@ -21,7 +22,8 @@ const styles = StyleSheet.create({
 	}
 });
 
-class GeneralInfoContainer extends Component {
+@observer
+class LocationPickerContainer extends Component {
 	state = {
 		location: null,
 		errorMessage: null,
@@ -38,7 +40,10 @@ class GeneralInfoContainer extends Component {
 					"Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
 			});
 		} else {
-			this.getLocationAsync();
+			if (this.props.giveawayObject.address.location) {
+			} else {
+				this.getLocationAsync();
+			}
 		}
 	}
 
@@ -59,6 +64,18 @@ class GeneralInfoContainer extends Component {
 	};
 
 	changeLocation(lat, long) {
+		if (!this.props.giveawayObject.address.location) {
+			this.props.giveawayObject.address.location = {
+				type: "Point",
+				coordinates: [lat, long]
+			};
+		} else {
+			this.props.giveawayObject.address.location.coordinates = [
+				lat,
+				long
+			];
+		}
+
 		let region = {
 			latitude: lat,
 			longitude: long,
@@ -91,6 +108,9 @@ class GeneralInfoContainer extends Component {
 						let location = details.geometry.location;
 						this.changeLocation(location.lat, location.lng);
 					}}
+					ref={instance => {
+						this.locationRef = instance;
+					}}
 					query={{
 						key: "AIzaSyC2QhtACfVZ2cr9HVvxQuzxd3HT36NNK3Q",
 						language: "he",
@@ -106,6 +126,10 @@ class GeneralInfoContainer extends Component {
 						powered: null
 					}}
 				/>
+				{/*<Input placeholder="עיר" />
+				<Input placeholder="רחוב" />
+				<Input placeholder="מס' בית" />
+				<Input placeholder="דירה" /> */}
 				<MapView
 					region={this.state.mapRegion}
 					onRegionChange={this.onRegionChange.bind(this)}
@@ -115,10 +139,16 @@ class GeneralInfoContainer extends Component {
 						title="גרור כדי לשנות"
 						draggable
 						coordinate={this.state.itemLocation}
-						onDragEnd={e =>
+						onDragEnd={e => {
+							const coords = e.nativeEvent.coordinate;
+							this.changeLocation(
+								coords.latitude,
+								coords.longitude
+							);
 							this.setState({
-								itemLocation: e.nativeEvent.coordinate
-							})}
+								itemLocation: coords
+							});
+						}}
 					/>
 				</MapView>
 				<Button
@@ -132,4 +162,4 @@ class GeneralInfoContainer extends Component {
 	}
 }
 
-export default GeneralInfoContainer;
+export default LocationPickerContainer;

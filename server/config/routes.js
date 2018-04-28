@@ -12,9 +12,8 @@ const users = require("../app/controllers/usersController");
 /**
  * Expose
  */
- 
-module.exports = function(app) {
 
+module.exports = function(app) {
   /**
    * Voluntary assoiciation
    */
@@ -22,7 +21,7 @@ module.exports = function(app) {
   app.get("/volas/:id", voluntaryAssociations.getById);
   app.post("/volas", voluntaryAssociations.create);
 
-   /**
+  /**
    * Vehicle
    */
   app.get("/getVehicles", vehicles.getAllVehicles);
@@ -30,13 +29,13 @@ module.exports = function(app) {
   app.post("/addVehicle", vehicles.createVehicale);
   app.delete("/deleteVehicle/:id", vehicles.deleteVehicle);
   app.put("/updateVehicle/:id", vehicles.updateVehicle);
-  
+
   /**
    * Givaway
    */
   app.get("/giveaways", giveaways.getAllGivaways);
   app.get("/giveaways/:id", giveaways.getGiveawayById);
-  app.post("/giveaways", giveaways.createGiveaway);
+  app.post("/giveaways", giveaways.createGiveawayWithProducts);
   app.post("/giveaways/:id/products", giveaways.addProductToGiveaway);
 
   /**
@@ -64,7 +63,8 @@ module.exports = function(app) {
 
   app.use(function(err, req, res, next) {
     // treat as 404
-    if (err.message &&
+    if (
+      err.message &&
       (~err.message.indexOf("not found") ||
         ~err.message.indexOf("Cast to ObjectId failed"))
     ) {

@@ -10,7 +10,9 @@ import {
   Icon,
   Label,
   CheckBox,
-  Content
+  Content,
+  Right,
+  ListItem
 } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { ImagePicker } from "expo";
@@ -156,6 +158,30 @@ class GeneralInfoContainer extends Component {
             onChangeUnitValue={this.onChangeUnitValue.bind(this)}
             onChangeQuantityValue={this.onChangeQuantityValue.bind(this)}
           />
+          <Item style={{ height: 50 }}>
+            <CheckBox checked={true} />
+            <Right>
+              <Text>דורש קירור</Text>
+            </Right>
+          </Item>
+          <Item style={{ height: 50 }}>
+            <CheckBox checked={true} />
+            <Right>
+              <Text>כשר</Text>
+            </Right>
+          </Item>
+          <Item style={{ height: 50 }}>
+            <CheckBox checked={true} />
+            <Right>
+              <Text>ארוז</Text>
+            </Right>
+          </Item>
+          <Item style={{ height: 50 }}>
+            <CheckBox checked={true} />
+            <Right>
+              <Text>פג תוקף בקרוב</Text>
+            </Right>
+          </Item>
         </Content>
       </Form>
     );

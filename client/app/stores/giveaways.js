@@ -1,5 +1,7 @@
 import { observable, action } from 'mobx';
 import list from './giveaways.json'; // TEMPORARLY - UNTIL BACKEND
+
+
 class Giveaways {
     @observable giveaways = [];
 

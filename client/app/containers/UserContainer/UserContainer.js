@@ -17,6 +17,7 @@ import {
     H2,
     H3
 } from "native-base";
+import Constants from "./../../utils/Constants";
 import { Actions } from "react-native-router-flux";
 
 import { Col, Row, Grid } from "react-native-easy-grid";
@@ -42,7 +43,16 @@ const styles = StyleSheet.create({
     title: { marginTop: 15, marginRight: 12 }
 });
 
-const ActionTile = ({ iconName, color, tileTitle, Action, phone, contact }) => {
+const ActionTile = ({
+    iconName,
+    color,
+    tileTitle,
+    Action,
+    phone,
+    contact,
+    address,
+    prodType
+}) => {
     return (
         <Col style={styles.actionTiles}>
             <Card>
@@ -53,7 +63,9 @@ const ActionTile = ({ iconName, color, tileTitle, Action, phone, contact }) => {
                         Action({
                             title: tileTitle,
                             phone: phone,
-                            contact: contact
+                            contact: contact,
+                            address: address,
+                            prodType: prodType
                         })}
                 >
                     <Body style={styles.centerize}>
@@ -90,7 +102,7 @@ class UserContainer extends Component {
                                         {userStore.user.lastName}
                                     </H2>
                                     <H3 style={styles.subTitle}>
-                                        {userStore.user.title}
+                                        {userStore.user.level}
                                     </H3>
                                 </Col>
                                 <Col>
@@ -126,15 +138,17 @@ class UserContainer extends Component {
                 <Grid>
                     <ActionTile
                         Action={Actions.ItemGiveawayContainer}
-                        phone={userStore.user.defaultPhone}
+                        phone={userStore.user.phone}
                         contact={
                             userStore.user.firstName +
                             " " +
                             userStore.user.lastName
                         }
+                        address={userStore.user.address}
                         iconName="pizza"
                         color="#FFB74D"
                         tileTitle="מסירת מזון"
+                        prodType={Constants.GIVEAWAY_TYPES.FOOD}
                     />
                 </Grid>
                 <Grid>
@@ -146,9 +160,11 @@ class UserContainer extends Component {
                             " " +
                             userStore.user.lastName
                         }
+                        address={userStore.user.address}
                         iconName="basket"
                         color="#AED581"
                         tileTitle="מסירת רהיטים"
+                        prodType={Constants.GIVEAWAY_TYPES.clothes}
                     />
                     <ActionTile
                         Action={Actions.ItemGiveawayContainer}
@@ -158,9 +174,11 @@ class UserContainer extends Component {
                             " " +
                             userStore.user.lastName
                         }
+                        address={userStore.user.address}
                         iconName="shirt"
                         color="#4FC3F7"
                         tileTitle="מסירת בגדים"
+                        prodType={Constants.GIVEAWAY_TYPES.FURNITURE}
                     />
                 </Grid>
 

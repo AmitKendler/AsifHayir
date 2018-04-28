@@ -39,7 +39,6 @@ const tabsTitles = ["איזור אישי", "רשמת מסירות", "טבלת ה
 
 @inject("giveawaysStore")
 @inject("leaderboardStore")
-@observer
 class HomeContainer extends Component {
   constructor(props) {
     super(props);

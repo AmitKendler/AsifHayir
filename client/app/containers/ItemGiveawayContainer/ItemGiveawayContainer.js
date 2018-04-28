@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { observer, inject } from "mobx-react/native";
 import {
     Text,
     Container,
@@ -15,7 +16,7 @@ import { Actions } from "react-native-router-flux";
 import NavbarContainer from "./../NavbarContainer/NavbarContainer";
 import StepIndicator from "react-native-step-indicator";
 import Swiper from "react-native-swiper";
-import GeneralInfoContainer from "./GeneralInfoContainer";
+import FoodProductContainer from "./FoodProductContainer";
 import AdditionalAttributesContainer from "./AdditionalAttributesContainer";
 import LocationPickerContainer from "./LocationPickerContainer";
 import TimePickerContainer from "./TimePickerContainer";
@@ -56,6 +57,9 @@ const customStyles = {
     currentStepLabelColor: "#rgb(99,93,183)"
 };
 
+@inject("giveawayStore")
+@inject("userStore")
+@observer
 class ItemGiveawayContainer extends Component {
     constructor(props) {
         super(props);
@@ -64,22 +68,18 @@ class ItemGiveawayContainer extends Component {
             currentPosition: 0,
             isCheckAvailable: false
         };
+    }
 
-        this.newGiveAway = {
-            image: "",
-            title: "",
-            description: "",
-            amount: "",
-            amountType: "",
-            pickupAddress: "",
-            pickupTime: {
-                isAllDay: false,
-                start: "",
-                end: ""
-            },
-            contactName: "",
-            contactPhone: ""
-        };
+    componentDidMount() {
+        // Set store params to default
+        try {
+            this.props.giveawayStore.giveaway.contact.name = this.props.contact;
+            this.props.giveawayStore.giveaway.contact.phone = this.props.phone;
+            this.props.giveawayStore.product.prodType = this.props.prodType;
+            this.props.giveawayStore.giveaway.userId = this.props.userStore.user._id;
+        } catch (e) {
+            console.log(e, this.props);
+        }
     }
 
     handleSwipeChanged(i) {
@@ -98,6 +98,7 @@ class ItemGiveawayContainer extends Component {
     }
 
     render() {
+        const { product, giveaway } = this.props.giveawayStore;
         return (
             <Container style={styles.container}>
                 <NavbarContainer
@@ -106,7 +107,7 @@ class ItemGiveawayContainer extends Component {
                     hasNext={!this.state.isCheckAvailable}
                     onPressNext={this.moveNext.bind(this)}
                     hasCheck={this.state.isCheckAvailable}
-                    onPressCheck={() => alert("ok!")}
+                    onPressCheck={() => this.props.giveawayStore.postGiveaway()}
                 >
                     <Content>
                         <View style={styles.marginView} />
@@ -128,18 +129,26 @@ class ItemGiveawayContainer extends Component {
                             onIndexChanged={i => this.handleSwipeChanged(i)}
                         >
                             <Content>
-                                <GeneralInfoContainer />
+                                {
+                                    <FoodProductContainer
+                                        productObject={product}
+                                    />
+                                }
                             </Content>
                             <Content>
-                                <LocationPickerContainer />
+                                <LocationPickerContainer
+                                    giveawayObject={giveaway}
+                                    address={this.props.address}
+                                />
                             </Content>
                             <Content>
-                                <TimePickerContainer />
+                                <TimePickerContainer
+                                    giveawayObject={giveaway}
+                                />
                             </Content>
                             <Content>
                                 <ContactInfoContainer
-                                    phone={this.props.phone}
-                                    contact={this.props.contact}
+                                    giveawayObject={giveaway}
                                 />
                             </Content>
                         </Swiper>
