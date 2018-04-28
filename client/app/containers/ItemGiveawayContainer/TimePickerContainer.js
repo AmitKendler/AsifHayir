@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import { Content, ListItem, Text, Left, Radio } from "native-base";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
+import { observer } from "mobx-react/native";
 
 const styles = StyleSheet.create({
 	transparentBg: { backgroundColor: "transparent" },
 	mainLabel: { margin: 15, color: "#333333", fontSize: 18 }
 });
 
+@observer
 class TimePickerContainer extends Component {
 	constructor(props) {
 		super(props);
@@ -23,16 +25,39 @@ class TimePickerContainer extends Component {
 		this.setState({
 			multiSliderValue: values
 		});
+
+		this.props.giveawayObject.pickupTime.startTime = this.mapSliderToDate(
+			values[0]
+		);
+		this.props.giveawayObject.pickupTime.endTime = this.mapSliderToDate(
+			values[1]
+		);
 	}
 
 	mapSliderValToHour(val) {
 		return val % 1 !== 0 ? parseInt(val) + ":30" : parseInt(val) + ":00";
 	}
 
+	mapSliderToDate(val) {
+		let date = new Date();
+		date.setHours(parseInt(val));
+		val % 1 !== 0 ? date.setMinutes(30) : null;
+		return date;
+	}
+
 	toggleSpecificTime() {
 		this.setState({
 			isSpecificTimeSelected: !this.state.isSpecificTimeSelected
 		});
+
+		if (this.state.isSpecificTimeSelected) {
+			this.props.giveawayObject.pickupTime = { startTime: 0, endTime: 0 };
+		} else {
+			this.props.giveawayObject.pickupTime = {
+				startTime: this.mapSliderToDate(this.state.multiSliderValue[0]),
+				endTime: this.mapSliderToDate(this.state.multiSliderValue[1])
+			};
+		}
 	}
 
 	render() {

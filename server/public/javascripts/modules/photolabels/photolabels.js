@@ -23,7 +23,7 @@ angular.module("AsifHayir").controller("photolabels", function ($scope) {
 
     $.ajax({
         type: 'POST',
-        url: "https://vision.googleapis.com/v1/images:annotate?key=mykey",
+        url: "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyA-bpxB2TRHx8w7meL8DWIvjQ7xbRHRFks",
         dataType: 'json',
         data: json,
         //Include headers, otherwise you get an odd 400 error.

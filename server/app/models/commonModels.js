@@ -7,25 +7,26 @@ exports.TimePeriodSchema = new Schema({
 });
 
 exports.ContactSchema = new Schema({
-	name: {type: String, required:true},
-	phone: {type: String, required: true}
+	name: { type: String, required: true },
+	phone: { type: String, required: true }
 });
 
 exports.ProductAmountSchema = new Schema({
-	amount: {type: Number, required: true},
-	units: {type: String, required: true}
+	amount: { type: Number, required: true },
+	units: { type: String, required: true }
 });
 
 let LocationSchema = new Schema({
-	type: {type:String}, 
+	type: { type: String },
 	coordinates: [Number]
 });
-		
+
 exports.AddressSchema = new Schema({
 	location: LocationSchema,
-	streetName: {type: String, required: true},
-	houseNumber: {type: String, required: true},
+	city: { type: String, required: true },
+	streetName: { type: String, required: true },
+	houseNumber: { type: String, required: true },
 	aptNumber: Number
-})
+});
 
 exports.LocationSchema = LocationSchema;

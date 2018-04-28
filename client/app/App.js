@@ -10,7 +10,9 @@ import {
 import { Scene, Router, Actions } from "react-native-router-flux";
 import { Provider } from "mobx-react/native";
 import giveawaysStore from "./stores/giveaways";
+import product from "./stores/product";
 import leaderboardStore from "./stores/leaderboard";
+import userStore from "./stores/user";
 
 export default class App extends React.Component {
   render() {
@@ -18,6 +20,8 @@ export default class App extends React.Component {
       <Provider
         giveawaysStore={giveawaysStore}
         leaderboardStore={leaderboardStore}
+        userStore={userStore}
+        giveawayStore={product}
       >
         <Router>
           <Scene key="root">
