@@ -19,7 +19,7 @@
               {{ getValue(column, donation) }}
           </td>
           <td  width="{{columnWidth}}" >
-              <popover-advanced-details class="btn btn-sm btn-info" type="donation.type" info="donation.advanced">i                
+              <popover-advanced-details class="btn btn-sm btn-info" type="donation.product.prodType" product="donation.product">i                
               </popover-advanced-details>
           </td>
         </tr>        
@@ -29,9 +29,9 @@
         
 <div id="foodPopover" ng-hide="true">  
   <div class="popover-data">
-    <div><label class="round-label" ng-bind="info.amount"></label>{{ getAmountTypeLabel(info.amountType) }}</div>
+    <div><label class="round-label" ng-bind="product.amount.amount"></label> {{ getAmountTypeLabel(product.amount.units) }} </div>
     <div>        
-        <i ng-class="getIconClass('isPacked', true)"></i>        
+        <i ng-class="getIconClass('packed', true)"></i>        
         <label>ארוז</label>
     </div>    
     <div>
@@ -39,17 +39,19 @@
         <label>כשר</label>
     </div>    
     <div>
-        <i ng-class="getIconClass('isHot', true)"></i>    
-        <label>חם</label>
-        <i ng-class="getIconClass('isHot', false)"></i>    
-        <label>קר</label>
+        <i ng-class="getIconClass('requiresCool', true)"></i>    
+        <label>דורש קירור</label>
+    </div>  
+    <div>
+        <i ng-class="getIconClass('immediateUse', true)"></i>    
+        <label>שימוש מיידי</label>
     </div>     
   </div> 
 </div>
 
 <div id="clothingPopover" ng-hide="true">  
     <div class="popover-data">
-        <div><label class="round-label" ng-bind="info.amount"></label> {{ getAmountTypeLabel(info.amountType) }} </div>
+        <div><label class="round-label" ng-bind="product.amount.amount"></label> {{ getAmountTypeLabel(product.amount.units) }} </div>
         <div>
             <i ng-class="getIconClass('condition', 'חדש')"></i>
             <label>חדש</label>
@@ -58,20 +60,21 @@
             <i ng-class="getIconClass('condition', 'בלוי')"></i>
             <label>בלוי</label>
         </div>   
-        <div>
+        <div><label ng-bind="product.size"></label></div>
+        <!-- <div>
             <i ng-class="getIconClass('type', 'גברים')"></i>     
             <label>גברים</label>
             <i ng-class="getIconClass('type', 'נשים')"></i>   
             <label>נשים</label>
             <i ng-class="getIconClass('type', 'ילדים')"></i>
             <label>ילדים</label>
-        </div>        
+        </div>         -->
     </div> 
 </div>
 
   <div id="furniturePopover" ng-hide="true">  
       <div class="popover-data">
-            <div><label class="round-label" ng-bind="info.amount"></label> {{ getAmountTypeLabel(info.amountType) }} </div>
+        <div><label class="round-label" ng-bind="product.amount.amount"></label> {{ getAmountTypeLabel(product.amount.units) }} </div>
           <div>
             <i ng-class="getIconClass('condition', 'חדש')"></i>
             <label>חדש</label>

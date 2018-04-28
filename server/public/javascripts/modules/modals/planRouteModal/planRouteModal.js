@@ -12,9 +12,7 @@ angular.module('AsifHayir')
 
             scope.planRoute = function (date, vehiclesAmount) {
 
-                // TODO - get by date and 'include in algo'
-                var routeDonations = scope.donations;
-                var donationsIds = routeDonations.map(r => r._id);
+                var routeDonations = scope.getDonationsForAlgo();
 
                 var directionsService = new google.maps.DirectionsService;
 
@@ -42,8 +40,7 @@ angular.module('AsifHayir')
                                    geocoded_waypoints: response.geocoded_waypoints,
                                    routes: response.routes,
                                    request: response.request,
-                                   // TODO
-                                   donations: donationsIds
+                                   donations: scope.mapDonationsAndProductsIds(routeDonations)
                                 }
                             ],
                         }
@@ -62,14 +59,23 @@ angular.module('AsifHayir')
                     });
             }
 
-            scope.getDonationsForAlgo = function (date) {
-                // TODO
-                return scope.donations.filter(function (currDonation) {
-                    return currDonation.includeInAlgorithm && currDonation.date == date 
-                })
-            } 
+            scope.mapDonationsAndProductsIds = function (donations) {
+                var relevantDonations = {};
+                donations.forEach(donation => {
+                    if (!relevantDonations[donation._id]) relevantDonations[donation._id] = [];
+                    relevantDonations[donation._id].push(donation.product._id);           
+                });
 
-            
+                return relevantDonations;
+            }
+
+            scope.getDonationsForAlgo = function (date) {
+                return scope.donations.filter(donation => {
+                    // TODO
+                    // && currDonation.date == date 
+                    return (donation.includeInAlgorithm);                  
+                });
+            }            
 		}
 	}
 }]);

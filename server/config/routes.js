@@ -34,6 +34,7 @@ module.exports = function(app) {
    * Givaway
    */
   app.get("/giveaways", giveaways.getAllGivaways);
+  app.post("/getGiveawaysByIds", giveaways.getGiveawaysByIds);
   app.get("/giveaways/:id", giveaways.getGiveawayById);
   app.post("/giveaways", giveaways.createGiveawayWithProducts);
   app.post("/giveaways/:id/products", giveaways.addProductToGiveaway);

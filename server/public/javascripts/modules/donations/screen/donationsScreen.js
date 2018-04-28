@@ -4,7 +4,11 @@ angular.module("AsifHayir").controller("donations", function ($scope, DonationsS
         $('[data-toggle="tooltip"]').tooltip()
       })
 
-    DonationsService.getDonations().then(function (data) {
-        $scope.donations = data;
+    DonationsService.getDonations().then(function (res) {
+        $scope.donations = [];
+
+        res.data.forEach(givaway => {
+            $scope.donations = $scope.donations.concat(DonationsService.flatDonationWithProducts(givaway));
+        });
     });   
 });

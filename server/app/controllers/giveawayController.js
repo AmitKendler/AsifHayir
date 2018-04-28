@@ -22,6 +22,23 @@ exports.getAllGivaways = function(req, res, next) {
 	});
 };
 
+exports.getGiveawaysByIds = function(req, res, next) {
+	let ids = req.body;
+
+	let mongoIds = [];
+	mongoIds = ids.map(id => mongoose.Types.ObjectId(id));
+
+	Giveaway.find()
+		.where('_id')
+  	    .in(mongoIds)
+		.populate("products")
+		.exec(function(err, data) {
+			if (err) return next(err);
+
+			res.send(data);
+		});
+};
+
 exports.getGiveawayById = function(req, res, next) {
 	Giveaway.findById(req.params.id)
 		.populate("products")

@@ -9,55 +9,77 @@ angular.module('AsifHayir')
 		templateUrl: "/javascripts/modules/donations/table/donationsTable.html",
 	    link: function(scope, element, attrs) {
 
-			scope.columnWidth = scope.hideCheckboxes ? "14%" : "13%";
+			scope.columnWidth = scope.hideCheckboxes ? "13%" : "11%";
 
 			scope.tableColumns = [
 				{
 					label: "סוג",
-					getValue: function (row) { return scope.getTypeLabel(row.type); }
+					getValue: function (row) { return scope.getTypeLabel(row.product.prodType); },
+					width: "10%"
 				},
 				{
 					label: "איש קשר",
-					getValue: "contactName"
+					getValue: "contact.name",
+					width: "13%"
 				},
 				{
 					label: "טלפון",
-					getValue: "contactPhone"
+					getValue: "contact.phone",
+					width: "13%"
 				},
 				{
 					label: "תרומה",
-					getValue: "title"
+					getValue: "product.name",
+					width: "11%"
 				},
 				{
 					label: "תיאור",
-					getValue: "description"
+					getValue: "product.description",
+					width: "12%"
 				},
 				{
 					label: "כתובת לאיסוף",
-					getValue: function (row) { return scope.getAddressLabel(row.address); }
+					getValue: function (row) { return scope.getAddressLabel(row.address); },
+					width: "13%"
 				},
 				{
-					label: "זמין בשעות",
-					getValue: function (row) { return scope.getTimeLabel(row.pickupTime); }
+					label: "זמין מ",
+					getValue: function (row) { return scope.getTimeLabel(row.pickupTime.startTime); },
+					width: "16%"
+				},
+				{
+					label: "זמין עד",
+					getValue: function (row) { return scope.getTimeLabel(row.pickupTime.endTime); },
+					width: "16%"
 				}
 			];
 
 			scope.getValue = function (column, row) {
-				return (typeof(column.getValue) == "string") ? row[column.getValue] : column.getValue(row);
+				return (typeof(column.getValue) == "string") ? scope.getNestedValue(row, column.getValue) : 
+															   column.getValue(row);
+			}
+
+			scope.getNestedValue = function (object, property) {
+
+				var obj = angular.copy(object);
+				var properties = property.split(".");
+				properties.forEach(x => obj = obj[x]);
+
+				return obj;
 			}
 
 			scope.TYPE_ENUM = {
-				0: "אוכל",
-				1: "ביגוד",
-				2: "ריהוט"
+				FOOD: "אוכל",
+				CLOTHES: "ביגוד",
+				FURNITURE: "ריהוט"
 			};
 
 			scope.STATUS_ENUM = {
-				0: "חדש",
-				1: "ממתין",
-				2: "התקבל",
-				3: "ממתין לאיסוף",
-				4: "נשלח"
+				NEW: "חדש",
+				PENDING: "ממתין",
+				TAKEN: "נלקח"
+				// 3: "ממתין לאיסוף",
+				// 4: "נשלח"
 			};
 
 			scope.getTypeLabel = function (type) {
@@ -73,7 +95,12 @@ angular.module('AsifHayir')
 			}
 
 			scope.getTimeLabel = function (pickupTime) {
-				return (pickupTime.isAllDay) ? "כל היום" : (pickupTime.start + "-" + pickupTime.end);
+				return scope.stringToDate(pickupTime);
+				// return (scope.stringToDate(pickupTime.startTime) + "-" + scope.stringToDate(pickupTime.endTime));
+			}
+
+			scope.stringToDate = function (dateString) {
+				return (new Date(dateString)).toLocaleString();
 			}
 		}
 	}
@@ -83,20 +110,20 @@ angular.module('AsifHayir').directive('popoverAdvancedDetails', function($compil
 	return {
 		restrict: 'E',		  
 		scope: {
-			info: "=",
+			product: "=",
 			type: "="
 		},
 		link: function(scope, element, attrs) {
 
 			scope.AMOUNT_TYPE_ENUM = {
-				0: "פריטים",
-				1: "ק''ג",
-				2: "ליטר",
-				3: "חלקים"
+				ITEMS: "פריטים",
+				KG: "ק''ג",
+				LITRE: "ליטר",
+				PORTIONS: "חלקים"
 			};
 
-			scope.getAmountTypeLabel = function (type) {
-				return scope.AMOUNT_TYPE_ENUM[type];
+			scope.getAmountTypeLabel = function (amountUnits) {
+				return scope.AMOUNT_TYPE_ENUM[amountUnits];
 			}
 
 			scope.definePopover = function () {
@@ -116,15 +143,15 @@ angular.module('AsifHayir').directive('popoverAdvancedDetails', function($compil
 			scope.getPopoverIdByType = function () {
 
 				switch (scope.type) {
-					case 0: return "foodPopover";
-					case 1: return "clothingPopover";
-					case 2: return "furniturePopover";
+					case "FOOD": return "foodPopover";
+					case "CLOTHES": return "clothingPopover";
+					case "FURNITURE": return "furniturePopover";
 					default: return "";
 				}
 			}
 
 			scope.getIconClass = function (key, valueForSuccess)	 {
-				return (scope.info[key] == valueForSuccess) ? 'fa fa-check success-icon' : 'fa fa-times danger-icon';
+				return (scope.product[key] == valueForSuccess) ? 'fa fa-check success-icon' : 'fa fa-times danger-icon';
 			}
 
 			scope.definePopover();
