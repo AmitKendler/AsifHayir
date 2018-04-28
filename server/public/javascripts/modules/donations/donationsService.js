@@ -12,9 +12,9 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
                 {
                     _id: 1,
                     includeInAlgorithm: true,
-                    contactName: "שמנצלר",
+                    contactName: "עמית קנדלר",
                     contactPhone: "0525310385",
-                    title: "פיתות",
+                    title: "חלב",
                     type: 0,
                     address: {
                         location:{
@@ -29,14 +29,14 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
                     pickupTime: {
                         isAllDay: true
                     },
-                    description: "אחלה פיתות",
+                    description: "חלב 3%",
                     status: "חדש",
                     advanced: {
                         isPacked: true,
                         isHot: false,
                         kosher: true,
-                        amount: 10,
-                        amountType: 1
+                        amount: 3,
+                        amountType: 2
                     }
                 },
                 {
@@ -44,7 +44,7 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
                     includeInAlgorithm: true,
                     contactName: "מאי דרורי",
                     contactPhone: "0525310388",
-                    title: "כל מיני בגדים",
+                    title: "חולצות",
                     type: 1,
                     address: {
                         location:{
@@ -61,7 +61,7 @@ angular.module("AsifHayir").factory('DonationsService', function($http, $q) {
                         start: "08:00",
                         end: "22:00"
                     },
-                    description: "אחלה מכנסיים",
+                    description: "חולצות ארוכות",
                     status: "חדש",
                     advanced: {
                         condition: "חדש",

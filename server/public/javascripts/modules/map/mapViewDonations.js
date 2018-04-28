@@ -66,7 +66,7 @@ angular.module('AsifHayir')
 			}
 
 			scope.initMap();
-			
+
 				// var locations = [
 				// 	['Bondi Beach', 31.95906228990288,34.77139596361667, 4],
 				// 	['Coogee Beach', 32.013013644060564,34.7459377348423, 5],
@@ -100,10 +100,6 @@ angular.module('AsifHayir')
 				// 		window.alert('Directions request failed due to ' + status);
 				// 	}
 				// 	});
-
-				function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-
-				}
 			}
 		}
 }]);
