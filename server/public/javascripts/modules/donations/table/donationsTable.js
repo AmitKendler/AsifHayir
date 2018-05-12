@@ -76,10 +76,8 @@ angular.module('AsifHayir')
 
 			scope.STATUS_ENUM = {
 				NEW: "חדש",
-				PENDING: "ממתין",
+				PENDING: "ממתין לאיסוף",
 				TAKEN: "נלקח"
-				// 3: "ממתין לאיסוף",
-				// 4: "נשלח"
 			};
 
 			scope.getTypeLabel = function (type) {

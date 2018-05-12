@@ -5,7 +5,6 @@ const AddressSchema = commonModels.AddressSchema;
 const LocationSchema = commonModels.LocationSchema;
 
 const  UserSchema = new Schema({
-	authId: {type: String, required: true},
 	firstName: {type: String, required: true},
 	lastName: String,
 	imageUrl: String,

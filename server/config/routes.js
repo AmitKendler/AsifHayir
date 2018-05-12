@@ -38,6 +38,7 @@ module.exports = function(app) {
   app.get("/giveaways/:id", giveaways.getGiveawayById);
   app.post("/giveaways", giveaways.createGiveawayWithProducts);
   app.post("/giveaways/:id/products", giveaways.addProductToGiveaway);
+  app.put("/editProductInGiveaway/:productId", giveaways.editProductInGiveaway);
 
   /**
    * Route

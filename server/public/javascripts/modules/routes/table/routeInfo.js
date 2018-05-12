@@ -1,5 +1,6 @@
 angular.module('AsifHayir')
-	.directive('routeInfo', ['VolunteersService', 'DonationsService', function(VolunteersService, DonationsService) {
+	.directive('routeInfo', ['VolunteersService', 'DonationsService', '$http', 
+	function(VolunteersService, DonationsService, $http) {
 	  return {
 	  	restrict: 'E',
 	  	scope: {
@@ -60,10 +61,31 @@ angular.module('AsifHayir')
 
 			scope.loadVolunteers = function () {
 				if (!scope.volunteers) {
-					VolunteersService.getVolunteers().then(function (data) {
-						scope.volunteers = data;
+					VolunteersService.getVolunteers().then(function (res) {
+						scope.volunteers = res.data;
 					});
 				}
+			}
+
+			scope.getAllProductsOfRoute = function () {
+				var productsIds = [];
+				scope.route.paths.forEach(path => {
+					for (var key in path.donations) {
+						productsIds = productsIds.concat(path.donations[key])
+					}
+				});
+
+				return productsIds;
+			}
+
+			scope.startRoute = function () {
+
+				scope.getAllProductsOfRoute().forEach(productsId => {
+
+					$http.put(`/editProductInGiveaway/${productsId}`, {status: "PENDING"}).then(function(res) {
+					 
+					});
+				});
 			}
 
 			scope.loadDonations();

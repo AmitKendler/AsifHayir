@@ -2,7 +2,7 @@
   <table class="table table-striped" >
       <thead>
         <tr>
-          <th>תעודת זהות</th>
+          <!-- <th>תעודת זהות</th> -->
           <th>שם מלא</th>
           <th>כתובת</th>
           <th>טלפון</th>
@@ -12,7 +12,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="volunteer in volunteers track by $index">
-          <td>{{ volunteer.identity }}</td>
+          <!-- <td>{{ volunteer.identity }}</td> -->
           <td>{{ volunteer.firstName }} {{ volunteer.lastName }}</td>
           <td>{{ getAddressLabel(volunteer.address) }}</td>
           <td>{{ volunteer.phone }}</td>

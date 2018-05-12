@@ -1,7 +1,7 @@
 angular.module("AsifHayir").controller("volunteers", function ($scope, VolunteersService) {
     
-    VolunteersService.getVolunteers().then(function (data) {
-        $scope.volunteers = data;       
+    VolunteersService.getVolunteers().then(function (res) {
+        $scope.volunteers = res.data;       
     });
 
     $scope.onOpenDialog = function (volunteer) {
@@ -14,12 +14,11 @@ angular.module("AsifHayir").controller("volunteers", function ($scope, Volunteer
         $scope.volunteer._id = 1;
         $scope.volunteers.push($scope.volunteers);
 
-        // TODO remove from comment
-        // VolunteersService.addVolunteer($scope.volunteer).then(function () {
-        //     VolunteersService.getVolunteers().then(function (data) {
-        //         $scope.volunteers = data;
-        //     })
-        // })
+        VolunteersService.addVolunteer($scope.volunteer).then(function () {
+            VolunteersService.getVolunteers().then(function (res) {
+                $scope.volunteers = res.data;
+            })
+        })
     }
 
     $scope.updateVolunteer = function () {

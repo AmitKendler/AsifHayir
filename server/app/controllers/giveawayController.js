@@ -159,7 +159,19 @@ exports.editGiveaway = function(req, res, next) {
 	});
 };
 
-exports.editProductInGiveaway = function(req, res, next) {};
+exports.editProductInGiveaway = function(req, res, next) {
+	Product.findById(req.params.productId).exec(function(err, product) {
+		if (err) return next(err);
+
+		// Setting up chnages
+		Object.assign(product, req.body);
+		product.save(function(err, updatedProduct) {
+			if (err) return next(err);
+
+			res.send(updatedProduct);
+		});
+	});
+};
 
 exports.deleteProductFromGiveaway = function(req, res, next) {
 	Giveaway.update(

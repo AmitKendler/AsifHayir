@@ -44,42 +44,8 @@ angular.module('AsifHayir')
 
 			scope.loadVolunteers = function () {
 				if (!scope.volunteers) {
-					VolunteersService.getVolunteers().then(function (data) {
-						// TODO
-						scope.volunteers = [
-							{
-								_id: 1,
-								identity: 362236985,
-								firstName: "גל",
-								lastName: "דרורי",
-								address: "השיטה 34 אורנית",
-								phone: "052-5310385"                
-							},
-							{
-								_id: 2,
-								identity: 362236985,
-								firstName: "מאי",
-								lastName: "דרורי",
-								address: "השיטה 34 אורנית",
-								phone: "052-5310385"                
-							},
-							{
-								_id: 3,
-								identity: 362236985,
-								firstName: "עדי",
-								lastName: "דרורי",
-								address: "השיטה 34 אורנית",
-								phone: "052-5310385"                
-							},
-							{
-								_id: 4,
-								identity: 362236985,
-								firstName: "איריס",
-								lastName: "דרורי",
-								address: "השיטה 34 אורנית",
-								phone: "052-5310385"                
-							}
-						];
+					VolunteersService.getVolunteers().then(function (res) {
+						scope.volunteers = res.data;
 					});
 				}
 			}

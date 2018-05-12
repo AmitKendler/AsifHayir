@@ -129,6 +129,11 @@ table.scroll tbody {
   justify-content: right;
 }
 
+.align-left {
+  display: flex;
+  justify-content: left;
+}
+
 .pull-right {
   float: right;
 }
@@ -324,6 +329,16 @@ table.scroll tbody {
   position: absolute;
   bottom: 1.4%;
   margin-right: 20px;
+}
+
+.btn-route-start {
+  position: absolute;
+  /* bottom: 1.4%; */
+  margin-top: 10px;
+  margin-left: 20px;
+  background-color: #5bc0de;
+  font-weight: bold;
+  width: 200px;
 }
 
 .btn-route-settings i {
