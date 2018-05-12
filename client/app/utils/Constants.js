@@ -1,5 +1,5 @@
 export default {
-	BACKEND_URL: "http://192.168.1.26:3000",
+	BACKEND_URL: "http://192.168.1.11:3000",
 	GIVEAWAY_TYPES: {
 		FOOD: "FOOD",
 		CLOTHES: "CLOTHES",

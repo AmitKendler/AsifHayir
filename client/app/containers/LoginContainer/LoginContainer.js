@@ -13,10 +13,29 @@ import {
     Left,
     Right
 } from "native-base";
+import { Facebook } from "expo";
+import firebase from "firebase";
 
 import styles from "./styles";
 
 import media from "./../../media";
+
+// Enter your Facebooko app ID here.
+const FACEBOOK_APP_ID = "1946764752034197";
+
+var config = {
+    apiKey: "AIzaSyCLjvInkTICWVDqRKx7HcGztQD--pI0mEE",
+    authDomain: "leftright-2e5de.firebaseapp.com",
+    databaseURL: "https://leftright-2e5de.firebaseio.com",
+    projectId: "leftright-2e5de",
+    storageBucket: "leftright-2e5de.appspot.com",
+    messagingSenderId: "371521623116"
+};
+
+firebase.initializeApp(config);
+
+const auth = firebase.auth();
+const provider = new firebase.auth.FacebookAuthProvider();
 
 class LoginContainer extends Component {
     constructor(props) {
@@ -25,6 +44,34 @@ class LoginContainer extends Component {
             username: "",
             password: ""
         };
+    }
+
+    async handleFacebookButton() {
+        const {
+            type,
+            token
+        } = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID, {
+            permissions: ["public_profile", "email"]
+        });
+        if (type === "success") {
+            //Firebase credential is created with the Facebook access token.
+            const credential = firebase.auth.FacebookAuthProvider.credential(
+                token
+            );
+
+            try {
+                const currentUser = await firebase
+                    .auth()
+                    .signInAndRetrieveDataWithCredential(credential);
+                console.info(JSON.stringify(currentUser.toJSON()));
+
+                // TODO : send server side request to return real user
+
+                Actions.HomeContainer();
+            } catch (e) {
+                console.error(e);
+            }
+        }
     }
 
     render() {
@@ -45,6 +92,7 @@ class LoginContainer extends Component {
                         />
 
                         <View style={styles.bg}>
+                            {/*
                             <Item rounded style={styles.inputGrp}>
                                 <Icon name="person" style={styles.icon} />
                                 <Input
@@ -67,14 +115,14 @@ class LoginContainer extends Component {
                                     style={styles.input}
                                 />
                             </Item>
-
+                        */}
                             <Button
                                 rounded
                                 primary
                                 block
                                 large
                                 style={styles.loginBtn}
-                                onPress={Actions.HomeContainer}
+                                onPress={() => this.handleFacebookButton()}
                             >
                                 <Text
                                     style={
@@ -90,11 +138,11 @@ class LoginContainer extends Component {
                                               }
                                     }
                                 >
-                                    התחבר
+                                    Login With Facebook
                                 </Text>
                             </Button>
 
-                            <View style={styles.otherLinksContainer}>
+                            {/*<View style={styles.otherLinksContainer}>
                                 <Left>
                                     <Button
                                         transparent
@@ -116,8 +164,8 @@ class LoginContainer extends Component {
                                     </Button>
                                 </Right>
                             </View>
+                        */}
                         </View>
-
                     </ImageBackground>
 
                 </Content>
