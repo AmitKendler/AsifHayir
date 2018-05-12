@@ -51,6 +51,7 @@ module.exports = function(app) {
   /**
    * User
    */
+  app.get("/login", users.login);
   app.post("/addUser", users.addUser);
   app.get("/getAllUsers", users.getAllUsers);
   app.get("/getDonors", users.getDonors);
