@@ -49,6 +49,16 @@ exports.getGiveawayById = function(req, res, next) {
 		});
 };
 
+exports.getGiveawaysByUser = function (req, res, next) {
+	Giveaway.find({userId: mongoose.Types.ObjectId(req.params.userId)})
+		.populate("products")
+		.exec(function (err, data) {
+			if (err) return next(err);
+
+			res.send(data);
+		})
+}
+
 exports.createGiveaway = function(req, res, next) {
 	let giveaway = req.body;
 

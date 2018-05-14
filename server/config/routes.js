@@ -39,6 +39,7 @@ module.exports = function(app) {
   app.post("/giveaways", giveaways.createGiveawayWithProducts);
   app.post("/giveaways/:id/products", giveaways.addProductToGiveaway);
   app.put("/editProductInGiveaway/:productId", giveaways.editProductInGiveaway);
+  app.get("/giveaways/users/:userId", giveaways.getGiveawaysByUser);
 
   /**
    * Route
@@ -51,6 +52,7 @@ module.exports = function(app) {
   /**
    * User
    */
+  app.get("/login", users.login);
   app.post("/addUser", users.addUser);
   app.get("/getAllUsers", users.getAllUsers);
   app.get("/getDonors", users.getDonors);

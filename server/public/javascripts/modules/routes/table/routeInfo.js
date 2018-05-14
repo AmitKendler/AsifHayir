@@ -40,12 +40,8 @@ angular.module('AsifHayir')
 			}
 
 			scope.onChangePath = function (pathIndex) {
-				scope.currentTabIndex = pathIndex;
-							
+				scope.currentTabIndex = pathIndex;							
 				scope.donations = scope.getDonationsForPath(pathIndex);
-				// DonationsService.getDonationsByIds(scope.route.paths[pathIndex].donations).then(function (res) {
-				// 	scope.donations = res.data;
-				// }); 
 			}
 
 			scope.getVolunteerName = function(id) {
@@ -80,14 +76,38 @@ angular.module('AsifHayir')
 
 			scope.startRoute = function () {
 
-				scope.getAllProductsOfRoute().forEach(productsId => {
+				var routeProductIds = scope.getAllProductsOfRoute();
+
+				routeProductIds.forEach((productsId, index) => {
 
 					$http.put(`/editProductInGiveaway/${productsId}`, {status: "PENDING"}).then(function(res) {
-					 
+
+						// Check if this one is the last request
+						if (index == routeProductIds.length - 1) {
+
+							// Update route status
+							scope.route.status = "STARTED";
+							RoutesService.updateRouteStatus(scope.route).then(function(res) {
+								scope.setUIRouteStatus(); 
+							});
+						}
 					});
 				});
 			}
 
+			scope.setUIRouteStatus = function () {
+				var html = "צא לדרך";
+				if (scope.route.status == "STARTED") {
+					html = "יצאנו לדרך!";
+					scope.startedRoute = true;
+				}
+				else if (scope.route.status == "FINISHED") {
+					html = "המסלול הסתיים בהצלחה";
+					scope.startedRoute = true;
+				}
+			}
+
+			scope.setUIRouteStatus();
 			scope.loadDonations();
 			scope.loadVolunteers();
 		}

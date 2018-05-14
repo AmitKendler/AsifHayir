@@ -1,5 +1,5 @@
 angular.module('AsifHayir')
-	.directive('routeSettingsModal', ['VolunteersService', '$http', function(VolunteersService, $http) {
+	.directive('routeSettingsModal', ['VolunteersService','RoutesService', '$http', function(VolunteersService, RoutesService, $http) {
 	  return {
 	  	restrict: 'E',
 		templateUrl: "/javascripts/modules/modals/routeSettingsModal/routeSettingsModal.html",
@@ -12,7 +12,7 @@ angular.module('AsifHayir')
 					// Set the new settings
 					scope.route = scope.routeCopy;
 
-					$http.put(`/updateRoute/${scope.route._id}`, scope.route).then(function(res) {
+					RoutesService.updateRoute(scope.route).then(function(res) {
 						// Close the modal
 						$("#routeSettingsModal").modal("hide");
 					});

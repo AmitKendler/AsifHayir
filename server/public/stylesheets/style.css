@@ -339,6 +339,7 @@ table.scroll tbody {
   background-color: #5bc0de;
   font-weight: bold;
   width: 200px;
+  color: white;
 }
 
 .btn-route-settings i {
@@ -368,4 +369,21 @@ table.scroll tbody {
 
 .modal {
   margin-top: 70px;
+}
+
+.authButtons {
+	margin: 22px;
+	white-space: nowrap;
+	display: inline-block;
+	float:right;
+}
+
+.authButton:hover {
+  color: blue;
+  cursor: pointer;
+}
+
+.authButton {
+	display: inline-block;
+	margin-left: 10px;
 }

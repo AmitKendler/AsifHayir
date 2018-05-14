@@ -14,6 +14,14 @@ var pkg = require("../package.json");
 
 var env = process.env.NODE_ENV || "development";
 
+var admin = require('firebase-admin');
+
+var serviceAccount = require('./leftright-2e5de-firebase-adminsdk-dy52h-364addfc54.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://leftright-2e5de.firebaseio.com/'
+});
 /**
  * Expose
  */
@@ -40,6 +48,18 @@ module.exports = function(app) {
     })
   );
   app.use(bodyParser.json());
+  app.use(function (req, res, next) {
+    let idToken = req.header('auth-token');
+    admin.auth().verifyIdToken(idToken)
+      .then(function(decodedToken) {
+        // var uid = decodedToken.uid;
+        next();
+      }).catch(function(error) {
+        // Handle error
+        console.log("Unauthorized user in request " + req.originalUrl);
+        res.send(403)
+      });
+  })
   app.use(function (err, req, res, next) {
     console.error(err.stack)
     res.status(500).send(err);

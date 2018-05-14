@@ -10,10 +10,6 @@ angular.module("AsifHayir").controller("volunteers", function ($scope, Volunteer
 
     $scope.addVolunteer = function() {
 
-        // TODO: delete this 
-        $scope.volunteer._id = 1;
-        $scope.volunteers.push($scope.volunteers);
-
         VolunteersService.addVolunteer($scope.volunteer).then(function () {
             VolunteersService.getVolunteers().then(function (res) {
                 $scope.volunteers = res.data;
