@@ -14,11 +14,15 @@ import {
 	CheckBox,
 	Content,
 	Right,
+	Spinner,
 	ListItem
 } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import { ImagePicker } from "expo";
+import { ImagePicker, Permissions } from "expo";
 import media from "./../../media";
+import firebase from "firebase";
+import uuid from "uuid";
+
 const PickerItem = Picker.Item;
 
 class CameraPicker extends Component {
@@ -26,43 +30,91 @@ class CameraPicker extends Component {
 		super(props);
 
 		this.state = {
-			itemImage: null
+			itemImage: null,
+			uploading: false
 		};
 	}
 
 	pickImage = async () => {
-		let result = await ImagePicker.launchCameraAsync({
-			allowsEditing: true,
-			aspect: [4, 3]
-		});
+		try {
+			const results = await Promise.all([
+				Permissions.askAsync(Permissions.CAMERA_ROLL),
+				Permissions.askAsync(Permissions.CAMERA)
+			]);
+			if (results.some(({ status }) => status !== "granted")) {
+				alert("no permissions to camera");
+			} else {
+				let result = await ImagePicker.launchCameraAsync({
+					allowsEditing: true,
+					aspect: [4, 3]
+				});
 
-		if (!result.cancelled) {
-			console.log(result.uri);
-			this.setState({ itemImage: result.uri });
+				this.handleImagePicked(result);
+			}
+		} catch (e) {
+			console.log("erorr", e);
 		}
+	};
+
+	handleImagePicked = async pickerResult => {
+		let uploadUrl;
+		try {
+			this.setState({ uploading: true });
+
+			if (!pickerResult.cancelled) {
+				uploadUrl = await this.uploadImageAsync(pickerResult.uri);
+			}
+		} catch (e) {
+			console.log(e);
+			alert("Upload failed, sorry :(");
+		} finally {
+			this.setState({ itemImage: uploadUrl });
+			this.setState({ uploading: false });
+
+			if (this.props.productObject && uploadUrl) {
+				this.props.productObject.imageUrl = uploadUrl;
+			}
+		}
+	};
+
+	uploadImageAsync = async uri => {
+		const response = await fetch(uri);
+		const blob = await response.blob();
+		const ref = firebase.storage().ref().child("products/" + uuid.v4());
+
+		const snapshot = await ref.put(blob);
+		const downloadUrl = snapshot.ref.getDownloadURL();
+		return downloadUrl;
 	};
 
 	render() {
 		return (
-			<TouchableOpacity onPress={this.pickImage}>
-				{!this.state.itemImage
-					? <Thumbnail large source={media.colors.lightgrey} />
-					: <Thumbnail
-							large
-							source={{ uri: this.state.itemImage }}
-						/>}
-				{!this.state.itemImage &&
-					<Icon
-						style={{
-							color: "#fff",
-							top: 24,
-							fontSize: 34,
-							left: 26,
-							position: "absolute"
-						}}
-						name="camera"
-					/>}
-			</TouchableOpacity>
+			<View>
+				{this.state.uploading
+					? <Spinner />
+					: <TouchableOpacity onPress={this.pickImage}>
+							{!this.state.itemImage
+								? <Thumbnail
+										large
+										source={media.colors.lightgrey}
+									/>
+								: <Thumbnail
+										large
+										source={{ uri: this.state.itemImage }}
+									/>}
+							{!this.state.itemImage &&
+								<Icon
+									style={{
+										color: "#fff",
+										top: 24,
+										fontSize: 34,
+										left: 26,
+										position: "absolute"
+									}}
+									name="camera"
+								/>}
+						</TouchableOpacity>}
+			</View>
 		);
 	}
 }
@@ -149,7 +201,7 @@ class GeneralInfoContainer extends Component {
 		let { productObject } = this.props;
 		return (
 			<Form style={{ alignItems: "center" }}>
-				<CameraPicker />
+				<CameraPicker productObject={productObject} />
 				<Item floatingLabel style={{ marginLeft: 35, marginRight: 35 }}>
 					<Label
 						style={{

@@ -4,11 +4,12 @@
     "icon": "./logo.png",
     "version": "1.0.0",
     "slug": "asif-hayir-hacham",
-    "sdkVersion": "23.0.0",
+    "sdkVersion": "27.0.0",
     "ios": {
       "bundleIdentifier": "com.kendler.asifhayir"
     },
     "android": {
+      "permissions": ["CAMERA","CAMERA_ROLL"],
       "package": "com.yourcompany.asifhayir",
       "config" : {"googleMaps" : {"apiKey" : "AIzaSyCGYJV0FxTXfKgR9TrcZh7Z1rBc3L8zPKE"}}
     }
