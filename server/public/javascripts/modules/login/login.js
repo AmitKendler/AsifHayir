@@ -1,19 +1,39 @@
 var app = angular.module("AsifHayir");
-// angular.module("fireLearning", ["firebase", "ngRoute", "ui.bootstrap"]);
-var ref = firebase.database().ref();
-// new Firebase("https://leftright-2e5de.firebaseio.com");
 
+// var ref = firebase.database().ref();
 
-app.factory("Auth", function($firebaseAuth){
-	return $firebaseAuth();
-});
+app.controller("AuthCtrl", function($scope, $location, $firebaseAuth){
 
-app.controller("AuthCtrl", function($scope, $location, Auth){
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCLjvInkTICWVDqRKx7HcGztQD--pI0mEE",
+        authDomain: "leftright-2e5de.firebaseapp.com",
+        databaseURL: "https://leftright-2e5de.firebaseio.com",
+        projectId: "leftright-2e5de",
+        storageBucket: "leftright-2e5de.appspot.com",
+        messagingSenderId: "371521623116"
+    };
+    firebase.initializeApp(config);
+
+    // const FACEBOOK_APP_ID = "1946764752034197";
+    // // $window.fbAsyncInit = function() {
+    // FB.init({ 
+    //     appId: FACEBOOK_APP_ID,
+    //     status: true, 
+    //     // cookie: true, 
+    //     xfbml: true,
+    //     version: 'v2.4'
+    // });
+    // // };
+
     $("#loginModal").modal();
+
+    var Auth = $firebaseAuth();
+    var provider = new firebase.auth.FacebookAuthProvider();
 
     // var auth = $firebaseAuth(ref);
 
-	$scope.provider = '';
+	// $scope.provider = '';
 	$scope.authData;
 
      // any time auth state changes, add the user data to scope
@@ -21,6 +41,16 @@ app.controller("AuthCtrl", function($scope, $location, Auth){
         $scope.firebaseUser = firebaseUser;
       });
 
+      $scope.signUp = function () {
+        firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
+            var user = firebase.auth().currentUser;
+            logUser(user); // Optional
+        }, function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        });
+      }
     //   Auth.$onAuth(function(authData){
 	// 	$scope.authData = authData;
 	// 	if(authData) {
@@ -31,13 +61,69 @@ app.controller("AuthCtrl", function($scope, $location, Auth){
 	// 	console.log($scope.authData);
 	// });
 
-	$scope.login = function(provider) {
-        Auth.$signInWithPopup(provider);
-		// Auth.$authWithOAuthPopup(provider,  { scope: 'email' })
-		// .catch(function(error){
-		// 	console.error(error);
-		// })
-	}
+    // FB.Event.subscribe('auth.authResponseChange', checkLoginState);
+
+    // FB.init({
+    //     appId      : "1946764752034197",
+    //     status     : true,
+    //     xfbml      : true,
+    //     version    : 'v2.6'
+    // });
+
+    // FB.Event.subscribe('auth.authResponseChange', checkLoginState);
+
+    // function checkLoginState(event) {
+    //     if (event.authResponse) {
+    //       // User is signed-in Facebook.
+    //       var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
+    //         unsubscribe();
+    //         // Check if we are already signed-in Firebase with the correct user.
+    //         if (!isUserEqual(event.authResponse, firebaseUser)) {
+    //           // Build Firebase credential with the Facebook auth token.
+    //           var credential = firebase.auth.FacebookAuthProvider.credential(
+    //               event.authResponse.accessToken);
+    //           // Sign in with the credential from the Facebook user.
+    //           firebase.auth().signInAndRetrieveDataWithCredential(credential).catch(function(error) {
+    //             // Handle Errors here.
+    //             var errorCode = error.code;
+    //             var errorMessage = error.message;
+    //             // The email of the user's account used.
+    //             var email = error.email;
+    //             // The firebase.auth.AuthCredential type that was used.
+    //             var credential = error.credential;
+    //             // ...
+    //           });
+    //         } else {
+    //           // User is already signed-in Firebase with the correct user.
+    //         }
+    //       });
+    //     } else {
+    //       // User is signed-out of Facebook.
+    //       firebase.auth().signOut();
+    //     }
+    //   }
+
+	// function login () {
+    //     firebase.auth().signInWithPopup(provider).then(function(result) {
+    //         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+    //         var token = result.credential.accessToken;
+    //         // The signed-in user info.
+    //         var user = result.user;
+    //         // ...
+    //       }).catch(function(error) {
+    //         // Handle Errors here.
+    //         var errorCode = error.code;
+    //         var errorMessage = error.message;
+    //         // The email of the user's account used.
+    //         var email = error.email;
+    //         // The firebase.auth.AuthCredential type that was used.
+    //         var credential = error.credential;
+    //         // ...
+    //       });
+
+    //     // Auth.$signInWithPopup(provider);
+	
+	// }
 
 	$scope.logout = function() {
 		Auth.$unauth();
