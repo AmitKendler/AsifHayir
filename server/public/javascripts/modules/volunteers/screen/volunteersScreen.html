@@ -16,12 +16,12 @@
 
             <div class="modal-body">
                 <form id="volunteersForm" name="volunteersForm" novalidate>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-12 form-group">
                             <label for="number">תעודת זהות</label>
                             <input type="number" name="identity" class="form-control" id="identity" ng-model="volunteer.identity" placeholder="תעודת זהות" required>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="col-md-6 form-group">
                             <label for="firstName">שם פרטי</label>
@@ -33,9 +33,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label for="address">כתובת</label>
-                            <input type="text" id="address" namee="address" class="form-control" placeholder="כתובת" ng-model="volunteer.address">
+                        <div class="col-md-4 form-group">
+                            <label for="address">עיר מגורים</label>
+                            <input type="text" id="city" name="city" class="form-control" placeholder="עיר" ng-model="volunteer.address.city">
+                         </div>
+                         <div class="col-md-4 form-group">
+                            <label for="street">רחוב</label>
+                            <input type="text" id="street" name="street" class="form-control" placeholder="רחוב" ng-model="volunteer.address.streetName">
+                         </div>
+                         <div class="col-md-2 form-group">
+                            <label for="houseNumber">בית</label>
+                            <input type="text" id="houseNumber" name="houseNumber" class="form-control" placeholder="בית" ng-model="volunteer.address.houseNumber">
+                         </div>
+                         <div class="col-md-2 form-group">
+                            <label for="aptNumber">דירה</label>
+                            <input type="text" id="aptNumber" name="aptNumber" class="form-control" placeholder="דירה" ng-model="volunteer.address.aptNumber">
                          </div>
                     </div>    
                     <div class="row">

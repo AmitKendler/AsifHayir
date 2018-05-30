@@ -169,7 +169,41 @@ exports.editGiveaway = function(req, res, next) {
 	});
 };
 
-exports.editProductInGiveaway = function(req, res, next) {};
+exports.editProductInGiveaway = function editProductInGiveaway(req, res, next) {
+	Product.findById(req.params.productId).exec(function(err, product) {
+		if (err) return next(err);
+
+		// Setting up chnages
+		Object.assign(product, req.body);
+		product.save(function(err, updatedProduct) {
+			if (err) return next(err);
+
+			res.send(updatedProduct);
+		});
+	});
+};
+
+exports.changeProductsStatus = function (req, res, next) {
+	let productIds = req.body.productIds;
+	let status = req.body.status;
+
+	Product.find()
+			.where('id').in(productIds)
+			.exec(function (findErr, products) {
+				if (findErr) throw findErr;
+				let promises = [];
+				products.forEach(function (product){
+					product.status = status;
+					promises.push(product.save());
+				});
+
+				Promise.all(promises).then(function (saveErr, updatedProducts) {
+					if (saveErr) throw esaveErrrr;
+
+					res.send(updatedProducts);
+				})
+			})
+}
 
 exports.deleteProductFromGiveaway = function(req, res, next) {
 	Giveaway.update(
