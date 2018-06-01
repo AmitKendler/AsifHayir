@@ -83,6 +83,7 @@ const ActionTile = ({
 };
 
 @inject("userStore")
+@observer
 class UserContainer extends Component {
     constructor(props) {
         super(props);
@@ -109,8 +110,7 @@ class UserContainer extends Component {
                                     <Thumbnail
                                         large
                                         source={{
-                                            uri:
-                                                "https://images.pexels.com/photos/428339/pexels-photo-428339.jpeg?h=350&auto=compress&cs=tinysrgb 1x, https://images.pexels.com/photos/428339/pexels-photo-428339.jpeg?h=350&dpr=2&auto=compress&cs=tinysrgb 2x"
+                                            uri:userStore.user.imageUrl
                                         }}
                                     />
                                 </Col>

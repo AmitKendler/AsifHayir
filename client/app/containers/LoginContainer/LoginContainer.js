@@ -66,21 +66,26 @@ class LoginContainer extends Component {
                     .auth()
                     .signInAndRetrieveDataWithCredential(credential);
 
-                console.log("ok...");
-
                 if (currentUser) {
-                    console.info(JSON.stringify(currentUser));
-                    this.props.userStore.loginWithToken(
-                        currentUser.credential.accessToken
-                    );
-                    console.log(this.props.userStore);
+                    currentUser.user.getIdToken(true).then(idToken=>
+                    {
+                      this.props.userStore.loginWithToken(idToken,currentUser.user);
+                    });
+
+                //     .then(idtoken=>
+                //         {
+                //             console.log("idtoken",idtoken);
+                //     this.props.userStore.loginWithToken(idtoken
+                //     );
+                // });
+                    // console.log(this.props.userStore);  
                 } else {
                     alert("failed logon..");
                 }
 
                 // TODO : send server side request to return real user
 
-                //Actions.HomeContainer();
+                //Ap=
             } catch (e) {
                 console.error(e);
             }

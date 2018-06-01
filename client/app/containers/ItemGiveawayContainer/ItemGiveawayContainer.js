@@ -107,7 +107,7 @@ class ItemGiveawayContainer extends Component {
                     hasNext={!this.state.isCheckAvailable}
                     onPressNext={this.moveNext.bind(this)}
                     hasCheck={this.state.isCheckAvailable}
-                    onPressCheck={() => this.props.giveawayStore.postGiveaway()}
+                    onPressCheck={() => this.props.giveawayStore.postGiveaway(this.props.userStore.token)}
                 >
                     <Content>
                         <View style={styles.marginView} />

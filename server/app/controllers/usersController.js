@@ -3,11 +3,32 @@ const _ = require("lodash");
 const User = mongoose.model("User");
 
 exports.login = function(req, res, next) {
-    console.log("logging in..", req.body.token);
-    User.find({ authId: req.body.token }).exec(function(err, data) {
+    User.find({ authId: req.body.authId }).exec(function(err, data) {
         if (err) return next(err);
 
+        console.log("logging in..", data);
         res.send(data);
+    });
+};
+
+exports.postLogin = function(req, res, next) {
+    console.log("postlogin");
+    console.log(req.body);
+    User.find({ authId: req.body.authId }).exec(function(err, data) {
+        if (err) return next(err);
+        console.log("login data " + data);
+        if(!data.length) {
+            console.log("unexisting user..creating");
+            new User(req.body).save(function(err, user) {
+                if (err) return next(err);
+
+                    res.send(user);
+                }
+            );
+        } else {
+            res.send(data[0]);
+        }
+        console.log("logging in..", data);
     });
 };
 

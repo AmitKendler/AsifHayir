@@ -12,7 +12,8 @@ const  UserSchema = new Schema({
 	rank: Number,
 	phone: {type: String, required: true},
 	address: AddressSchema,
-	isVolunteer: {type: Boolean, required:true}
+	isVolunteer: {type: Boolean, required:true},
+	authId:{type: String, required : true}
 }, {collection: 'users'})
 
 mongoose.model("User", UserSchema);

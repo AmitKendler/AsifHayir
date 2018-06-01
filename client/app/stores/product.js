@@ -47,7 +47,7 @@ class Product {
 		this.products.push(product);
 	}
 
-	postGiveaway() {
+	postGiveaway(token) {
 		this.giveaway.products.push(this.product);
 		// TODO: Validate data
 		console.log(this.giveaway);
@@ -55,8 +55,9 @@ class Product {
 		fetch(Constants.BACKEND_URL + "/giveaways", {
 			method: "POST",
 			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
+				"Accept": "application/json",
+				"Content-Type": "application/json",
+				"auth-token":token
 			},
 			body: JSON.stringify(this.giveaway)
 		})
