@@ -39,6 +39,7 @@ module.exports = function(app) {
   app.post("/giveaways", giveaways.createGiveawayWithProducts);
   app.post("/giveaways/:id/products", giveaways.addProductToGiveaway);
   app.put("/editProductInGiveaway/:productId", giveaways.editProductInGiveaway);
+  app.put("/products/status", giveaways.changeProductsStatus);
   app.get("/giveaways/users/:userId", giveaways.getGiveawaysByUser);
 
   /**
