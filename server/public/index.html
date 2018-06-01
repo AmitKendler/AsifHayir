@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="AsifHayir">
+<html lang="en" ng-app="AsifHayir" ng-controller="AuthCtrl">
 <head>
     <meta charset="UTF-8">
     <title>אסיף העיר</title>
@@ -94,13 +94,11 @@
             if (!("Notification" in window)) {
                 console.log("This browser does not support system notifications");
             }
-
             // Let's check whether notification permissions have already been granted
             else if (Notification.permission === "granted") {
                 // If it's okay let's create a notification
                 var notification = new Notification("התקבלה תרומה חדשה! ראה במסך התרומות");
             }
-
             // Otherwise, we need to ask the user for permission
             else if (Notification.permission !== 'denied') {
                 Notification.requestPermission(function(permission) {
@@ -111,7 +109,7 @@
                 });
             }
 
-            setTimeout(notification.close.bind(notification), 5000);
+            if (notification) setTimeout(notification.close.bind(notification), 5000);
             // Finally, if the user has denied notifications and you 
             // want to be respectful there is no need to bother them any more.
         }
@@ -123,16 +121,32 @@
 <header>
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-toggleable-md">
     <div class="navbar-nav">
-        <a class="nav-item nav-link" ng-href="#!/donations">תרומות</a>
-        <a class="nav-item nav-link" ng-href="#!/vehicles">ניידות</a>
-        <a class="nav-item nav-link" ng-href="#!/volunteers">מתנדבים</a>
-        <a class="nav-item nav-link" ng-href="#!/statistics">סטטיסטיקות</a>
-        <a class="nav-item nav-link" ng-href="#!/findv">מציאת תרומה</a>
-        <a class="nav-item nav-link" ng-href="#!/photolabels">מרכיבי תרומה</a>
-        <a class="nav-item nav-link" ng-href="#!/routes">מסלולים</a>
+        <a class="nav-item nav-link" ng-href="#/donations">תרומות</a>
+        <a class="nav-item nav-link" ng-href="#/vehicles">ניידות</a>
+        <a class="nav-item nav-link" ng-href="#/volunteers">מתנדבים</a>
+        <a class="nav-item nav-link" ng-href="#/statistics">סטטיסטיקות</a>
+        <a class="nav-item nav-link" ng-href="#/findv">מציאת תרומה</a>
+        <a class="nav-item nav-link" ng-href="#/photolabels">מרכיבי תרומה</a>
+        <a class="nav-item nav-link" ng-href="#/routes">מסלולים</a>
     </div>
 </nav>
 </header>
 <main ng-view></main>
 </body>
 </html>
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+                <div class="loginmodal-container">
+                    <h3>Login to your account</h3><br>
+                <form name="loginForm" ng-submit="onLogin()">
+                    <input type="email" name="email" ng-model="email" placeholder="Email" required>
+                    <input type="password" name="pass" ng-model="password" placeholder="Password" required>
+                    <button type="submit" name="login" class="login loginmodal-submit">Log in</button>
+                    <button type="submit" name="register" class="register loginmodal-submit" ng-click="newUser=true">Register</button>
+    
+                </form>
+            </div>
+        </div>
+    </div>
+    
