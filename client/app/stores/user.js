@@ -1,6 +1,7 @@
 import { observable, action } from "mobx";
 import Constants from "./../utils/Constants";
 import { Actions } from "react-native-router-flux";
+import giveawayStore from "./giveaways";
 class User {
     @observable user = [];
     @observable token = "";
@@ -73,7 +74,8 @@ class User {
             .then(responseJson => {
                 this.token = token;
                 this.user = responseJson;
-                console.log(this.user);
+                console.log("user!",responseJson);
+                giveawayStore.loadGiveaways();
                 Actions.HomeContainer();
             })
             .catch(error => {

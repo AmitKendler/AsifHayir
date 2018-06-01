@@ -50,10 +50,12 @@ exports.getGiveawayById = function(req, res, next) {
 };
 
 exports.getGiveawaysByUser = function (req, res, next) {
+	console.log("getting giveways..",req.params.userId);
 	Giveaway.find({userId: mongoose.Types.ObjectId(req.params.userId)})
 		.populate("products")
 		.exec(function (err, data) {
 			if (err) return next(err);
+			console.log("giveaways found:",data);
 
 			res.send(data);
 		})

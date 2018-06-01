@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
 import Constants from "./../utils/Constants";
+import userStore from "./user";
 
 class Product {
 	@observable product;
@@ -47,7 +48,7 @@ class Product {
 		this.products.push(product);
 	}
 
-	postGiveaway(token) {
+	postGiveaway() {
 		this.giveaway.products.push(this.product);
 		// TODO: Validate data
 		console.log(this.giveaway);
@@ -57,7 +58,7 @@ class Product {
 			headers: {
 				"Accept": "application/json",
 				"Content-Type": "application/json",
-				"auth-token":token
+				"auth-token":userStore.token
 			},
 			body: JSON.stringify(this.giveaway)
 		})
