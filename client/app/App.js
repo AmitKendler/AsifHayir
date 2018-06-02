@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import {
-  HomeContainer,
-  ItemGiveawayContainer,
-  LoginContainer,
-  AboutUsContainer,
-  SettingsContainer
+    HomeContainer,
+    ItemGiveawayContainer,
+    LoginContainer,
+    AboutUsContainer,
+    SettingsContainer,
+    RegisterContainer
 } from "./containers";
 import { Scene, Router, Actions } from "react-native-router-flux";
 import { Provider } from "mobx-react/native";
@@ -15,9 +16,9 @@ import leaderboardStore from "./stores/leaderboard";
 import userStore from "./stores/user";
 
 export default class App extends React.Component {
-  render() {
-    return (
-      <Provider
+    render() {
+        return (
+            <Provider
         giveawaysStore={giveawaysStore}
         leaderboardStore={leaderboardStore}
         userStore={userStore}
@@ -51,18 +52,23 @@ export default class App extends React.Component {
               initial={true}
               hideNavBar={true}
             />
+            <Scene
+              key="RegisterContainer"
+              component={RegisterContainer}
+              hideNavBar={true}
+            />
           </Scene>
         </Router>
       </Provider>
-    );
-  }
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center"
+    }
 });

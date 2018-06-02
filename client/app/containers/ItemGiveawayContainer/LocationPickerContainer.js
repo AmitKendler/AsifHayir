@@ -126,10 +126,12 @@ class LocationPickerContainer extends Component {
 						powered: null
 					}}
 				/>
-				{/*<Input placeholder="עיר" />
-				<Input placeholder="רחוב" />
-				<Input placeholder="מס' בית" />
-				<Input placeholder="דירה" /> */}
+				{
+				    /*<Input placeholder="עיר" />
+				    				<Input placeholder="רחוב" />
+				    				<Input placeholder="מס' בית" />
+				    				<Input placeholder="דירה" /> */
+				}
 				<MapView
 					region={this.state.mapRegion}
 					onRegionChange={this.onRegionChange.bind(this)}

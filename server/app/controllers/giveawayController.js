@@ -191,6 +191,9 @@ exports.changeProductsStatus = function (req, res, next) {
 	let productIds = req.body.productIds;
 	let status = req.body.status;
 
+	let mongoIds = [];
+	mongoIds = productIds.map(id => mongoose.Types.ObjectId(id));
+
 	Product.find()
 	.where('id').in(productIds)
 	.exec(function (findErr, products) {

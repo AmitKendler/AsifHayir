@@ -37,3 +37,11 @@ exports.getRouteById = function(req, res, next) {
 		res.send(data);
 	});
 }
+
+exports.deleteRoute = function(req, res, next) {
+    Route.findByIdAndRemove(req.params.id).exec(function (err, route){
+        if(err) return next(err);
+
+        res.sendStatus(200);
+    })
+}

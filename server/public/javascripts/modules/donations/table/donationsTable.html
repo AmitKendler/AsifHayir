@@ -5,31 +5,53 @@
   <table class="table scroll table-striped" >
       <thead>
         <tr>
-          <th width="{{columnWidth}}" ng-if="!hideCheckboxes">כלול באלגוריתם</th>
-          <th width="{{columnWidth}}" ng-repeat="column in tableColumns">{{column.label}}</th>
-          <th width="{{columnWidth}}"></th>
+          <th ng-if="!hideCheckboxes">כלול באלגוריתם</th>
+          <th ng-repeat="column in tableColumns">{{column.label}}</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="donation in donations">
-          <td  width="{{columnWidth}}" ng-if="!hideCheckboxes">
-              <input type="checkbox" class="big-checkbox" ng-model="donation.includeInAlgorithm">
+          <td  ng-if="!hideCheckboxes">
+              <input type="checkbox" class="big-checkbox" ng-disabled="donation.product.status != 'NEW'" ng-model="donation.includeInAlgorithm">
           </td>
-          <td  width="{{columnWidth}}" ng-repeat="column in tableColumns" >
-              {{ getValue(column, donation) }}
+          <td  class="{{column.className}}" ng-class="{'new': donation.product.status == 'NEW' , 'pending': donation.product.status == 'PENDING',
+          'taken': donation.product.status == 'TAKEN'}" ng-repeat="column in tableColumns" ng-bind="getValue(column, donation)">
           </td>
-          <td  width="{{columnWidth}}" >
-              <popover-advanced-details class="btn btn-sm btn-info" type="donation.product.prodType" product="donation.product">i                
-              </popover-advanced-details>
+          <td>
+              <popover-contact-details class="btn btn-sm btn-success " contact="donation.contact">
+                  <span class="fa fa-user"></span>
+              </popover-contact-details>
           </td>
+          <td>
+            <popover-advanced-details class="btn btn-sm btn-info" type="donation.product.prodType" product="donation.product">i                
+            </popover-advanced-details>
+        </td>
         </tr>        
       </tbody>
   </table>
 </div>
-        
+
+<div id="contactInfo" ng-hide="true">  
+    <div class="popover-data">
+      <div>        
+          שם: 
+          <span ng-bind="contact.name"></span>
+      </div>    
+      <div>
+          טלפון:
+         <span ng-bind="contact.phone"></span>
+      </div>    
+    </div>  
+</div>  
+
 <div id="foodPopover" ng-hide="true">  
   <div class="popover-data">
-    <div><label class="round-label" ng-bind="product.amount.amount"></label> {{ getAmountTypeLabel(product.amount.units) }} </div>
+    <div>
+        <label class="round-label" ng-bind="product.amount.amount"></label>
+        <span ng-bind="getAmountTypeLabel(product.amount.units)"></span>
+     </div>
     <div>        
         <i ng-class="getIconClass('packed', true)"></i>        
         <label>ארוז</label>
@@ -51,7 +73,10 @@
 
 <div id="clothingPopover" ng-hide="true">  
     <div class="popover-data">
-        <div><label class="round-label" ng-bind="product.amount.amount"></label> {{ getAmountTypeLabel(product.amount.units) }} </div>
+        <div>
+            <label class="round-label" ng-bind="product.amount.amount"></label> 
+            <span ng-bind="getAmountTypeLabel(product.amount.units)"></span>
+        </div>
         <div>
             <i ng-class="getIconClass('condition', 'חדש')"></i>
             <label>חדש</label>
@@ -61,20 +86,15 @@
             <label>בלוי</label>
         </div>   
         <div><label ng-bind="product.size"></label></div>
-        <!-- <div>
-            <i ng-class="getIconClass('type', 'גברים')"></i>     
-            <label>גברים</label>
-            <i ng-class="getIconClass('type', 'נשים')"></i>   
-            <label>נשים</label>
-            <i ng-class="getIconClass('type', 'ילדים')"></i>
-            <label>ילדים</label>
-        </div>         -->
     </div> 
 </div>
 
   <div id="furniturePopover" ng-hide="true">  
       <div class="popover-data">
-        <div><label class="round-label" ng-bind="product.amount.amount"></label> {{ getAmountTypeLabel(product.amount.units) }} </div>
+        <div>
+            <label class="round-label" ng-bind="product.amount.amount"></label> 
+            <span ng-bind="getAmountTypeLabel(product.amount.units)"></span>
+         </div>
           <div>
             <i ng-class="getIconClass('condition', 'חדש')"></i>
             <label>חדש</label>

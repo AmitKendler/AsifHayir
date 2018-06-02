@@ -5,35 +5,11 @@ import giveawayStore from "./giveaways";
 class User {
     @observable user = [];
     @observable token = "";
+    @observable isLoggingIn = false;
 
     constructor(props) {
         this.user = null;
         this.token = null;
-        // this.user = {
-        //     firstName: "Yosi",
-        //     lastName: "Kendler",
-        //     profileUrl: "",
-        //     title: "מוסר מתחיל",
-        //     rank: 123,
-        //     giveaways: 10,
-        //     score: 1920,
-        //     defaultPhone: "052-5848832",
-        //     defaultAddress: "הרצליה חנה סנש 21"
-        // };
-
-        // fetch(Constants.BACKEND_URL + '/GetUserById/5ab155046a5cc7cc8731f33f')
-        //     .then((response) => response.json())
-        //     .then((responseJson) => {
-        //         this.user = responseJson;
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //     });
-
-        //     .then((responseJson) => {
-        //         this.user = responseJson;
-        //         alert(responseJson);
-        //     });
     }
 
     createServerUserFromFirebaseUser(user) {
@@ -58,6 +34,7 @@ class User {
     }
 
     loginWithToken(token, user) {
+        this.isLoggingIn = true;
         const postUser = this.createServerUserFromFirebaseUser(user)
         console.log(postUser);
 
@@ -74,13 +51,33 @@ class User {
             .then(responseJson => {
                 this.token = token;
                 this.user = responseJson;
-                console.log("user!",responseJson);
                 giveawayStore.loadGiveaways();
-                Actions.HomeContainer();
+                this.isLoggingIn = false;
+                Actions.RegisterContainer();
             })
             .catch(error => {
                 console.error(error);
             });
+    }
+
+    sendNotificationToken(pushToken) {
+        if (this.user._id) {
+            fetch(`${Constants.BACKEND_URL}/user/push-token`, {
+                method: "POST",
+
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "auth-token": this.token
+                },
+                body: JSON.stringify({
+                    userId: this.user._id,
+                    token: pushToken
+                })
+            }).catch(error => {
+                console.error(error);
+            })
+        }
     }
 }
 
