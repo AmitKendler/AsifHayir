@@ -200,7 +200,7 @@ exports.changeProductsStatus = function (req, res, next) {
 				});
 
 				Promise.all(promises).then(function (saveErr, updatedProducts) {
-					if (saveErr) throw esaveErrrr;
+					if (saveErr) throw saveErr;
 
 					res.send(updatedProducts);
 				})
