@@ -15,6 +15,7 @@ import {
 } from "native-base";
 import { Facebook } from "expo";
 import firebase from "firebase";
+import { observer, inject } from "mobx-react/native";
 
 import styles from "./styles";
 
@@ -37,6 +38,7 @@ firebase.initializeApp(config);
 const auth = firebase.auth();
 const provider = new firebase.auth.FacebookAuthProvider();
 
+@inject("userStore")
 class LoginContainer extends Component {
     constructor(props) {
         super(props);
@@ -63,11 +65,27 @@ class LoginContainer extends Component {
                 const currentUser = await firebase
                     .auth()
                     .signInAndRetrieveDataWithCredential(credential);
-                console.info(JSON.stringify(currentUser.toJSON()));
+
+                if (currentUser) {
+                    currentUser.user.getIdToken(true).then(idToken=>
+                    {
+                      this.props.userStore.loginWithToken(idToken,currentUser.user);
+                    });
+
+                //     .then(idtoken=>
+                //         {
+                //             console.log("idtoken",idtoken);
+                //     this.props.userStore.loginWithToken(idtoken
+                //     );
+                // });
+                    // console.log(this.props.userStore);  
+                } else {
+                    alert("failed logon..");
+                }
 
                 // TODO : send server side request to return real user
 
-                Actions.HomeContainer();
+                //Ap=
             } catch (e) {
                 console.error(e);
             }

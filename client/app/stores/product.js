@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
 import Constants from "./../utils/Constants";
+import userStore from "./user";
 
 class Product {
 	@observable product;
@@ -55,8 +56,9 @@ class Product {
 		fetch(Constants.BACKEND_URL + "/giveaways", {
 			method: "POST",
 			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
+				"Accept": "application/json",
+				"Content-Type": "application/json",
+				"auth-token":userStore.token
 			},
 			body: JSON.stringify(this.giveaway)
 		})

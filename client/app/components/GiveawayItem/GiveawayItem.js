@@ -12,7 +12,7 @@ import {
 } from "native-base";
 import { Actions } from "react-native-router-flux";
 
-const GiveawayItem = ({ data, index, children }) => {
+const GiveawayItem = ({ giveaway, index, children }) => {
   return (
     <ListItem>
       <Left>
@@ -24,7 +24,9 @@ const GiveawayItem = ({ data, index, children }) => {
         />
       </Left>
       <Body>
-        <Text>100 פיתות באריזה חדשה</Text>
+        <Text>
+        {giveaway.products[0].title}  
+        </Text>
         <Text note>חנה סנש 21, הרצליה </Text>
       </Body>
       <Right>

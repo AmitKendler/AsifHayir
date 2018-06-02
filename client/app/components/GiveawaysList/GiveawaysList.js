@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import GiveawayItem from './../GiveawayItem/GiveawayItem';
 import { observer } from 'mobx-react/native'
-import { List , ListItem} from 'native-base';
+import { List , ListItem,Text} from 'native-base';
 
 
 @observer class GiveawaysList extends Component {
@@ -15,7 +15,7 @@ import { List , ListItem} from 'native-base';
         return ( 
             <List>
             {
-                giveaways.map((g,i) => <GiveawayItem key={i}></GiveawayItem>)
+                giveaways.map((g,i) =><Text>{JSON.stringify(g.products[0])}</Text>)
             }
             </List>)
 

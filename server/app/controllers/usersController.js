@@ -5,7 +5,7 @@ const User = mongoose.model("User");
 exports.login = function(req, res, next) {
     User.find({authId: req.body.token}).exec(function(err, data) {
         if (err) return next(err);
-        
+
         res.send(data);
     })
 }

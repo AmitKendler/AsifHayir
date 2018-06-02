@@ -14,13 +14,13 @@ var pkg = require("../package.json");
 
 var env = process.env.NODE_ENV || "development";
 
-var admin = require('firebase-admin');
+var admin = require("firebase-admin");
 
-var serviceAccount = require('./leftright-2e5de-firebase-adminsdk-dy52h-364addfc54.json');
+var serviceAccount = require("./leftright-2e5de-firebase-adminsdk-dy52h-364addfc54.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://leftright-2e5de.firebaseio.com/'
+  databaseURL: "https://leftright-2e5de.firebaseio.com/"
 });
 /**
  * Expose
@@ -50,16 +50,18 @@ module.exports = function(app) {
       .then(function(decodedToken) {
         // var uid = decodedToken.uid;
         next();
-      }).catch(function(error) {
+      })
+      .catch(function(error) {
         // Handle error
         console.log("Unauthorized user in request " + req.originalUrl);
-        res.send(403)
+        console.log(error);
+        res.send(403);
       });
-  })
-  app.use(function (err, req, res, next) {
-    console.error(err.stack)
+  });
+  app.use(function(err, req, res, next) {
+    console.error(err.stack);
     res.status(500).send(err);
-  })
+  });
 
   // cookieParser should be above session
   // app.use(cookieParser());
