@@ -195,7 +195,7 @@ exports.changeProductsStatus = function (req, res, next) {
 	mongoIds = productIds.map(id => mongoose.Types.ObjectId(id));
 
 	Product.find()
-	.where('id').in(productIds)
+	.where('_id').in(productIds)
 	.exec(function (findErr, products) {
 		if (findErr) throw findErr;
 		let promises = [];
@@ -204,19 +204,19 @@ exports.changeProductsStatus = function (req, res, next) {
 			promises.push(product.save());
 		});
 
-		Promise.all(promises).then(function (saveErr, updatedProducts) {
+		Promise.all(promises).then(function (updatedProducts, saveErr) {
 			if (saveErr) throw saveErr;
 
 			let giveawayIds = _.map(products, "giveawayId");
 			Giveaway.find()
-			.where('id').in(giveawayIds)
+			.where('_id').in(giveawayIds)
 			.exec(function (giveawayFindErr, giveaways) {
 				if (giveawayFindErr) throw giveawayFindErr;
 
 				let usersIds = _.map(giveaways, "userId");
 				User.find()
 					.select("pushNotificationToken")
-					.where('id').in(usersIds)
+					.where('_id').in(usersIds)
 					.exec(function(findUserErr, users) {
 						if (findUserErr) throw findUserErr;
 
@@ -236,34 +236,33 @@ exports.changeProductsStatus = function (req, res, next) {
 									body: 'בקרוב יגיע נציג מהעמותה ויאסוף את המוצרים שהזנת',
 									// data: { withSome: 'data' },
 								})
-								
-								// The Expo push notification service accepts batches of notifications so
-								// that you don't need to send 1000 requests to send 1000 notifications. We
-								// recommend you batch your notifications to reduce the number of requests
-								// and to compress them (notifications with similar content will get
-								// compressed).
-								let chunks = expo.chunkPushNotifications(messages);
-								
-								(async () => {
-									// Send the chunks to the Expo push notification service. There are
-									// different strategies you could use. A simple one is to send one chunk at a
-									// time, which nicely spreads the load out over time:
-									for (let chunk of chunks) {
-										try {
-											let receipts = await expo.sendPushNotificationsAsync(chunk);
-											console.log(receipts);
-										} catch (error) {
-											console.error(error);
-										}
-									}
-								})();
 							}
 						})
-					});
-				});
+								
+						// The Expo push notification service accepts batches of notifications so
+						// that you don't need to send 1000 requests to send 1000 notifications. We
+						// recommend you batch your notifications to reduce the number of requests
+						// and to compress them (notifications with similar content will get
+						// compressed).
+						let chunks = expo.chunkPushNotifications(messages);
+						
+						(async () => {
+							// Send the chunks to the Expo push notification service. There are
+							// different strategies you could use. A simple one is to send one chunk at a
+							// time, which nicely spreads the load out over time:
+							for (let chunk of chunks) {
+								try {
+									let receipts = await expo.sendPushNotificationsAsync(chunk);
+									console.log(receipts);
+								} catch (error) {
+									console.error(error);
+								}
+							}
+						})();
+					})
 			});
-
-	})
+		});
+	});
 }
 
 exports.deleteProductFromGiveaway = function(req, res, next) {
