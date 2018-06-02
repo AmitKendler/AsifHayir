@@ -50,10 +50,11 @@ class LoginContainer extends Component {
         };
     }
 
-    async function registerForPushNotificationsAsync() {
+    async registerForPushNotificationsAsync() {
         const { status: existingStatus } = await Permissions.getAsync(
             Permissions.NOTIFICATIONS
         );
+
         let finalStatus = existingStatus;
 
         // only ask if permissions have not already been determined, because

@@ -51,19 +51,32 @@ class User {
             .then(responseJson => {
                 this.token = token;
                 this.user = responseJson;
-                console.log("user!", responseJson);
                 giveawayStore.loadGiveaways();
                 this.isLoggingIn = false;
-                Actions.HomeContainer();
+                Actions.RegisterContainer();
             })
             .catch(error => {
                 console.error(error);
             });
     }
 
-    sendNotificationToken(token) {
+    sendNotificationToken(pushToken) {
         if (this.user._id) {
-            console.log("sending push token..", token);
+            fetch(`${Constants.BACKEND_URL}/user/push-token`, {
+                method: "POST",
+
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "auth-token": this.token
+                },
+                body: JSON.stringify({
+                    userId: this.user._id,
+                    token: pushToken
+                })
+            }).catch(error => {
+                console.error(error);
+            })
         }
     }
 }

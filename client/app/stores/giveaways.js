@@ -37,8 +37,6 @@ class Giveaways {
                         }
                     }
                 }
-
-                console.log("my giveaways", this.giveaways);
             })
             .catch(error => {
                 console.error(error);
