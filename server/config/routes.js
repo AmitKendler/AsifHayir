@@ -49,6 +49,7 @@ module.exports = function(app) {
   app.put("/updateRoute/:id", routes.updateRoute);
   app.get("/getRoutes", routes.getAllRoutes);
   app.get("/getRoute/:id", routes.getRouteById);
+  app.delete("/deleteRoute/:id", routes.deleteRoute);
 
   /**
    * User

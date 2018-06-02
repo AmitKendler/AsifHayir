@@ -85,38 +85,25 @@ table.scroll {
 
 table.scroll thead { width: 97%; }
 
-table.scroll tbody, table.scroll thead { 
-  display: block; 
-}
 
 #donationsTable .donations-table {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 270px;
   padding: 7px;
 }
 
 #routeDonationsTable .donations-table {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 200px;
   padding: 7px;
 }
 
+
 thead tr th { 
   height: 30px;
   line-height: 30px;
-}
-
-table.scroll tbody {  
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-#donationsTable table.scroll tbody {  
-  height: 210px;
-}
-
-#routeDonationsTable table.scroll tbody {  
-  height: 140px;
 }
 
 .align-center {
@@ -503,4 +490,44 @@ table.scroll tbody {
 
 .login-help{
   font-size: 12px;
+}
+
+td.status.new {
+  background-color: #00b8ff82;
+}
+
+td.status.pending {
+  background-color: #ffa500a1;
+}
+
+td.status.taken {
+  background-color: #04ff00a1;
+}
+
+.noRoutes {
+  font-size: 40px;
+  text-align: center;
+  margin-top: 80px;
+  color: white;
+}
+
+.route-info-bottom {
+  margin-top: 10px;
+}
+
+.route-info-bottom button {
+  margin-right: 20px;
+}
+
+.route-info-bottom button i {
+  font-size: 30px;
+}
+
+.gj-datepicker-bootstrap [role=right-icon] button {
+  border-left: 1px solid #ced4da !important;
+}
+
+.gj-datepicker-bootstrap [role=right-icon] button .gj-icon, .gj-datepicker-bootstrap [role=right-icon] button .material-icons {
+  position: relative !important;
+  top: 0px !important;
 }

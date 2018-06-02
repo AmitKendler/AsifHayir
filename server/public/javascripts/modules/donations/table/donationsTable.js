@@ -11,21 +11,21 @@ angular.module('AsifHayir')
 
 			scope.columnWidth = scope.hideCheckboxes ? "13%" : "11%";
 
+			scope.$on("updateDonations", function(e, donations) {
+				scope.donations = donations;
+			});
+
 			scope.tableColumns = [
+				{
+					label: "סטטוס",
+					getValue: function (row) { return scope.getStatusLabel(row.product.status); },
+					width: "10%",
+					className: "status"
+				},
 				{
 					label: "סוג",
 					getValue: function (row) { return scope.getTypeLabel(row.product.prodType); },
-					width: "10%"
-				},
-				{
-					label: "איש קשר",
-					getValue: "contact.name",
-					width: "13%"
-				},
-				{
-					label: "טלפון",
-					getValue: "contact.phone",
-					width: "13%"
+					width: "6%"
 				},
 				{
 					label: "תרומה",
@@ -35,12 +35,12 @@ angular.module('AsifHayir')
 				{
 					label: "תיאור",
 					getValue: "product.description",
-					width: "12%"
+					width: "10%"
 				},
 				{
 					label: "כתובת לאיסוף",
 					getValue: function (row) { return scope.getAddressLabel(row.address); },
-					width: "13%"
+					width: "12%"
 				},
 				{
 					label: "זמין מ",
@@ -98,11 +98,44 @@ angular.module('AsifHayir')
 			}
 
 			scope.stringToDate = function (dateString) {
-				return (new Date(dateString)).toLocaleString();
+				return moment(new Date(dateString)).format("DD/MM/YYYY HH:mm:ss");
+				// return (new Date(dateString)).toLocaleString([], {hour12: false});
 			}
 		}
 	}
 }]);
+
+angular.module('AsifHayir').directive('popoverContactDetails', function($compile){
+	return {
+		restrict: 'E',		  
+		scope: {
+			contact: "="
+		},
+		link: function(scope, element, attrs) {
+			scope.definePopover = function () {
+
+				// var popoverId = scope.getPopoverIdByType();
+
+				$(element).popover({
+					title: "פרטי איש קשר",
+					trigger: "hover",
+					container: 'body',
+					html: true,
+					placement: "right",
+					content: $compile($("#contactInfo").html())(scope)
+				});	
+
+				$(element).on("show.bs.popover", function() { 
+					var popover = $($(this).data("bs.popover").tip);
+					popover.css("maxWidth", "170px");
+					popover.css("height", "110px");
+				});
+			}
+
+			scope.definePopover();
+		}
+	}
+});
 
 angular.module('AsifHayir').directive('popoverAdvancedDetails', function($compile){
 	return {

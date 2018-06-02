@@ -1,9 +1,8 @@
 /**
  * Created by ziv-private on 12/11/17.
  */
-var app = angular.module("AsifHayir", ["ngRoute", "firebase"]);
+var app = angular.module("AsifHayir", ["ngRoute", "firebase", "ngAlertify"]);
 app.config(function($routeProvider, $httpProvider, $locationProvider) {
-    
     $locationProvider.hashPrefix('');
   
     var reolveRoute = function(tab) {
