@@ -189,8 +189,11 @@ exports.changeProductsStatus = function (req, res, next) {
 	let productIds = req.body.productIds;
 	let status = req.body.status;
 
+	let mongoIds = [];
+	mongoIds = productIds.map(id => mongoose.Types.ObjectId(id));
+
 	Product.find()
-			.where('id').in(productIds)
+			.where('_id').in(mongoIds)
 			.exec(function (findErr, products) {
 				if (findErr) throw findErr;
 				let promises = [];
@@ -199,8 +202,8 @@ exports.changeProductsStatus = function (req, res, next) {
 					promises.push(product.save());
 				});
 
-				Promise.all(promises).then(function (saveErr, updatedProducts) {
-					if (saveErr) throw saveErr;
+				Promise.all(promises).then(function (updatedProducts) {
+					// if (saveErr) throw esaveErrrr;
 
 					res.send(updatedProducts);
 				})

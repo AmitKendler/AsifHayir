@@ -11,13 +11,31 @@
                         <div class="col-md-12 form-group">
                             <label for="vehicleAmount">תאריך</label>
                             <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="left" title="תכנון המסלול יתבצע על התרומות אשר ניתנות לאסיפה בתאריך זה בלבד"></span>
-                            <input type="date" name="date"  class="form-control" id="date" ng-model="date" placeholder="תאריך" required>
+                            <input id="datepicker" width="370" ng-model="date" required/>
+                            <script>
+                                $('#datepicker').datepicker({
+                                    uiLibrary: 'bootstrap4',
+                                    format: 'dd/mm/yyyy'
+                                });
+                            </script>
                         </div>
                     </div>  
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <label for="vehicleAmount">מספר ניידות</label>
                             <input type="number" name="vehicleAmount" class="form-control" min="1" id="vehicleAmount" ng-model="vehicleAmount" placeholder="מספר ניידות" required>                            
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="startPoint">נקודת התחלה</label>
+                            <input ng-focus="geolocate()" type="text" name="startPoint" class="form-control" id="startPoint" ng-model="placeToStart" placeholder="נקודת התחלה" required>                            
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="endPoint">נקודת סיום</label>
+                            <input ng-focus="geolocate()" type="text" name="endPoint" class="form-control" id="endPoint" ng-model="placeToEnd" placeholder="נקודת סיום" required>                            
                         </div>
                     </div>    
                 </div>                     

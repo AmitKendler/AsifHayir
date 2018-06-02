@@ -6,7 +6,7 @@ angular.module('AsifHayir')
 	    link: function(scope, element, attrs) {
 
 			scope.toDateFormat = function (date) {
-				return (new Date(date)).toLocaleDateString();
+				return moment(new Date(date)).format("DD/MM/YYYY");
 			}
         }
     }

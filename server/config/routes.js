@@ -42,13 +42,13 @@ module.exports = function(app) {
     app.put("/products/status", giveaways.changeProductsStatus);
     app.get("/giveaways/users/:userId", giveaways.getGiveawaysByUser);
 
-    /**
-     * Route
-     */
+
     app.post("/addRoute", routes.createRoute);
     app.put("/updateRoute/:id", routes.updateRoute);
     app.get("/getRoutes", routes.getAllRoutes);
     app.get("/getRoute/:id", routes.getRouteById);
+    app.delete("/deleteRoute/:id", routes.deleteRoute);
+
 
     /**
      * User

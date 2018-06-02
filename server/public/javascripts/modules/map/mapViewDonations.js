@@ -9,6 +9,11 @@ angular.module('AsifHayir')
 			template: '<div id="map" class="container-fluid" style="height: ' + window.innerHeight*0.4 + 'px; margin:auto;"></div>',
 	    link: function(scope, element, attrs) {
 
+			scope.$on("setRouteInfo", function(event, route) {
+				scope.route = route;
+				scope.displayRoute();
+			});
+
 			scope.initMap = function () {
 
 				scope.map = new google.maps.Map(document.getElementById('map'), {
@@ -66,40 +71,6 @@ angular.module('AsifHayir')
 			}
 
 			scope.initMap();
-
-				// var locations = [
-				// 	['Bondi Beach', 31.95906228990288,34.77139596361667, 4],
-				// 	['Coogee Beach', 32.013013644060564,34.7459377348423, 5],
-				// 	['Cronulla Beach', 32.017962429354704,34.79571953415871, 3],
-				// 	['Manly Beach', 32.02785919257162,34.862667471170425, 2],
-				// 	['Maroubra Beach', 31.8862807237229,34.787438213825226, 1],
-				// 	['Bondi Beach', 32.95906228990288,34.77139596361667, 4],
-				// 	['Coogee Beach', 33.013013644060564,34.7459377348423, 5],
-				// 	['Cronulla Beach', 30.017962429354704,34.79571953415871, 3],
-				// 	['Manly Beach', 30.02785919257162,34.862667471170425, 2],
-				// 	['Maroubra Beach', 33.8862807237229,34.787438213825226, 1]
-				// ];
-		
-				// directionsService.route({
-				// 	origin: new google.maps.LatLng(locations[1][1], locations[1][2]),
-				// 	destination: new google.maps.LatLng(locations[2][1], locations[2][2]),
-				// 	waypoints: [{
-				// 		location:  new google.maps.LatLng(locations[3][1], locations[3][2]),
-				// 		stopover: true
-				// 	},
-				// 	{
-				// 		location:  new google.maps.LatLng(locations[4][1], locations[4][2]),
-				// 		stopover: true
-				// 	}],
-				// 	optimizeWaypoints: true,
-				// 	travelMode: 'DRIVING'
-				// 	}, function(response, status) {
-				// 	if (status === 'OK') {
-				// 		directionsDisplay.setDirections(response);
-				// 	} else {
-				// 		window.alert('Directions request failed due to ' + status);
-				// 	}
-				// 	});
 			}
 		}
 }]);
