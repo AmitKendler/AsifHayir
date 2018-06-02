@@ -1,42 +1,64 @@
-import React from "react";
-import {
-  Content,
-  List,
-  ListItem,
-  Left,
-  Body,
-  Right,
-  Thumbnail,
-  Text,
-  Icon
-} from "native-base";
-import { Actions } from "react-native-router-flux";
+ import React from "react";
+ import { View } from "react-native";
+ import {
+     Content,
+     List,
+     ListItem,
+     Left,
+     Body,
+     Right,
+     Thumbnail,
+     Text,
+     Icon
+ } from "native-base";
+ import {
+     Actions
+ } from "react-native-router-flux";
+ import Constants from "./../../utils/Constants";
 
-const GiveawayItem = ({ giveaway, index, children }) => {
-  return (
-    <ListItem>
-      <Left>
-        <Thumbnail
+ const GiveawayItem = ({
+     name,
+     imageUrl,
+     addressString,
+     status,
+     index,
+     children
+ }) => {
+     return (
+         <ListItem>
+      <Left> 
+        <Thumbnail size={95}
           source={{
             uri:
-              "http://www.100cal.co.il/CreateTumbImage.aspx?width=428&height=300&path=/Portals/0/ProductImages/br-m98313-s00000-a-Taubread-s-WS.JPG"
+            imageUrl
           }}
         />
       </Left>
       <Body>
         <Text>
-        {giveaway.products[0].title}  
+        {name}
         </Text>
-        <Text note>חנה סנש 21, הרצליה </Text>
+        <Text note>{addressString}</Text>
       </Body>
-      <Right>
-        <Text note>איסוף בשעה</Text>
-        <Text note>3:43 </Text>
-        <Icon name="checkmark" style={{ color: "green" }} />
-      </Right>
+        <Right>
+         {(status === Constants.STATUSES.NEW)?
+          <View  style={{ alignSelf: "center" }}>      
+              <Text note>ממתין  </Text>
+              <Icon name="clock" style={{ color: "grey" }} />
+          </View>:null}
+              {(status === Constants.STATUSES.PENDING)?
+          <View  style={{ alignSelf: "center" }}>      
+              <Text note>איסוף נקבע</Text>
+              <Icon name="checkmark" style={{ color: "green" }} />
+          </View>:null}
+           {(status === Constants.STATUSES.TAKEN)?
+          <View  style={{ alignSelf: "center" }}>      
+              <Text note>נלקח </Text>
+              <Icon name="done-all" style={{ color: "green" }} />
+          </View>:null}
+        </Right>
     </ListItem>
-  );
-};
+     );
+ };
 
-export default GiveawayItem;
-
+ export default GiveawayItem;

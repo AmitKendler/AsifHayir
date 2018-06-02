@@ -3,19 +3,19 @@ import { View, TouchableOpacity } from "react-native";
 import Constants from "./../../utils/Constants";
 import { observer } from "mobx-react/native";
 import {
-	Text,
-	Item,
-	Input,
-	Picker,
-	Form,
-	Thumbnail,
-	Icon,
-	Label,
-	CheckBox,
-	Content,
-	Right,
-	Spinner,
-	ListItem
+    Text,
+    Item,
+    Input,
+    Picker,
+    Form,
+    Thumbnail,
+    Icon,
+    Label,
+    CheckBox,
+    Content,
+    Right,
+    Spinner,
+    ListItem
 } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { ImagePicker, Permissions } from "expo";
@@ -26,70 +26,70 @@ import uuid from "uuid";
 const PickerItem = Picker.Item;
 
 class CameraPicker extends Component {
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		this.state = {
-			itemImage: null,
-			uploading: false
-		};
-	}
+        this.state = {
+            itemImage: null,
+            uploading: false
+        };
+    }
 
-	pickImage = async () => {
-		try {
-			const results = await Promise.all([
-				Permissions.askAsync(Permissions.CAMERA_ROLL),
-				Permissions.askAsync(Permissions.CAMERA)
-			]);
-			if (results.some(({ status }) => status !== "granted")) {
-				alert("no permissions to camera");
-			} else {
-				let result = await ImagePicker.launchCameraAsync({
-					allowsEditing: true,
-					aspect: [4, 3]
-				});
+    pickImage = async() => {
+        try {
+            const results = await Promise.all([
+                Permissions.askAsync(Permissions.CAMERA_ROLL),
+                Permissions.askAsync(Permissions.CAMERA)
+            ]);
+            if (results.some(({ status }) => status !== "granted")) {
+                alert("no permissions to camera");
+            } else {
+                let result = await ImagePicker.launchCameraAsync({
+                    allowsEditing: true,
+                    aspect: [4, 3]
+                });
 
-				this.handleImagePicked(result);
-			}
-		} catch (e) {
-			console.log("erorr", e);
-		}
-	};
+                this.handleImagePicked(result);
+            }
+        } catch (e) {
+            console.log("erorr", e);
+        }
+    };
 
-	handleImagePicked = async pickerResult => {
-		let uploadUrl;
-		try {
-			this.setState({ uploading: true });
+    handleImagePicked = async pickerResult => {
+        let uploadUrl;
+        try {
+            this.setState({ uploading: true });
 
-			if (!pickerResult.cancelled) {
-				uploadUrl = await this.uploadImageAsync(pickerResult.uri);
-			}
-		} catch (e) {
-			console.log(e);
-			alert("Upload failed, sorry :(");
-		} finally {
-			this.setState({ itemImage: uploadUrl });
-			this.setState({ uploading: false });
+            if (!pickerResult.cancelled) {
+                uploadUrl = await this.uploadImageAsync(pickerResult.uri);
+            }
+        } catch (e) {
+            console.log(e);
+            alert("Upload failed, sorry :(");
+        } finally {
+            this.setState({ itemImage: uploadUrl });
+            this.setState({ uploading: false });
 
-			if (this.props.productObject && uploadUrl) {
-				this.props.productObject.imageUrl = uploadUrl;
-			}
-		}
-	};
+            if (this.props.productObject && uploadUrl) {
+                this.props.productObject.imageUrl = uploadUrl;
+            }
+        }
+    };
 
-	uploadImageAsync = async uri => {
-		const response = await fetch(uri);
-		const blob = await response.blob();
-		const ref = firebase.storage().ref().child("products/" + uuid.v4());
+    uploadImageAsync = async uri => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        const ref = firebase.storage().ref().child("products/" + uuid.v4());
 
-		const snapshot = await ref.put(blob);
-		const downloadUrl = snapshot.ref.getDownloadURL();
-		return downloadUrl;
-	};
+        const snapshot = await ref.put(blob);
+        const downloadUrl = snapshot.ref.getDownloadURL();
+        return downloadUrl;
+    };
 
-	render() {
-		return (
-			<View>
+    render() {
+        return (
+            <View>
 				{this.state.uploading
 					? <Spinner />
 					: <TouchableOpacity onPress={this.pickImage}>
@@ -112,21 +112,21 @@ class CameraPicker extends Component {
 										position: "absolute"
 									}}
 									name="camera"
-								/>}
+								/>} 
 						</TouchableOpacity>}
 			</View>
-		);
-	}
+        );
+    }
 }
 
 const AmountPicker = ({
-	quantity,
-	unit,
-	onChangeUnitValue,
-	onChangeQuantityValue
+    quantity,
+    unit,
+    onChangeUnitValue,
+    onChangeQuantityValue
 }) => {
-	return (
-		<Grid>
+    return (
+        <Grid>
 			<Col>
 				<Form>
 					<Picker
@@ -166,41 +166,41 @@ const AmountPicker = ({
 				</Item>
 			</Col>
 		</Grid>
-	);
+    );
 };
 
 @observer
 class GeneralInfoContainer extends Component {
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		this.state = {
-			itemName: " ",
-			itemState: undefined,
-			itemPicture: undefined,
-			itemUnit: Constants.AMMOUNT_TYPES.ITEMS,
-			itemQuantity: undefined,
-			itemDescription: ""
-		};
-	}
+        this.state = {
+            itemName: " ",
+            itemState: undefined,
+            itemPicture: undefined,
+            itemUnit: Constants.AMMOUNT_TYPES.ITEMS,
+            itemQuantity: undefined,
+            itemDescription: ""
+        };
+    }
 
-	onChangeUnitValue(val) {
-		this.props.productObject.amount.units = val;
-	}
+    onChangeUnitValue(val) {
+        this.props.productObject.amount.units = val;
+    }
 
-	onChangeQuantityValue(val) {
-		this.props.productObject.amount.amount = val;
-	}
+    onChangeQuantityValue(val) {
+        this.props.productObject.amount.amount = val;
+    }
 
-	onChangeCheckbox(val) {
-		this.props.productObject.kosher = val;
-		console.log(val);
-	}
+    onChangeCheckbox(val) {
+        this.props.productObject.kosher = val;
+        console.log(val);
+    }
 
-	render() {
-		let { productObject } = this.props;
-		return (
-			<Form style={{ alignItems: "center" }}>
+    render() {
+        let { productObject } = this.props;
+        return (
+            <Form style={{ alignItems: "center" }}>
 				<CameraPicker productObject={productObject} />
 				<Item floatingLabel style={{ marginLeft: 35, marginRight: 35 }}>
 					<Label
@@ -281,8 +281,8 @@ class GeneralInfoContainer extends Component {
 					</Item>
 				</Content>
 			</Form>
-		);
-	}
+        );
+    }
 }
 
 export default GeneralInfoContainer;

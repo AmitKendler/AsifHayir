@@ -11,9 +11,10 @@ import {
     Icon,
     View,
     Left,
+    Spinner,
     Right
 } from "native-base";
-import { Facebook } from "expo";
+import { Facebook, Permissions, Notifications } from "expo";
 import firebase from "firebase";
 import { observer, inject } from "mobx-react/native";
 
@@ -39,6 +40,7 @@ const auth = firebase.auth();
 const provider = new firebase.auth.FacebookAuthProvider();
 
 @inject("userStore")
+@observer
 class LoginContainer extends Component {
     constructor(props) {
         super(props);
@@ -48,7 +50,33 @@ class LoginContainer extends Component {
         };
     }
 
+    async function registerForPushNotificationsAsync() {
+        const { status: existingStatus } = await Permissions.getAsync(
+            Permissions.NOTIFICATIONS
+        );
+        let finalStatus = existingStatus;
+
+        // only ask if permissions have not already been determined, because
+        // iOS won't necessarily prompt the user a second time.
+        if (existingStatus !== 'granted') {
+            // Android remote notification permissions are granted during the app
+            // install, so this will only ask on iOS
+            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+        }
+
+        // Stop here if the user did not grant permissions
+        if (finalStatus !== 'granted') {
+            return;
+        }
+
+        // Get the token that uniquely identifies this device
+        let token = await Notifications.getExpoPushTokenAsync();
+        this.props.userStore.sendNotificationToken(token);
+    }
+
     async handleFacebookButton() {
+        this.props.userStore.isLoggingIn = true;
         const {
             type,
             token
@@ -67,17 +95,18 @@ class LoginContainer extends Component {
                     .signInAndRetrieveDataWithCredential(credential);
 
                 if (currentUser) {
-                    currentUser.user.getIdToken(true).then(idToken=>
-                    {
-                      this.props.userStore.loginWithToken(idToken,currentUser.user);
+                    currentUser.user.getIdToken(true).then(idToken => {
+
+                        this.props.userStore.loginWithToken(idToken, currentUser.user);
+                        this.registerForPushNotificationsAsync();
                     });
 
-                //     .then(idtoken=>
-                //         {
-                //             console.log("idtoken",idtoken);
-                //     this.props.userStore.loginWithToken(idtoken
-                //     );
-                // });
+                    //     .then(idtoken=>
+                    //         {
+                    //             console.log("idtoken",idtoken);
+                    //     this.props.userStore.loginWithToken(idtoken
+                    //     );
+                    // });
                     // console.log(this.props.userStore);  
                 } else {
                     alert("failed logon..");
@@ -134,6 +163,8 @@ class LoginContainer extends Component {
                                 />
                             </Item>
                         */}
+                  
+                            {this.props.userStore.isLoggingIn?<Spinner/>:
                             <Button
                                 rounded
                                 primary
@@ -159,6 +190,7 @@ class LoginContainer extends Component {
                                     Login With Facebook
                                 </Text>
                             </Button>
+                            }
 
                             {/*<View style={styles.otherLinksContainer}>
                                 <Left>

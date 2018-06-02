@@ -125,12 +125,13 @@ class LocationPickerContainer extends Component {
 						},
 						powered: null
 					}}
-				/>
-				{/*<Input placeholder="עיר" />
-				<Input placeholder="רחוב" />
-				<Input placeholder="מס' בית" />
-				<Input placeholder="דירה" /> */}
-				<MapView
+				/> {
+    /*<Input placeholder="עיר" />
+    				<Input placeholder="רחוב" />
+    				<Input placeholder="מס' בית" />
+    				<Input placeholder="דירה" /> */
+}
+<MapView
 					region={this.state.mapRegion}
 					onRegionChange={this.onRegionChange.bind(this)}
 					style={styles.mapStyle}
@@ -150,13 +151,12 @@ class LocationPickerContainer extends Component {
 							});
 						}}
 					/>
-				</MapView>
-				<Button
-					onPress={this.getLocationAsync.bind(this)}
-					style={styles.locationButton}
-				>
-					<Icon name="locate" style={{ color: "#333333" }} />
-				</Button>
+				</MapView> <
+Button
+onPress = { this.getLocationAsync.bind(this) }
+style = { styles.locationButton } >
+    <Icon name="locate" style={{ color: "#333333" }} /> <
+    /Button>
 			</Content>
 		);
 	}
