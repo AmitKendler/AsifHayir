@@ -75,7 +75,7 @@ module.exports = function(app) {
             (~err.message.indexOf("not found") ||
                 ~err.message.indexOf("Cast to ObjectId failed"))
         ) {
-            return next();
+            next();
         }
         console.error(err.stack);
         // error page

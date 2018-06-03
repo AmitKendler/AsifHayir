@@ -9,7 +9,7 @@ const  UserSchema = new Schema({
 	lastName: String,
 	imageUrl: String,
 	level: {type: String, default: 'STARTER'},
-	rank: Number,
+	rank: {type: Number, default: 0},
 	phone: {type: String, required: true},
 	address: AddressSchema,
 	isVolunteer: {type: Boolean, required:true},
