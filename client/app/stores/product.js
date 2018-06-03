@@ -35,9 +35,9 @@ class Product {
             userId: "",
             address: {
                 location: null,
-                city: "n/a",
-                streetName: "n/a",
-                houseNumber: "n/a",
+                city: "",
+                streetName: "",
+                houseNumber: "",
                 aptNumber: 0
             },
             pickupTime: {
@@ -48,7 +48,6 @@ class Product {
             products: []
         };
     }
-
 
     addProductToList(product) {
         // TODO: add data validation
@@ -61,14 +60,14 @@ class Product {
         console.log(this.giveaway);
 
         fetch(Constants.BACKEND_URL + "/giveaways", {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "auth-token": userStore.token
-                },
-                body: JSON.stringify(this.giveaway)
-            })
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "auth-token": userStore.token
+            },
+            body: JSON.stringify(this.giveaway)
+        })
             .then(response => response.json())
             .then(responseJson => {
                 giveawayStore.loadGiveaways();

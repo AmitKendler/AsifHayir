@@ -4,6 +4,10 @@ import { Text, Content, Button, Icon, Item, Input } from "native-base";
 import { Constants, MapView, Location, Permissions } from "expo";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { observer } from "mobx-react/native";
+import cities from "./../../utils/cities";
+import streets from "./../../utils/streets";
+import { Col, Row, Grid } from "react-native-easy-grid";
+import ModalFilterPicker from "react-native-modal-filter-picker";
 
 const styles = StyleSheet.create({
 	locationButton: {
@@ -24,14 +28,29 @@ const styles = StyleSheet.create({
 
 @observer
 class LocationPickerContainer extends Component {
-	state = {
-		location: null,
-		errorMessage: null,
-		mapRegion: null,
-		lastLat: null,
-		lastLong: null,
-		itemLocation: { latitude: 0, longitude: 0 }
-	};
+	constructor(props, ctx) {
+		super(props, ctx);
+		this.state = {
+			location: null,
+			errorMessage: null,
+			mapRegion: null,
+			lastLat: null,
+			lastLong: null,
+			itemLocation: { latitude: 0, longitude: 0 },
+			citiesVisible: false,
+			streetsVisible: false
+		};
+
+		this.citiesOptions = cities.cities.map(city => ({
+			key: city,
+			label: city
+		}));
+
+		this.streetsOptions = streets.streets.map(street => ({
+			key: street,
+			label: street
+		}));
+	}
 
 	componentWillMount() {
 		if (Platform.OS === "android" && !Constants.isDevice) {
@@ -97,69 +116,154 @@ class LocationPickerContainer extends Component {
 
 	render() {
 		return (
-			<Content>
-				<GooglePlacesAutocomplete
-					placeholder="חפש מיקום"
-					minLength={2}
-					autoFocus={false}
-					returnKeyType={"search"}
-					fetchDetails={true}
-					onPress={(data, details = null) => {
-						let location = details.geometry.location;
-						this.changeLocation(location.lat, location.lng);
-					}}
-					ref={instance => {
-						this.locationRef = instance;
-					}}
-					query={{
-						key: "AIzaSyC2QhtACfVZ2cr9HVvxQuzxd3HT36NNK3Q",
-						language: "he",
-						types: "address"
-					}}
-					styles={{
-						description: {
-							fontWeight: "bold"
-						},
-						predefinedPlacesDescription: {
-							color: "#1faadb"
-						},
-						powered: null
-					}}
-				/>
-				{
-				    /*<Input placeholder="עיר" />
+			<Grid>
+				<Row>
+					<Col>
+						<GooglePlacesAutocomplete
+							placeholder="חפש מיקום"
+							minLength={2}
+							autoFocus={false}
+							returnKeyType={"search"}
+							fetchDetails={true}
+							onPress={(data, details = null) => {
+								let location = details.geometry.location;
+								this.changeLocation(location.lat, location.lng);
+							}}
+							ref={instance => {
+								this.locationRef = instance;
+							}}
+							query={{
+								key: "AIzaSyC2QhtACfVZ2cr9HVvxQuzxd3HT36NNK3Q",
+								language: "he",
+								types: "address"
+							}}
+							styles={{
+								description: {
+									fontWeight: "bold"
+								},
+								predefinedPlacesDescription: {
+									color: "#1faadb"
+								},
+								powered: null
+							}}
+						/>
+						{/*<Input placeholder="עיר" />
 				    				<Input placeholder="רחוב" />
 				    				<Input placeholder="מס' בית" />
-				    				<Input placeholder="דירה" /> */
-				}
-				<MapView
-					region={this.state.mapRegion}
-					onRegionChange={this.onRegionChange.bind(this)}
-					style={styles.mapStyle}
-				>
-					<MapView.Marker
-						title="גרור כדי לשנות"
-						draggable
-						coordinate={this.state.itemLocation}
-						onDragEnd={e => {
-							const coords = e.nativeEvent.coordinate;
-							this.changeLocation(
-								coords.latitude,
-								coords.longitude
-							);
-							this.setState({
-								itemLocation: coords
-							});
-						}}
-					/>
-				</MapView>
-				<Button
-					onPress={this.getLocationAsync.bind(this)}
-					style={styles.locationButton}
-				>
-					<Icon name="locate" style={{ color: "#333333" }} />
-				</Button>
-			</Content>
+				    				<Input placeholder="דירה" /> */}
+						<MapView
+							region={this.state.mapRegion}
+							onRegionChange={this.onRegionChange.bind(this)}
+							style={styles.mapStyle}
+						>
+							<MapView.Marker
+								title="גרור כדי לשנות"
+								draggable
+								coordinate={this.state.itemLocation}
+								onDragEnd={e => {
+									const coords = e.nativeEvent.coordinate;
+									this.changeLocation(
+										coords.latitude,
+										coords.longitude
+									);
+									this.setState({
+										itemLocation: coords
+									});
+								}}
+							/>
+						</MapView>
+						<Button
+							onPress={this.getLocationAsync.bind(this)}
+							style={styles.locationButton}
+						>
+							<Icon name="locate" style={{ color: "#333333" }} />
+						</Button>
+					</Col>
+				</Row>
+				<Row>
+					<Col>
+						<Item
+							onPress={() =>
+								this.setState({ citiesVisible: true })
+							}
+						>
+							<Input
+								disabled
+								placeholder="עיר "
+								value={this.props.giveawayObject.address.city}
+							/>
+						</Item>
+						<Item
+							onPress={() =>
+								this.setState({ streetsVisible: true })
+							}
+						>
+							<Input
+								disabled
+								placeholder="רחוב "
+								value={
+									this.props.giveawayObject.address.streetName
+								}
+							/>
+						</Item>
+
+						<Grid>
+							<Col>
+								<Item>
+									<Input
+										style={{ textAlign: "right" }}
+										keyboardType="numeric"
+										placeholder="דירה "
+										value={this.props.giveawayObject.address.aptNumber.toString()}
+										onChangeText={value =>
+											(this.props.giveawayObject.address.aptNumber = value.toString())
+										}
+									/>
+								</Item>
+							</Col>
+							<Col>
+								<Item>
+									<Input
+										style={{ textAlign: "right" }}
+										placeholder="מספר "
+										value={
+											this.props.giveawayObject.address
+												.houseNumber
+										}
+										onChangeText={value =>
+											(this.props.giveawayObject.address.houseNumber = value)
+										}
+									/>
+								</Item>
+							</Col>
+						</Grid>
+						<ModalFilterPicker
+							cancelButtonText="בטל"
+							visible={this.state.citiesVisible}
+							onSelect={value =>
+								(this.props.giveawayObject.address.city = value) &&
+								this.setState({ citiesVisible: false })
+							}
+							onCancel={() =>
+								this.setState({ citiesVisible: false })
+							}
+							options={this.citiesOptions}
+						/>
+						<ModalFilterPicker
+							cancelButtonText="בטל"
+							visible={this.state.streetsVisible}
+							onSelect={value =>
+								(this.props.giveawayObject.address.streetName = value) &&
+								this.setState({ streetsVisible: false })
+							}
+							onCancel={() =>
+								this.setState({ streetsVisible: false })
+							}
+							options={this.streetsOptions}
+						/>
+					</Col>
+				</Row>
+			</Grid>
 		);
 	}
 }

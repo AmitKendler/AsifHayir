@@ -56,7 +56,7 @@ const datas = [{
     },
     {
         name: "הגדרות",
-        route: "RegisterContainer",
+        route: "SettingsContainer",
         icon: "cog",
         bg: "#C5F442"
     },
