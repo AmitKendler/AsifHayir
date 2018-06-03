@@ -32,12 +32,13 @@ import Constants from "./../../utils/Constants";
                     </GiveawayItem>
                 ):null}
                 <ListItem itemDivider>
-                  <Text>נסמרו בהצלחה;ס</Text>
+                  <Text>נסמרו בהצלחה</Text>
                 </ListItem>
                 {giveaways&&giveaways.takenArr?giveaways.takenArr.map((prod,i)=>
                 <GiveawayItem name={prod.name}  status={prod.status} imageUrl={prod.imageUrl} addressString={"הרצליה ינה סנש 21"}>
                 </GiveawayItem>
                 ):null}
+                <View style={{height:50}}></View>
              </List>     
             </View>
         )

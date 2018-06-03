@@ -10,6 +10,33 @@ exports.login = function(req, res, next) {
     })
 }
 
+exports.checkExists = function(req, res, next) {
+    User.findOne({ authId: req.body.uid }).exec(function(err, user) {
+        if (err) return next(err);
+
+        if (user) {
+            res.send(user);
+        } else {
+            res.send({ _id: null, info: "non existinguser" });
+        }
+    })
+}
+
+exports.updateUserInfo = function(req, res, next) {
+    console.log("updaing user...");
+    User.findOne({ "_id": req.body.userId }).exec(function(err, user) {
+        if (err) return next(err);
+        if (user && req.body.address && req.body.phone) {
+            user.address = req.body.address;
+            user.phone = req.body.phone;
+            user.save(function(err, user) {
+                if (err) return next(err);
+                res.send(user);
+            });
+        }
+    });
+}
+
 exports.postLogin = function(req, res, next) {
     User.find({ authId: req.body.authId }).exec(function(err, data) {
         if (err) next(err);
