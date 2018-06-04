@@ -2,6 +2,8 @@ import { observable, action } from "mobx";
 import Constants from "./../utils/Constants";
 import { Actions } from "react-native-router-flux";
 import giveawayStore from "./giveaways";
+import backendStore from "./backend";
+
 class User {
     @observable user = [];
     @observable token = "";
@@ -48,7 +50,7 @@ class User {
         this.registerUser = this.createServerUserFromFirebaseUser(user);
         this.token = token;
 
-        fetch(`${Constants.BACKEND_URL}/user/exists`, {
+        fetch(`${backendStore.BACKEND_URL()}/user/exists`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -71,7 +73,7 @@ class User {
 
     loginWithToken() {
         this.isLoggingIn = true;
-        fetch(`${Constants.BACKEND_URL}/login/`, {
+        fetch(`${backendStore.BACKEND_URL()}/login/`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -93,7 +95,7 @@ class User {
     }
 
     updateUserInfo() {
-        fetch(`${Constants.BACKEND_URL}/user/update`, {
+        fetch(`${backendStore.BACKEND_URL()}/user/update`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -119,7 +121,7 @@ class User {
 
     sendNotificationToken(pushToken) {
         if (this.user._id) {
-            fetch(`${Constants.BACKEND_URL}/user/push-token`, {
+            fetch(`${backendStore.BACKEND_URL()}/user/push-token`, {
                 method: "POST",
                 headers: {
                     Accept: "application/json",

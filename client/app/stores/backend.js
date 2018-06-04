@@ -4,7 +4,11 @@ class TopUsers {
 	@observable backendPort = "";
 
 	constructor(props) {
-		(this.backendIp = "192.168.1.26"), (this.backendPort = "3000");
+		(this.backendIp = "192.168.43.108"), (this.backendPort = "3000");
+	}
+
+	BACKEND_URL() {
+		return `http://${this.backendIp}:${this.backendPort}`;
 	}
 }
 
