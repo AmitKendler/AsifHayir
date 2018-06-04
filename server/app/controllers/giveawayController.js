@@ -276,6 +276,8 @@ exports.changeProductsStatus = function (req, res, next) {
 								}
 							}
 						})();
+
+						res.send(updatedProducts);
 					})
 			});
 		});
