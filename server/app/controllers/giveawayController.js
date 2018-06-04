@@ -222,20 +222,20 @@ exports.changeProductsStatus = function (req, res, next) {
 		});
 
 		Promise.all(promises).then(function (updatedProducts, saveErr) {
-			if (saveErr) throw saveErr;
+			if (saveErr) next(saveErr);
 
 			let giveawayIds = _.map(products, "giveawayId");
 			Giveaway.find()
 			.where('_id').in(giveawayIds)
 			.exec(function (giveawayFindErr, giveaways) {
-				if (giveawayFindErr) throw giveawayFindErr;
+				if (giveawayFindErr) next(giveawayFindErr);
 
 				let usersIds = _.map(giveaways, "userId");
 				User.find()
 					.select("pushNotificationToken")
 					.where('_id').in(usersIds)
 					.exec(function(findUserErr, users) {
-						if (findUserErr) throw findUserErr;
+						if (findUserErr) next(findUserErr);
 
 						let expo = new Expo();
 						let messages = [];
@@ -276,6 +276,8 @@ exports.changeProductsStatus = function (req, res, next) {
 								}
 							}
 						})();
+
+						res.send(updatedProducts);
 					})
 			});
 		});
