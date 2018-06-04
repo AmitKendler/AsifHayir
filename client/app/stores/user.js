@@ -19,7 +19,7 @@ class User {
                 houseNumber: "",
                 aptNumber: 0
             }
-        }
+        };
     }
 
     createServerUserFromFirebaseUser(user) {
@@ -38,7 +38,7 @@ class User {
             },
             isVolunteer: false,
             authId: user.uid
-        }
+        };
 
         return serverUser;
     }
@@ -51,32 +51,35 @@ class User {
         fetch(`${Constants.BACKEND_URL}/user/exists`, {
             method: "POST",
             headers: {
-                "Accept": "application/json",
+                Accept: "application/json",
                 "Content-Type": "application/json",
                 "auth-token": this.token
             },
             body: JSON.stringify({ uid: this.registerUser.authId })
-        }).then(response => response.json()).then(responseJson => {
-            if (responseJson._id) {
-                this.user = responseJson;
-                Actions.HomeContainer();
-            } else {
-                Actions.RegisterContainer();
-            }
         })
+            .then(response => response.json())
+            .then(responseJson => {
+                if (responseJson._id) {
+                    this.user = responseJson;
+                    giveawayStore.loadGiveaways();
+                    Actions.HomeContainer();
+                } else {
+                    Actions.RegisterContainer();
+                }
+            });
     }
 
     loginWithToken() {
         this.isLoggingIn = true;
         fetch(`${Constants.BACKEND_URL}/login/`, {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "auth-token": this.token
-                },
-                body: JSON.stringify(this.registerUser)
-            })
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "auth-token": this.token
+            },
+            body: JSON.stringify(this.registerUser)
+        })
             .then(response => response.json())
             .then(responseJson => {
                 this.user = responseJson;
@@ -91,14 +94,19 @@ class User {
 
     updateUserInfo() {
         fetch(`${Constants.BACKEND_URL}/user/update`, {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "auth-token": this.token
-                },
-                body: JSON.stringify({ userId: this.user._id, address: this.user.address, phone: this.user.phone })
-            }).then(response => response.json())
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "auth-token": this.token
+            },
+            body: JSON.stringify({
+                userId: this.user._id,
+                address: this.user.address,
+                phone: this.user.phone
+            })
+        })
+            .then(response => response.json())
             .then(responseJson => {
                 if (responseJson._id === this.user._id) {
                     Actions.HomeContainer();
@@ -106,7 +114,7 @@ class User {
             })
             .catch(error => {
                 console.error(error);
-            })
+            });
     }
 
     sendNotificationToken(pushToken) {
@@ -114,7 +122,7 @@ class User {
             fetch(`${Constants.BACKEND_URL}/user/push-token`, {
                 method: "POST",
                 headers: {
-                    "Accept": "application/json",
+                    Accept: "application/json",
                     "Content-Type": "application/json",
                     "auth-token": this.token
                 },
@@ -124,7 +132,7 @@ class User {
                 })
             }).catch(error => {
                 console.error(error);
-            })
+            });
         }
     }
 }

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import {
-    HomeContainer,
-    ItemGiveawayContainer,
-    LoginContainer,
-    AboutUsContainer,
-    SettingsContainer,
-    RegisterContainer
+  HomeContainer,
+  ItemGiveawayContainer,
+  LoginContainer,
+  AboutUsContainer,
+  SettingsContainer,
+  RegisterContainer
 } from "./containers";
 import { Scene, Router, Actions } from "react-native-router-flux";
 import { Provider } from "mobx-react/native";
@@ -14,15 +14,17 @@ import giveawaysStore from "./stores/giveaways";
 import product from "./stores/product";
 import leaderboardStore from "./stores/leaderboard";
 import userStore from "./stores/user";
+import backendStore from "./stores/backend";
 
 export default class App extends React.Component {
-    render() {
-        return (
-            <Provider
+  render() {
+    return (
+      <Provider
         giveawaysStore={giveawaysStore}
         leaderboardStore={leaderboardStore}
         userStore={userStore}
         giveawayStore={product}
+        backendStore={backendStore}
       >
         <Router>
           <Scene key="root">
@@ -60,15 +62,15 @@ export default class App extends React.Component {
           </Scene>
         </Router>
       </Provider>
-        );
-    }
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center"
-    }
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });
