@@ -99,6 +99,12 @@ angular.module('AsifHayir')
 			scope.stringToDate = function (dateString) {
 				return moment(new Date(dateString)).format("DD/MM/YYYY HH:mm:ss");
 			}
+
+			scope.openSendMessageModal = function (userId) {
+
+				// scope.userIdForMessage = userId;
+				$("#sendMessageModal").modal("show");
+			}
 		}
 	}
 }]);

@@ -2,15 +2,14 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>צור הודעה חדשה</h4>
+                <h5>צור הודעה חדשה</h5>
             </div>
 
             <div class="modal-body">
-                ​<textarea id="msg" rows="5" cols="55" ng-model="message"></textarea>  
+                ​<textarea id="msgContent" rows="5" cols="55" ng-model="message"></textarea>  
             </div>
 
             <div class="modal-bottom">               
-                <!-- <button type="button" class="btn btn-close" data-dismiss="modal">סגור</button> -->
                 <button type="button" ng-click="sendMessage(message)" class="btn btn-primary" data-dismiss="modal">
                     שלח
                 </button>
