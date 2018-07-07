@@ -24,7 +24,8 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 
 const styles = StyleSheet.create({
     subTitle: {
-        color: "grey"
+        color: "grey",
+        textAlign: "left"
     },
     centerize: {
         alignItems: "center"
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         borderColor: "grey"
     },
-    title: { marginTop: 15, marginRight: 12 }
+    title: { marginTop: 15, marginRight: 12, textAlign: "left" }
 });
 
 const ActionTile = ({
@@ -83,6 +84,7 @@ const ActionTile = ({
 };
 
 @inject("userStore")
+@inject("giveawaysStore")
 @observer
 class UserContainer extends Component {
     constructor(props) {
@@ -90,7 +92,7 @@ class UserContainer extends Component {
     }
 
     render() {
-        const { userStore } = this.props;
+        const { userStore, giveawaysStore } = this.props;
         return (
             <Content>
                 <Card>
@@ -103,10 +105,10 @@ class UserContainer extends Component {
                                         {userStore.user.lastName}
                                     </H2>
                                     <H3 style={styles.subTitle}>
-                                        {userStore.user.level}
+                                        {Constants.RANKS[userStore.user.level]}
                                     </H3>
                                 </Col>
-                                <Col>
+                                <Col style={{ alignItems: "center" }}>
                                     <Thumbnail
                                         large
                                         source={{
@@ -124,11 +126,11 @@ class UserContainer extends Component {
                                 <Text note>מיקום</Text>
                             </Col>
                             <Col style={styles.middleActionTile}>
-                                <H1>{userStore.user.giveaways}</H1>
+                                <H1>{giveawaysStore.giveawaysCount}</H1>
                                 <Text note>מסירות</Text>
                             </Col>
                             <Col style={styles.centerize}>
-                                <H1>{userStore.user.score}</H1>
+                                <H1>{giveawaysStore.giveawaysScore}</H1>
                                 <Text note>ניקוד</Text>
                             </Col>
                         </Grid>

@@ -54,6 +54,8 @@ module.exports = function(app) {
      * User
      */
     app.post("/user/push-token", users.addPushTokenToUser);
+    app.post("/user/update", users.updateUserInfo);
+    app.post("/user/exists", users.checkExists);
     app.get("/login", users.login);
     app.post("/login", users.postLogin);
     app.post("/addUser", users.addUser);
@@ -75,7 +77,7 @@ module.exports = function(app) {
             (~err.message.indexOf("not found") ||
                 ~err.message.indexOf("Cast to ObjectId failed"))
         ) {
-            return next();
+            next();
         }
         console.error(err.stack);
         // error page

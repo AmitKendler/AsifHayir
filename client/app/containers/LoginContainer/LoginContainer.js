@@ -98,7 +98,7 @@ class LoginContainer extends Component {
                 if (currentUser) {
                     currentUser.user.getIdToken(true).then(idToken => {
 
-                        this.props.userStore.loginWithToken(idToken, currentUser.user);
+                        this.props.userStore.preloginWithToken(idToken, currentUser.user);
                         this.registerForPushNotificationsAsync();
                     });
 

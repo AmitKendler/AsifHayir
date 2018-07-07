@@ -6,10 +6,20 @@ class User {
     @observable user = [];
     @observable token = "";
     @observable isLoggingIn = false;
+    @observable registerUser = {};
 
     constructor(props) {
         this.user = null;
         this.token = null;
+        this.registerUser = {
+            phone: "",
+            address: {
+                streetName: "",
+                city: "",
+                houseNumber: "",
+                aptNumber: 0
+            }
+        };
     }
 
     createServerUserFromFirebaseUser(user) {
@@ -19,41 +29,88 @@ class User {
             firstName: fullname[0],
             lastName: fullname[1],
             imageUrl: user.photoURL,
-            phone: "0525848832",
+            phone: "",
             address: {
-                streetName: "קרליבך",
-                city: "תל אביב ",
-                houseNumber: "4ג",
-                aptNumber: 26
+                streetName: "",
+                city: "",
+                houseNumber: "",
+                aptNumber: 0
             },
             isVolunteer: false,
             authId: user.uid
-        }
+        };
 
         return serverUser;
     }
 
-    loginWithToken(token, user) {
-        this.isLoggingIn = true;
-        const postUser = this.createServerUserFromFirebaseUser(user)
-        console.log(postUser);
+    preloginWithToken(token, user) {
+        //TODO check if user exists and cache
+        this.registerUser = this.createServerUserFromFirebaseUser(user);
+        this.token = token;
 
-        fetch(`${Constants.BACKEND_URL}/login/`, {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "auth-token": token
-                },
-                body: JSON.stringify(postUser)
-            })
+        fetch(`${Constants.BACKEND_URL}/user/exists`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "auth-token": this.token
+            },
+            body: JSON.stringify({ uid: this.registerUser.authId })
+        })
             .then(response => response.json())
             .then(responseJson => {
-                this.token = token;
+                if (responseJson._id) {
+                    this.user = responseJson;
+                    giveawayStore.loadGiveaways();
+                    Actions.HomeContainer();
+                } else {
+                    Actions.RegisterContainer();
+                }
+            });
+    }
+
+    loginWithToken() {
+        this.isLoggingIn = true;
+        fetch(`${Constants.BACKEND_URL}/login/`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "auth-token": this.token
+            },
+            body: JSON.stringify(this.registerUser)
+        })
+            .then(response => response.json())
+            .then(responseJson => {
                 this.user = responseJson;
                 giveawayStore.loadGiveaways();
                 this.isLoggingIn = false;
-                Actions.RegisterContainer();
+                Actions.HomeContainer();
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    updateUserInfo() {
+        fetch(`${Constants.BACKEND_URL}/user/update`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "auth-token": this.token
+            },
+            body: JSON.stringify({
+                userId: this.user._id,
+                address: this.user.address,
+                phone: this.user.phone
+            })
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                if (responseJson._id === this.user._id) {
+                    Actions.HomeContainer();
+                }
             })
             .catch(error => {
                 console.error(error);
@@ -64,9 +121,8 @@ class User {
         if (this.user._id) {
             fetch(`${Constants.BACKEND_URL}/user/push-token`, {
                 method: "POST",
-
                 headers: {
-                    "Accept": "application/json",
+                    Accept: "application/json",
                     "Content-Type": "application/json",
                     "auth-token": this.token
                 },
@@ -76,7 +132,7 @@ class User {
                 })
             }).catch(error => {
                 console.error(error);
-            })
+            });
         }
     }
 }
