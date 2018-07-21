@@ -137,6 +137,14 @@ thead tr th {
   margin-top: 3%;
 }
 
+.plan-route-buttons {
+  padding: 10px;
+}
+
+.plan-route-buttons div:first-child {
+  margin-left: 20px;
+}
+
 .popover{
   width: 270px;
   max-width: 270px;
@@ -184,6 +192,11 @@ thead tr th {
   border-radius: 35px;
 }
 
+.locationInputs input {
+  width: 90%;
+  display: inline;
+}
+
 .btn-add {
   position: absolute;
   bottom: 2%;
@@ -191,10 +204,11 @@ thead tr th {
 }
 
 .modal-header {
-  background-color: #0275d8;
+  background-color: #455A64;
+  padding: 10px;
 }
 
-.modal-header h2 {
+.modal-header h5 {
   color: white;
 }
 
@@ -210,9 +224,9 @@ thead tr th {
 }
 
 .btn-close {
-  background-color: #252020d1;
-  color: #fff;
-  border-color: #252020d1;
+  background-color: rgba(69, 90, 100, 0.27);
+  /* color: #fff; */
+  border-color: rgba(69, 90, 100, 0.27);
 }
 
 .td-button {
@@ -379,6 +393,10 @@ thead tr th {
   background:#3B5998 url('../facebook.svg') no-repeat 14px 6px;
   background-size: 47px;
   color:#fff;
+}
+
+.darkBackground {
+  background-color: rgba(0,0,0,0.5);
 }
 
 /****** LOGIN MODAL ******/

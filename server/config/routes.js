@@ -8,6 +8,7 @@ const giveaways = require("../app/controllers/giveawayController");
 const vehicles = require("../app/controllers/vehicleController");
 const routes = require("../app/controllers/routeController");
 const users = require("../app/controllers/usersController");
+const constantPaths = require("../app/controllers/constantPathsController");
 
 /**
  * Expose
@@ -20,6 +21,14 @@ module.exports = function(app) {
     app.get("/volas", voluntaryAssociations.getAll);
     app.get("/volas/:id", voluntaryAssociations.getById);
     app.post("/volas", voluntaryAssociations.create);
+
+    /**
+     * Constant paths
+     */
+    app.get("/getConstantPaths", constantPaths.getAllPaths);
+    app.post("/addConstantPath", constantPaths.createPath);
+    app.delete("/deleteConstantPath/:id", constantPaths.deletePath);
+    app.put("/updateConstantPath/:id", constantPaths.updatePath);
 
     /**
      * Vehicle

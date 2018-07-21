@@ -2,7 +2,10 @@ angular.module('AsifHayir')
 	.directive('planRouteModal', ['DonationsService', '$http', function(DonationsService, $http) {
 	  return {
 	  	restrict: 'E',
-		templateUrl: "/javascripts/modules/modals/planRouteModal/planRouteModal.html",
+        templateUrl: "/javascripts/modules/modals/planRouteModal/planRouteModal.html",
+        scope: {
+            donations:'='
+        },
 	    link: function(scope, element, attrs) {
             var startPointAutocomplete, endPointAutocomplete;
 
@@ -11,12 +14,19 @@ angular.module('AsifHayir')
                 return new google.maps.LatLng(loc[0], loc[1]);
             }
 
-            scope.setPointByPlace = function (elementId) {
-                var place = startPointAutocomplete.getPlace();        
+            scope.getPointByPlace = function (autocompleteObject) {
+                var place = autocompleteObject.getPlace();        
                 var x = place.geometry.location.lng();
                 var y = place.geometry.location.lat();
-                scope[elementId] = new google.maps.LatLng(y, x);
+                return new google.maps.LatLng(y, x);
             }
+
+            // scope.setPointByPlace = function (elementId) {
+            //     var place = startPointAutocomplete.getPlace();        
+            //     var x = place.geometry.location.lng();
+            //     var y = place.geometry.location.lat();
+            //     scope[elementId] = new google.maps.LatLng(y, x);
+            // }
         
               // Bias the autocomplete object to the user's geographical location,
               // as supplied by the browser's 'navigator.geolocation' object.
@@ -45,8 +55,8 @@ angular.module('AsifHayir')
         
                 // When the user selects an address from the dropdown, populate the address
                 // fields in the form.
-                startPointAutocomplete.addListener('place_changed', () => scope.setPointByPlace("startPoint"));
-                endPointAutocomplete.addListener('place_changed', () => scope.setPointByPlace("endPoint"));
+                // startPointAutocomplete.addListener('place_changed', () => scope.setPointByPlace("startPoint"));
+                // endPointAutocomplete.addListener('place_changed', () => scope.setPointByPlace("endPoint"));
               }
 
             scope.getGoogleAutocompleteObject = function (elementId) {
@@ -55,7 +65,7 @@ angular.module('AsifHayir')
                     {types: ['geocode']});
             }
 
-            scope.planRoute = function (date, vehiclesAmount) {
+            scope.planRoute = function (date) {
 
                 var routeDonations = scope.getDonationsForAlgo();
 
@@ -69,8 +79,8 @@ angular.module('AsifHayir')
                 });
 
 				directionsService.route({
-                    origin: scope.startPoint,
-                    destination: scope.endPoint,
+                    origin: scope.getPointByPlace(startPointAutocomplete),
+                    destination: scope.getPointByPlace(endPointAutocomplete),
 					waypoints: wayPoints,
 					optimizeWaypoints: true,
 					travelMode: 'DRIVING'

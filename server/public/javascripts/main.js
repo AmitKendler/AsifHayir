@@ -23,6 +23,11 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
             controller: 'donations',
             resolve: reolveRoute("donations")
         })
+        .when("/constantPaths", {
+            templateUrl : "javascripts/modules/constantPaths/screen/constantPathsScreen.html",
+            controller: 'constantPaths',
+            resolve: reolveRoute("constantPaths")
+        })   
         .when("/vehicles", {
             templateUrl : "javascripts/modules/vehicles/screen/vehiclesScreen.html",
             controller: 'vehicles',

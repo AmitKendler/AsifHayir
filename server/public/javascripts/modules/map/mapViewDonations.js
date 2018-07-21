@@ -9,11 +9,30 @@ angular.module('AsifHayir')
 			template: '<div id="map" class="container-fluid" style="height: ' + window.innerHeight*0.4 + 'px; margin:auto;"></div>',
 	    link: function(scope, element, attrs) {
 
+			scope.markers=[];
+
 			scope.$on("setRouteInfo", function(event, route) {
-				scope.route = route;
-				scope.displayRoute();
+				scope.clearMarkers();
+
+				setTimeout(() => {
+					scope.route = route;
+					scope.initMap();
+				}, 1000);
 			});
 
+			
+
+			scope.clearMarkers = function() {
+				// scope.markerCluster.clearMarkers();
+
+				for (var i = 0; i < scope.markers.length; i++) {
+					scope.markers[i].setMap(null);
+				}
+
+				scope.markers = [];
+			}
+
+			  
 			scope.initMap = function () {
 
 				scope.map = new google.maps.Map(document.getElementById('map'), {
@@ -37,7 +56,6 @@ angular.module('AsifHayir')
 				var infowindow = new google.maps.InfoWindow();
 		
 				var marker, i;
-				var markers=[];
 
 				scope.donations.forEach(donation => {
 				
@@ -46,18 +64,18 @@ angular.module('AsifHayir')
 						map: scope.map
 					});
 
-					markers.push(marker);
+					scope.markers.push(marker);
 
 					google.maps.event.addListener(marker, 'click', (function(marker, i) {
 						return function() {
-							infowindow.setContent(donation.title);
+							infowindow.setContent(donation.product.name);
 							infowindow.open(scope.map, marker);
 						}
 					})(marker, i));
 				});
 
 				// Add a marker clusterer to manage the markers.
-        		var markerCluster = new MarkerClusterer(scope.map, markers,
+        		scope.markerCluster = new MarkerClusterer(scope.map, scope.markers,
             	{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 				
 			}
