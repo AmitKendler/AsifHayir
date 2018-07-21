@@ -9,6 +9,7 @@
           <th ng-repeat="column in tableColumns">{{column.label}}</th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -27,7 +28,12 @@
           <td>
             <popover-advanced-details class="btn btn-sm btn-info" type="donation.product.prodType" product="donation.product">i                
             </popover-advanced-details>
-        </td>
+          </td>
+          <td>
+            <div title="שלח הודעה לתורם" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#sendMessageModal" data-user-id="{{donation.userId}}">
+                <span class="fa fa-envelope"></span>
+            </div>
+          </td>
         </tr>        
       </tbody>
   </table>
@@ -105,4 +111,6 @@
           </div>   
       </div> 
     </div>
+
+<send-message-modal></send-message-modal>
   

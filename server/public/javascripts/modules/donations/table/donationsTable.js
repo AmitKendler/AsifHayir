@@ -9,7 +9,7 @@ angular.module('AsifHayir')
 		templateUrl: "/javascripts/modules/donations/table/donationsTable.html",
 	    link: function(scope, element, attrs) {
 
-			scope.columnWidth = scope.hideCheckboxes ? "13%" : "11%";
+			// scope.columnWidth = scope.hideCheckboxes ? "13%" : "11%";
 
 			scope.$on("updateDonations", function(e, donations) {
 				scope.donations = donations;
@@ -94,12 +94,16 @@ angular.module('AsifHayir')
 
 			scope.getTimeLabel = function (pickupTime) {
 				return scope.stringToDate(pickupTime);
-				// return (scope.stringToDate(pickupTime.startTime) + "-" + scope.stringToDate(pickupTime.endTime));
 			}
 
 			scope.stringToDate = function (dateString) {
 				return moment(new Date(dateString)).format("DD/MM/YYYY HH:mm:ss");
-				// return (new Date(dateString)).toLocaleString([], {hour12: false});
+			}
+
+			scope.openSendMessageModal = function (userId) {
+
+				// scope.userIdForMessage = userId;
+				$("#sendMessageModal").modal("show");
 			}
 		}
 	}
