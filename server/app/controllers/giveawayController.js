@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const _ = require("lodash");
-const Expo = require("expo-server-sdk")
+const Expo = require("expo-server-sdk");
+const utils = require("../utils");
 const Giveaway = mongoose.model("Giveaway");
 const Product = mongoose.model("Product");
 const Route = mongoose.model("Route");
@@ -239,14 +240,7 @@ exports.changeProductsStatus = function (req, res, next) {
 			let giveawayIds = _.map(updatedProducts, "giveawayId");
 			return Giveaway.find()
 				.where('_id').in(giveawayIds)
-				.exec(
-				// 	function (giveawayFindErr, giveaways) {
-				// 	if (giveawayFindErr) next(giveawayFindErr);
-
-				// 	return giveaways;
-
-				// }
-			)
+				.exec();
 		})
 		.then(function (giveaways, giveawayFindErr) {
 			if (giveawayFindErr) next(giveawayFindErr);
@@ -255,13 +249,7 @@ exports.changeProductsStatus = function (req, res, next) {
 			return User.find()
 				.select("pushNotificationToken")
 				.where('_id').in(usersIds)
-				.exec(
-				// 	function (findUserErr, users) {
-				// 	if (findUserErr) next(findUserErr);
-
-				// 	return users;
-				// }
-			)
+				.exec();
 		})
 		.then(function (users, findUserErr) {
 			if (findUserErr) next(findUserErr);
@@ -286,30 +274,7 @@ exports.changeProductsStatus = function (req, res, next) {
 			return messages;
 		})
 		.then(function (messages) {
-
-			let expo = new Expo();
-			
-			// The Expo push notification service accepts batches of notifications so
-			// that you don't need to send 1000 requests to send 1000 notifications. We
-			// recommend you batch your notifications to reduce the number of requests
-			// and to compress them (notifications with similar content will get
-			// compressed).
-			let chunks = expo.chunkPushNotifications(messages);
-
-			(async () => {
-				// Send the chunks to the Expo push notification service. There are
-				// different strategies you could use. A simple one is to send one chunk at a
-				// time, which nicely spreads the load out over time:
-				for (let chunk of chunks) {
-					try {
-						let receipts = await expo.sendPushNotificationsAsync(chunk);
-						console.log(receipts);
-					} catch (error) {
-						console.error(error);
-					}
-				}
-			})();
-
+			utils.sendPush(messages);
 			res.send(productsToRet);
 		});
 }

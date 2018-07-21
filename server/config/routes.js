@@ -56,6 +56,7 @@ module.exports = function(app) {
     app.post("/user/push-token", users.addPushTokenToUser);
     app.post("/user/update", users.updateUserInfo);
     app.post("/user/exists", users.checkExists);
+    app.post("/user/sendMessage", users.sendMessage);
     app.get("/login", users.login);
     app.post("/login", users.postLogin);
     app.post("/addUser", users.addUser);
