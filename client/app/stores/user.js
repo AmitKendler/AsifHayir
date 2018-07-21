@@ -51,14 +51,14 @@ class User {
         this.token = token;
 
         fetch(`${backendStore.BACKEND_URL()}/user/exists`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "auth-token": this.token
-            },
-            body: JSON.stringify({ uid: this.registerUser.authId })
-        })
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "auth-token": this.token
+                },
+                body: JSON.stringify({ uid: this.registerUser.authId })
+            })
             .then(response => response.json())
             .then(responseJson => {
                 if (responseJson._id) {
@@ -74,14 +74,14 @@ class User {
     loginWithToken() {
         this.isLoggingIn = true;
         fetch(`${backendStore.BACKEND_URL()}/login/`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "auth-token": this.token
-            },
-            body: JSON.stringify(this.registerUser)
-        })
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "auth-token": this.token
+                },
+                body: JSON.stringify(this.registerUser)
+            })
             .then(response => response.json())
             .then(responseJson => {
                 this.user = responseJson;
@@ -96,18 +96,18 @@ class User {
 
     updateUserInfo() {
         fetch(`${backendStore.BACKEND_URL()}/user/update`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "auth-token": this.token
-            },
-            body: JSON.stringify({
-                userId: this.user._id,
-                address: this.user.address,
-                phone: this.user.phone
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "auth-token": this.token
+                },
+                body: JSON.stringify({
+                    userId: this.user._id,
+                    address: this.user.address,
+                    phone: this.user.phone
+                })
             })
-        })
             .then(response => response.json())
             .then(responseJson => {
                 if (responseJson._id === this.user._id) {

@@ -6,6 +6,7 @@ import AboutUsContainer from "./AboutUsContainer/AboutUsContainer";
 import SettingsContainer from "./SettingsContainer/SettingsContainer";
 import LoginContainer from "./LoginContainer/LoginContainer";
 import RegisterContainer from "./RegisterContainer/RegisterContainer";
+import GiveawayFinishContainer from "./GiveawayFinishContainer/GiveawayFinishContainer";
 
 export {
     HomeContainer,
@@ -15,5 +16,6 @@ export {
     AboutUsContainer,
     SettingsContainer,
     LoginContainer,
-    RegisterContainer
+    RegisterContainer,
+    GiveawayFinishContainer
 };
