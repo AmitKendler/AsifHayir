@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const _ = require('lodash');
 const utils = require('../utils');
 const User = mongoose.model("User");
+const store = require('../store');
 
 exports.login = function(req, res, next) {
     User.find({ authId: req.body.token }).exec(function(err, data) {
@@ -9,6 +10,10 @@ exports.login = function(req, res, next) {
 
         res.send(data);
     })
+}
+
+exports.registerAssociationPushToken = function(req, res, next) {
+    store.registerVolunteerClientToken(req.pushToken);
 }
 
 exports.checkExists = function(req, res, next) {

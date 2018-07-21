@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 const Expo = require("expo-server-sdk");
 const utils = require("../utils");
+const store = require('../store');
 const Giveaway = mongoose.model("Giveaway");
 const Product = mongoose.model("Product");
 const Route = mongoose.model("Route");
@@ -125,7 +126,8 @@ exports.createGiveawayWithProducts = function (req, res, next) {
 				productsPromises.push(new Product(prod).save());
 			});
 
-			Promise.all(productsPromises).then(function (prodArray, err) {
+			Promise.all(productsPromises)
+			.then(function (prodArray, err) {
 				if (err) next(err);
 
 				prodArray.forEach(function (prod) {
@@ -144,14 +146,38 @@ exports.createGiveawayWithProducts = function (req, res, next) {
 						user.save(function (saveUserErr, savedUser) {
 							if (saveUserErr) throw saveUserErr;
 
-							res.send({
+							return {
 								"updatedGiveaway": updatedGiveaway,
 								"updatedUser": savedUser
-							});
+							};
 						});
 						// }
 					});
 				});
+			})
+			.then(function (result) {
+
+				let volasTokens = store.getRegisteredVolunteerClientsToken();
+				messages = [];
+
+				volasTokens.forEach(function (token) {
+					// Check that all your push tokens appear to be valid Expo push tokens
+					if (!Expo.isExpoPushToken(token)) {
+						console.error(`Push token ${token} is not a valid Expo push token`);
+					} else {
+						messages.push({
+							to: tolken,
+							sound: 'default',
+							title: 'תרומה חדשה!',
+							body: 'בדיוק נכנסה תרומה חדשה, לך תבדוק!',
+							data: result.updatedGiveaway
+						})
+					}
+
+					utils.sendPush(messages);
+				})
+				
+				res.send(result);
 			});
 		});
 	}
@@ -276,6 +302,9 @@ exports.changeProductsStatus = function (req, res, next) {
 		.then(function (messages) {
 			utils.sendPush(messages);
 			res.send(productsToRet);
+		})
+		.catch(function (err) {
+			next(err);
 		});
 }
 
