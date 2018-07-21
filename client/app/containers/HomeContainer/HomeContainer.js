@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import {
-  Text,
-  View,
-  ScrollView,
-  Animated,
-  StyleSheet,
-  Dimensions
+    Text,
+    View,
+    ScrollView,
+    Animated,
+    StyleSheet,
+    Dimensions
 } from "react-native";
 import { GiveawaysList, Sidebar } from "./../../components";
 import NavbarContainer from "./../NavbarContainer/NavbarContainer";
@@ -16,57 +16,57 @@ import LeaderBoardContainer from "./../LeaderBoardContainer/LeaderBoardContainer
 import LeaderboardListContainer from "./../LeaderboardListContainer/LeaderboardListContainer";
 import GiveawaysListContainer from "./../GiveawaysListContainer/GiveawaysListContainer";
 import {
-  Button,
-  Icon,
-  Fab, 
-  Container,
-  Tab,
-  TabHeading,
-  Tabs,
-  Header,
-  ScrollableTab,
-  Drawer
+    Button,
+    Icon,
+    Fab,
+    Container,
+    Tab,
+    TabHeading,
+    Tabs,
+    Header,
+    ScrollableTab,
+    Drawer
 } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
 const styles = StyleSheet.create({
-  giveawayItemsContainer: {
-    backgroundColor: "#fff"
-  }
+    giveawayItemsContainer: {
+        backgroundColor: "#fff"
+    }
 });
 
-const tabsTitles = ["איזור אישי", "רשמת מסירות", "טבלת המובילים"];
+const tabsTitles = ["איזור אישי", "רשמת מסירות"];
 
 @inject("giveawaysStore")
 @inject("leaderboardStore")
 class HomeContainer extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      activeFabs: false,
-      title: tabsTitles[0],
-      currentTab: 0
-    };
-  }
+        this.state = {
+            activeFabs: false,
+            title: tabsTitles[0],
+            currentTab: 0
+        };
+    }
 
-  changeTitleByTab(i) {
-    this.setState({ title: tabsTitles[i], currentTab: i });
-  }
+    changeTitleByTab(i) {
+        this.setState({ title: tabsTitles[i], currentTab: i });
+    }
 
-  closeDrawer() {
-    this.drawer._root.close();
-  }
+    closeDrawer() {
+        this.drawer._root.close();
+    }
 
-  toggleDrawer() {
-    this.drawer._root.open();
-  }
+    toggleDrawer() {
+        this.drawer._root.open();
+    }
 
-  render() {
-    const { giveaways } = this.props.giveawaysStore; // fetch from server []
-    const { leaderboard } = this.props.leaderboardStore;
-    return (
-      <Container>
+    render() {
+        const { giveaways } = this.props.giveawaysStore; // fetch from server []
+        const { leaderboard } = this.props.leaderboardStore;
+        return (
+            <Container>
         <Drawer
           ref={ref => {
             this.drawer = ref;
@@ -88,7 +88,7 @@ class HomeContainer extends Component {
                 tabStyle={{ width: "100%" }}
                 heading={
                   <TabHeading
-                    style={{ width: Dimensions.get("window").width / 3 }}
+                    style={{ width: Dimensions.get("window").width / 2 }}
                   >
                     <Icon name="person" />
                   </TabHeading>
@@ -101,7 +101,7 @@ class HomeContainer extends Component {
               <Tab
                 heading={
                   <TabHeading
-                    style={{ width: Dimensions.get("window").width / 3 }}
+                    style={{ width: Dimensions.get("window").width /2 }}
                   >
                     <Icon name="list" />
                   </TabHeading>
@@ -110,17 +110,6 @@ class HomeContainer extends Component {
                 <ScrollView style={styles.giveawayItemsContainer}>
                   <GiveawaysListContainer giveaways={giveaways} />
                 </ScrollView>
-              </Tab>
-              <Tab
-                heading={
-                  <TabHeading
-                    style={{ width: Dimensions.get("window").width / 3 }}
-                  >
-                    <Icon name="trophy" />
-                  </TabHeading>
-                }
-              >
-                <LeaderboardListContainer leaderboard={leaderboard} />
               </Tab>
             </Tabs>
             {this.state.currentTab !== 0
@@ -156,8 +145,8 @@ class HomeContainer extends Component {
           </NavbarContainer>
         </Drawer>
       </Container>
-    );
-  }
+        );
+    }
 }
 
 export default HomeContainer;

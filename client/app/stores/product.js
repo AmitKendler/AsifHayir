@@ -3,6 +3,7 @@ import Constants from "./../utils/Constants";
 import userStore from "./user";
 import giveawayStore from "./giveaways";
 import { Actions } from "react-native-router-flux";
+import backendStore from "./backend";
 
 class Product {
     @observable product;
@@ -59,22 +60,23 @@ class Product {
         // TODO: Validate data
         console.log(this.giveaway);
 
-        fetch(Constants.BACKEND_URL + "/giveaways", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "auth-token": userStore.token
-            },
-            body: JSON.stringify(this.giveaway)
-        })
+        fetch(backendStore.BACKEND_URL() + "/giveaways", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "auth-token": userStore.token
+                },
+                body: JSON.stringify(this.giveaway)
+            })
             .then(response => response.json())
             .then(responseJson => {
                 giveawayStore.loadGiveaways();
                 this.initStore();
-                Actions.HomeContainer();
+                Actions.GiveawayFinishContainer();
             })
             .catch(error => {
+                this.giveaway.products = [];
                 console.error(error);
             });
     }

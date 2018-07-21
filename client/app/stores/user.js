@@ -2,6 +2,8 @@ import { observable, action } from "mobx";
 import Constants from "./../utils/Constants";
 import { Actions } from "react-native-router-flux";
 import giveawayStore from "./giveaways";
+import backendStore from "./backend";
+
 class User {
     @observable user = [];
     @observable token = "";
@@ -48,15 +50,15 @@ class User {
         this.registerUser = this.createServerUserFromFirebaseUser(user);
         this.token = token;
 
-        fetch(`${Constants.BACKEND_URL}/user/exists`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "auth-token": this.token
-            },
-            body: JSON.stringify({ uid: this.registerUser.authId })
-        })
+        fetch(`${backendStore.BACKEND_URL()}/user/exists`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "auth-token": this.token
+                },
+                body: JSON.stringify({ uid: this.registerUser.authId })
+            })
             .then(response => response.json())
             .then(responseJson => {
                 if (responseJson._id) {
@@ -71,15 +73,15 @@ class User {
 
     loginWithToken() {
         this.isLoggingIn = true;
-        fetch(`${Constants.BACKEND_URL}/login/`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "auth-token": this.token
-            },
-            body: JSON.stringify(this.registerUser)
-        })
+        fetch(`${backendStore.BACKEND_URL()}/login/`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "auth-token": this.token
+                },
+                body: JSON.stringify(this.registerUser)
+            })
             .then(response => response.json())
             .then(responseJson => {
                 this.user = responseJson;
@@ -93,19 +95,19 @@ class User {
     }
 
     updateUserInfo() {
-        fetch(`${Constants.BACKEND_URL}/user/update`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "auth-token": this.token
-            },
-            body: JSON.stringify({
-                userId: this.user._id,
-                address: this.user.address,
-                phone: this.user.phone
+        fetch(`${backendStore.BACKEND_URL()}/user/update`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "auth-token": this.token
+                },
+                body: JSON.stringify({
+                    userId: this.user._id,
+                    address: this.user.address,
+                    phone: this.user.phone
+                })
             })
-        })
             .then(response => response.json())
             .then(responseJson => {
                 if (responseJson._id === this.user._id) {
@@ -119,7 +121,7 @@ class User {
 
     sendNotificationToken(pushToken) {
         if (this.user._id) {
-            fetch(`${Constants.BACKEND_URL}/user/push-token`, {
+            fetch(`${backendStore.BACKEND_URL()}/user/push-token`, {
                 method: "POST",
                 headers: {
                     Accept: "application/json",

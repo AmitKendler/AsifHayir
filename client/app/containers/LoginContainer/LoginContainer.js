@@ -40,6 +40,7 @@ const auth = firebase.auth();
 const provider = new firebase.auth.FacebookAuthProvider();
 
 @inject("userStore")
+@inject("backendStore")
 @observer
 class LoginContainer extends Component {
     constructor(props) {
@@ -59,15 +60,17 @@ class LoginContainer extends Component {
 
         // only ask if permissions have not already been determined, because
         // iOS won't necessarily prompt the user a second time.
-        if (existingStatus !== 'granted') {
+        if (existingStatus !== "granted") {
             // Android remote notification permissions are granted during the app
             // install, so this will only ask on iOS
-            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            const { status } = await Permissions.askAsync(
+                Permissions.NOTIFICATIONS
+            );
             finalStatus = status;
         }
 
         // Stop here if the user did not grant permissions
-        if (finalStatus !== 'granted') {
+        if (finalStatus !== "granted") {
             return;
         }
 
@@ -78,12 +81,12 @@ class LoginContainer extends Component {
 
     async handleFacebookButton() {
         this.props.userStore.isLoggingIn = true;
-        const {
-            type,
-            token
-        } = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID, {
-            permissions: ["public_profile", "email"]
-        });
+        const { type, token } = await Facebook.logInWithReadPermissionsAsync(
+            FACEBOOK_APP_ID,
+            {
+                permissions: ["public_profile", "email"]
+            }
+        );
         if (type === "success") {
             //Firebase credential is created with the Facebook access token.
             const credential = firebase.auth.FacebookAuthProvider.credential(
@@ -97,8 +100,10 @@ class LoginContainer extends Component {
 
                 if (currentUser) {
                     currentUser.user.getIdToken(true).then(idToken => {
-
-                        this.props.userStore.preloginWithToken(idToken, currentUser.user);
+                        this.props.userStore.preloginWithToken(
+                            idToken,
+                            currentUser.user
+                        );
                         this.registerForPushNotificationsAsync();
                     });
 
@@ -108,7 +113,7 @@ class LoginContainer extends Component {
                     //     this.props.userStore.loginWithToken(idtoken
                     //     );
                     // });
-                    // console.log(this.props.userStore);  
+                    // console.log(this.props.userStore);
                 } else {
                     alert("failed logon..");
                 }
@@ -140,58 +145,58 @@ class LoginContainer extends Component {
                         />
 
                         <View style={styles.bg}>
-                            {/*
                             <Item rounded style={styles.inputGrp}>
-                                <Icon name="person" style={styles.icon} />
+                                <Icon name="unlock" style={styles.icon} />
                                 <Input
-                                    placeholder="שם משתמש"
-                                    onChangeText={username =>
-                                        this.setState({ username })}
-                                    placeholderTextColor="#FFF"
-                                    style={styles.input}
+                                    style={{ textAlign: "left" }}
+                                    keyboardType="numeric"
+                                    value={this.props.backendStore.backendIp}
+                                    onChangeText={value =>
+                                        (this.props.backendStore.backendIp = value)
+                                    }
                                 />
                             </Item>
 
                             <Item rounded style={styles.inputGrp}>
                                 <Icon name="unlock" style={styles.icon} />
                                 <Input
-                                    placeholder="סיסמא"
-                                    secureTextEntry
-                                    placeholderTextColor="#FFF"
-                                    onChangeText={password =>
-                                        this.setState({ password })}
-                                    style={styles.input}
+                                    style={{ textAlign: "left" }}
+                                    keyboardType="numeric"
+                                    value={this.props.backendStore.backendPort}
+                                    onChangeText={value =>
+                                        (this.props.backendStore.backendPort = value)
+                                    }
                                 />
                             </Item>
-                        */}
-                  
-                            {this.props.userStore.isLoggingIn?<Spinner/>:
-                            <Button
-                                rounded
-                                primary
-                                block
-                                large
-                                style={styles.loginBtn}
-                                onPress={() => this.handleFacebookButton()}
-                            >
-                                <Text
-                                    style={
-                                        Platform.OS === "android"
-                                            ? {
-                                                  fontSize: 16,
-                                                  textAlign: "center",
-                                                  top: -5
-                                              }
-                                            : {
-                                                  fontSize: 16,
-                                                  fontWeight: "900"
-                                              }
-                                    }
+
+                            {this.props.userStore.isLoggingIn ? (
+                                <Spinner />
+                            ) : (
+                                <Button
+                                    rounded
+                                    primary
+                                    block
+                                    large
+                                    style={styles.loginBtn}
+                                    onPress={() => this.handleFacebookButton()}
                                 >
-                                    Login With Facebook
-                                </Text>
-                            </Button>
-                            }
+                                    <Text
+                                        style={
+                                            Platform.OS === "android"
+                                                ? {
+                                                      fontSize: 16,
+                                                      textAlign: "center"
+                                                  }
+                                                : {
+                                                      fontSize: 16,
+                                                      fontWeight: "900"
+                                                  }
+                                        }
+                                    >
+                                        התחבר באמצעות פייסבוק
+                                    </Text>
+                                </Button>
+                            )}
 
                             {/*<View style={styles.otherLinksContainer}>
                                 <Left>
@@ -218,7 +223,6 @@ class LoginContainer extends Component {
                         */}
                         </View>
                     </ImageBackground>
-
                 </Content>
             </Container>
         );

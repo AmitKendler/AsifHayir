@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const _ = require('lodash');
+const utils = require('../utils');
 const User = mongoose.model("User");
+const store = require('../store');
 
 exports.login = function(req, res, next) {
     User.find({ authId: req.body.token }).exec(function(err, data) {
@@ -8,6 +10,10 @@ exports.login = function(req, res, next) {
 
         res.send(data);
     })
+}
+
+exports.registerAssociationPushToken = function(req, res, next) {
+    store.registerVolunteerClientToken(req.pushToken);
 }
 
 exports.checkExists = function(req, res, next) {
@@ -23,7 +29,7 @@ exports.checkExists = function(req, res, next) {
 }
 
 exports.updateUserInfo = function(req, res, next) {
-    console.log("updaing user...");
+    console.log("updating user...");
     User.findOne({ "_id": req.body.userId }).exec(function(err, user) {
         if (err) return next(err);
         if (user && req.body.address && req.body.phone) {
@@ -124,4 +130,30 @@ exports.deleteUser = function(req, res, next) {
 
         res.sendStatus(200);
     });
+}
+
+exports.sendMessage = function(req, res, next) {
+    let userId = req.body.userId;
+    let message = req.body.message;
+
+    new Promise((resolve, reject) => {
+        User.findById(userId)
+        .exec(function (err, user) {
+            if (err) next(err)
+
+            resolve(user);
+        })
+    })
+    .then(function(user) {
+        let pushMessage = {
+            to: user.pushNotificationToken,
+            sound: 'default',
+            title: 'לאסיף העיר יש הודעה בשבילך!',
+            body: message 
+        }
+
+        utils.sendPush([pushMessage]);
+
+        res.send(200);
+    })
 }
