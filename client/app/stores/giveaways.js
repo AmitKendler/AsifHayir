@@ -2,7 +2,7 @@ import { observable, action } from "mobx";
 import list from "./giveaways.json"; // TEMPORARLY - UNTIL BACKEND
 import Constants from "./../utils/Constants";
 import userStore from "./user";
-
+import backendStore from "./backend";
 class Giveaways {
     @observable giveaways = [];
     @observable giveawaysCount = 0;
@@ -14,7 +14,9 @@ class Giveaways {
 
     loadGiveaways() {
         fetch(
-            `${Constants.BACKEND_URL}/giveaways/users/${userStore.user._id}`,
+            `${backendStore.BACKEND_URL()}/giveaways/users/${
+                userStore.user._id
+            }`,
             {
                 headers: {
                     "auth-token": userStore.token
