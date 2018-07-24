@@ -1,4 +1,7 @@
 var app = angular.module("AsifHayir");
+const messaging = firebase.messaging();
+// Add the public key generated from the console here.
+messaging.usePublicVapidKey("BMd7sZp5XN1Tbn1c8K2ynoxrbC9sXnj5MQxoupB-FuKu756cm70tkOzYRN1umuNdCYO1TaTjEn08lAcfkGdRmJ8");
 
 app.factory("UserAuth", function($q, $timeout){
     var deferred = $q.defer();
@@ -16,27 +19,28 @@ app.factory("UserAuth", function($q, $timeout){
     }
  });
 
-app.factory("Auth", ["$firebaseAuth",
-  function($firebaseAuth) {
-      // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyCLjvInkTICWVDqRKx7HcGztQD--pI0mEE",
-        authDomain: "leftright-2e5de.firebaseapp.com",
-        databaseURL: "https://leftright-2e5de.firebaseio.com",
-        projectId: "leftright-2e5de",
-        storageBucket: "leftright-2e5de.appspot.com",
-        messagingSenderId: "371521623116"
-    };
-    firebase.initializeApp(config);
+// app.factory("Auth", ["$firebaseAuth",
+//   function($firebaseAuth) {
+// //       // Initialize Firebase
+// //     var config = {
+// //         apiKey: "AIzaSyCLjvInkTICWVDqRKx7HcGztQD--pI0mEE",
+// //         authDomain: "leftright-2e5de.firebaseapp.com",
+// //         databaseURL: "https://leftright-2e5de.firebaseio.com",
+// //         projectId: "leftright-2e5de",
+// //         storageBucket: "leftright-2e5de.appspot.com",
+// //         messagingSenderId: "371521623116"
+// //     };
+// //     firebase.initializeApp(config);
 
-    return $firebaseAuth();
-  }
-]);
+// //     return $firebaseAuth();
+// return {};
+//   }
+// ]);
 
-app.controller("AuthCtrl", function($scope, $location, Auth, $http, $timeout, UserAuth){
+app.controller("AuthCtrl", function($scope, $location,/* Auth,*/ $http, $timeout, UserAuth){
 
      // any time auth state changes, add the user data to scope
-     Auth.$onAuthStateChanged(function(firebaseUser) {
+     firebase.auth().onAuthStateChanged(function(firebaseUser) {
         if (firebaseUser != null) $scope.afterLogin(firebaseUser);
         else {
             $('#loginModal').modal('show');
@@ -67,7 +71,46 @@ app.controller("AuthCtrl", function($scope, $location, Auth, $http, $timeout, Us
       }
 
       $scope.login = function () {
-        Auth.$signInWithEmailAndPassword($scope.email, $scope.password).then(function(firebaseUser) {
+        firebase.auth().signInWithEmailAndPassword($scope.email, $scope.password).then(function(firebaseUser) {
+            messaging.requestPermission().then(function() {
+                console.log('Notification permission granted.');
+                // Get Instance ID token. Initially this makes a network call, once retrieved
+                // subsequent calls to getToken will return from cache.
+                messaging.getToken().then(function(currentToken) {
+                    if (currentToken) {
+                        sendTokenToServer(currentToken);
+                        // updateUIForPushEnabled(currentToken);
+                    } else {
+                    // Show permission request.
+                    console.log('No Instance ID token available. Request permission to generate one.');
+                        // Show permission UI.
+                        // updateUIForPushPermissionRequired();
+                        // setTokenSentToServer(false);
+                    }
+                }).catch(function(err) {
+                    console.log('An error occurred while retrieving token. ', err);
+                    // showToken('Error retrieving Instance ID token. ', err);
+                    // setTokenSentToServer(false);
+                });
+              }).catch(function(err) {
+                console.log('Unable to get permission to notify.', err);
+              });
+
+            // Callback fired if Instance ID token is updated.
+            messaging.onTokenRefresh(function() {
+                messaging.getToken().then(function(refreshedToken) {
+                    console.log('Token refreshed.');
+                    // Indicate that the new Instance ID token has not yet been sent to the
+                    // app server.
+                    // setTokenSentToServer(false);
+                    // Send Instance ID token to app server.
+                    sendTokenToServer(refreshedToken);
+                    // ...
+                }).catch(function(err) {
+                    console.log('Unable to retrieve refreshed token ', err);
+                    // showToken('Unable to retrieve refreshed token ', err);
+                });
+            });              
         }, function(error) {
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -75,12 +118,16 @@ app.controller("AuthCtrl", function($scope, $location, Auth, $http, $timeout, Us
       }
 
       $scope.register = function () {
-        Auth.$createUserWithEmailAndPassword($scope.email, $scope.password).catch(function(error) {
+        firebase.auth().createUserWithEmailAndPassword($scope.email, $scope.password).catch(function(error) {
             $scope.error = error;
         });
       }
 
 	$scope.logout = function() {
-		Auth.$unauth();
-	}
+		firebase.auth().signout();
+    }
+    
+    function sendTokenToServer(token) {
+        $http.post('/user/push-token', {token: token});
+    }
 });
