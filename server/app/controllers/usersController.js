@@ -14,6 +14,7 @@ exports.login = function(req, res, next) {
 
 exports.registerAssociationPushToken = function(req, res, next) {
     store.registerVolunteerClientToken(req.body.token);
+    res.send(200);
 }
 
 exports.checkExists = function(req, res, next) {
