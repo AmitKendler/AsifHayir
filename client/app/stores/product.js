@@ -58,7 +58,7 @@ class Product {
     postGiveaway() {
         this.giveaway.products.push(this.product);
         // TODO: Validate data
-        console.log(this.giveaway);
+        console.log("posting giveaway:", this.giveaway);
 
         fetch(backendStore.BACKEND_URL() + "/giveaways", {
                 method: "POST",
@@ -69,14 +69,23 @@ class Product {
                 },
                 body: JSON.stringify(this.giveaway)
             })
-            .then(response => response.json())
-            .then(responseJson => {
-                giveawayStore.loadGiveaways();
-                this.initStore();
-                Actions.GiveawayFinishContainer();
+            .then(response => {
+
+                if (response.ok) {
+
+                    response.json().then(responseJson => {
+                        giveawayStore.loadGiveaways();
+                        this.initStore();
+                        Actions.GiveawayFinishContainer();
+                    });
+
+                } else {
+                    alert("error in creating giveaway");
+                    this.initStore();
+                }
             })
             .catch(error => {
-                this.giveaway.products = [];
+                this.initStore();
                 console.error(error);
             });
     }

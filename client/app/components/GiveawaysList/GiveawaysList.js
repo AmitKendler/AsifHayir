@@ -21,21 +21,21 @@ import Constants from "./../../utils/Constants";
                   <Text>מסירות חדשות</Text>
                 </ListItem>
                   {giveaways && giveaways.newArr?giveaways.newArr.map((prod,i)=>
-                    <GiveawayItem name={prod.name}  status={prod.status} imageUrl={prod.imageUrl} addressString={"הרצליה ינה סנש 21"}>
+                    <GiveawayItem name={prod.name}  status={prod.status} imageUrl={prod.imageUrl} addressString={prod.addressString}>
                     </GiveawayItem>
                   ):null}
                 <ListItem itemDivider>
                   <Text>איסוף נקבע</Text>
                 </ListItem>
                   {giveaways&&giveaways.pendingArr?giveaways.pendingArr.map((prod,i)=>
-                    <GiveawayItem name={prod.name}  status={prod.status} imageUrl={prod.imageUrl} addressString={"הרצליה ינה סנש 21"}>
+                    <GiveawayItem name={prod.name}  status={prod.status} imageUrl={prod.imageUrl} addressString={prod.addressString}>
                     </GiveawayItem>
                 ):null}
                 <ListItem itemDivider>
                   <Text>נסמרו בהצלחה</Text>
                 </ListItem>
                 {giveaways&&giveaways.takenArr?giveaways.takenArr.map((prod,i)=>
-                <GiveawayItem name={prod.name}  status={prod.status} imageUrl={prod.imageUrl} addressString={"הרצליה ינה סנש 21"}>
+                <GiveawayItem name={prod.name}  status={prod.status} imageUrl={prod.imageUrl} addressString={prod.addressString}>
                 </GiveawayItem>
                 ):null}
                 <View style={{height:50}}></View>

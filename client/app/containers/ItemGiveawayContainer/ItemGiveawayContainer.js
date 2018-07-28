@@ -80,6 +80,7 @@ class ItemGiveawayContainer extends Component {
             this.props.giveawayStore.giveaway.address.city = this.props.userStore.user.address.city;
             this.props.giveawayStore.giveaway.address.houseNumber = this.props.userStore.user.address.houseNumber;
             this.props.giveawayStore.giveaway.address.aptNumber = this.props.userStore.user.address.aptNumber;
+            this.props.giveawayStore.giveaway.address.streetName = this.props.userStore.user.address.streetName;
         } catch (e) {
             console.log(e, this.props);
         }

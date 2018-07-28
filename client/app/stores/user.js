@@ -50,6 +50,8 @@ class User {
         this.registerUser = this.createServerUserFromFirebaseUser(user);
         this.token = token;
 
+        console.log("sending login request..");
+
         fetch(`${backendStore.BACKEND_URL()}/user/exists`, {
                 method: "POST",
                 headers: {
@@ -68,6 +70,10 @@ class User {
                 } else {
                     Actions.RegisterContainer();
                 }
+            }).catch(error => {
+                console.log(error);
+                this.isLoggingIn = false;
+                alert("error logging in");
             });
     }
 
