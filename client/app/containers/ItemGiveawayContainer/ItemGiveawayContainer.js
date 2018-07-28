@@ -77,6 +77,9 @@ class ItemGiveawayContainer extends Component {
             this.props.giveawayStore.giveaway.contact.phone = this.props.phone;
             this.props.giveawayStore.product.prodType = this.props.prodType;
             this.props.giveawayStore.giveaway.userId = this.props.userStore.user._id;
+            this.props.giveawayStore.giveaway.address.city = this.props.userStore.user.address.city;
+            this.props.giveawayStore.giveaway.address.houseNumber = this.props.userStore.user.address.houseNumber;
+            this.props.giveawayStore.giveaway.address.aptNumber = this.props.userStore.user.address.aptNumber;
         } catch (e) {
             console.log(e, this.props);
         }
