@@ -70,13 +70,17 @@ class ItemGiveawayContainer extends Component {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         // Set store params to default
         try {
             this.props.giveawayStore.giveaway.contact.name = this.props.contact;
             this.props.giveawayStore.giveaway.contact.phone = this.props.phone;
             this.props.giveawayStore.product.prodType = this.props.prodType;
             this.props.giveawayStore.giveaway.userId = this.props.userStore.user._id;
+            this.props.giveawayStore.giveaway.address.city = this.props.userStore.user.address.city;
+            this.props.giveawayStore.giveaway.address.houseNumber = this.props.userStore.user.address.houseNumber;
+            this.props.giveawayStore.giveaway.address.aptNumber = this.props.userStore.user.address.aptNumber;
+            this.props.giveawayStore.giveaway.address.streetName = this.props.userStore.user.address.streetName;
         } catch (e) {
             console.log(e, this.props);
         }
@@ -98,7 +102,7 @@ class ItemGiveawayContainer extends Component {
     }
 
     render() {
-        const { product, giveaway } = this.props.giveawayStore;
+        const { product, giveaway, validations } = this.props.giveawayStore;
         return (
             <Container style={styles.container}>
                 <NavbarContainer
@@ -107,7 +111,7 @@ class ItemGiveawayContainer extends Component {
                     hasNext={!this.state.isCheckAvailable}
                     onPressNext={this.moveNext.bind(this)}
                     hasCheck={this.state.isCheckAvailable}
-                    onPressCheck={() => this.props.giveawayStore.postGiveaway()}
+                    onPressCheck={() => this.props.giveawayStore.validateGiveaway() && this.props.giveawayStore.postGiveaway()}
                 >
                     <Content>
                         <View style={styles.marginView} />
@@ -132,6 +136,7 @@ class ItemGiveawayContainer extends Component {
                                 {
                                     <FoodProductContainer
                                         productObject={product}
+                                        validationsObject= {validations}
                                     />
                                 }
                             </Content>

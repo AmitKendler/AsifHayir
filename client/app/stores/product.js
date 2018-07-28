@@ -9,7 +9,10 @@ class Product {
     @observable product;
     @observable giveaway;
     @observable products = [];
-
+    @observable validations = {
+        productName: false,
+        productAmmount: false
+    }
     constructor(props) {
         this.initStore();
     }
@@ -55,10 +58,28 @@ class Product {
         this.products.push(product);
     }
 
+    validateGiveaway() {
+        let isValid = true;
+
+        if (this.product.name.length < 1) {
+            isValid = false;
+            this.validations.productName = true;
+        } else {
+            this.validations.productName = false;
+        }
+
+        if (!this.product.amount.amount) {
+            isValid = false;
+            this.validations.productAmmount = true;
+        } else {
+            this.validations.productAmmount = false;
+        }
+    }
+    validateGiveaway
     postGiveaway() {
         this.giveaway.products.push(this.product);
         // TODO: Validate data
-        console.log(this.giveaway);
+        console.log("posting giveaway:", this.giveaway);
 
         fetch(backendStore.BACKEND_URL() + "/giveaways", {
                 method: "POST",
@@ -69,14 +90,23 @@ class Product {
                 },
                 body: JSON.stringify(this.giveaway)
             })
-            .then(response => response.json())
-            .then(responseJson => {
-                giveawayStore.loadGiveaways();
-                this.initStore();
-                Actions.GiveawayFinishContainer();
+            .then(response => {
+
+                if (response.ok) {
+
+                    response.json().then(responseJson => {
+                        giveawayStore.loadGiveaways();
+                        this.initStore();
+                        Actions.GiveawayFinishContainer();
+                    });
+
+                } else {
+                    alert("error in creating giveaway");
+                    this.initStore();
+                }
             })
             .catch(error => {
-                this.giveaway.products = [];
+                this.initStore();
                 console.error(error);
             });
     }

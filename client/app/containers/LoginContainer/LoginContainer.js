@@ -82,8 +82,7 @@ class LoginContainer extends Component {
     async handleFacebookButton() {
         this.props.userStore.isLoggingIn = true;
         const { type, token } = await Facebook.logInWithReadPermissionsAsync(
-            FACEBOOK_APP_ID,
-            {
+            FACEBOOK_APP_ID, {
                 permissions: ["public_profile", "email"]
             }
         );
@@ -94,10 +93,12 @@ class LoginContainer extends Component {
             );
 
             try {
+                console.log('waiting for fb data');
                 const currentUser = await firebase
                     .auth()
                     .signInAndRetrieveDataWithCredential(credential);
 
+                console.log('retrieved data', currentUser);
                 if (currentUser) {
                     currentUser.user.getIdToken(true).then(idToken => {
                         this.props.userStore.preloginWithToken(

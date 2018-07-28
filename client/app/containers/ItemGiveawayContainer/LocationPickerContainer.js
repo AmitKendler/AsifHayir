@@ -2,183 +2,137 @@ import React, { Component } from "react";
 import { Dimensions, Platform, StyleSheet } from "react-native";
 import { Text, Content, Button, Icon, Item, Input } from "native-base";
 import { Constants, MapView, Location, Permissions } from "expo";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { observer } from "mobx-react/native";
 import cities from "./../../utils/cities";
 import streets from "./../../utils/streets";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import ModalFilterPicker from "react-native-modal-filter-picker";
+import Geocoder from 'react-native-geocoding';
+
+// to do only once
+Geocoder.init('AIzaSyCHI4WmklIfn1tml_m5mOSxiUM9IKz01n4'); // use a valid API key
+
 
 const styles = StyleSheet.create({
-	locationButton: {
-		position: "absolute",
-		marginTop: 70,
-		marginLeft: 5,
-		backgroundColor: "rgba(255,255,255,0.4)"
-	},
-	mapStyle: {
-		flex: 1,
-		height: 200,
-		width: Dimensions.get("window").width
-	},
-	searchBarStyle: {
-		margin: 10
-	}
+    locationButton: {
+        position: "absolute",
+        marginTop: 70,
+        marginLeft: 5,
+        backgroundColor: "rgba(255,255,255,0.4)"
+    },
+    mapStyle: {
+        flex: 1,
+        height: 200,
+        width: Dimensions.get("window").width
+    },
+    searchBarStyle: {
+        margin: 10
+    }
 });
 
 @observer
 class LocationPickerContainer extends Component {
-	constructor(props, ctx) {
-		super(props, ctx);
-		this.state = {
-			location: null,
-			errorMessage: null,
-			mapRegion: null,
-			lastLat: null,
-			lastLong: null,
-			itemLocation: { latitude: 0, longitude: 0 },
-			citiesVisible: false,
-			streetsVisible: false
-		};
+    constructor(props, ctx) {
+        super(props, ctx);
+        this.state = {
+            location: null,
+            errorMessage: null,
+            mapRegion: null,
+            lastLat: null,
+            lastLong: null,
+            itemLocation: { latitude: 0, longitude: 0 },
+            citiesVisible: false,
+            streetsVisible: false,
+            invalidLocation: true
+        };
 
-		this.citiesOptions = cities.cities.map(city => ({
-			key: city,
-			label: city
-		}));
+        this.citiesOptions = cities.cities.map(city => ({
+            key: city,
+            label: city
+        }));
 
-		this.streetsOptions = streets.streets.map(street => ({
-			key: street,
-			label: street
-		}));
-	}
+        this.streetsOptions = streets.streets.map(street => ({
+            key: street,
+            label: street
+        }));
+    }
 
-	componentWillMount() {
-		if (Platform.OS === "android" && !Constants.isDevice) {
-			this.setState({
-				errorMessage:
-					"Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
-			});
-		} else {
-			if (this.props.giveawayObject.address.location) {
-			} else {
-				this.getLocationAsync();
-			}
-		}
-	}
+    componentDidMount() {
+        if (Platform.OS === "android" && !Constants.isDevice) {
+            this.setState({
+                errorMessage: "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
+            });
+        } else {
+            this.updateLocation();
+        }
+    }
 
-	getLocationAsync = async () => {
-		let { status } = await Permissions.askAsync(Permissions.LOCATION);
-		if (status !== "granted") {
-			this.setState({
-				errorMessage: "Permission to access location was denied"
-			});
-		}
+    changeLocation(lat, long) {
+        if (!this.props.giveawayObject.address.location) {
+            this.props.giveawayObject.address.location = {
+                type: "Point",
+                coordinates: [lat, long]
+            };
+        } else {
+            this.props.giveawayObject.address.location.coordinates = [
+                lat,
+                long
+            ];
+        }
 
-		let location = await Location.getCurrentPositionAsync({});
+        let region = {
+            latitude: lat,
+            longitude: long,
+            latitudeDelta: 0.00922 * 1.5,
+            longitudeDelta: 0.00421 * 1.5
+        };
 
-		this.changeLocation(
-			location.coords.latitude,
-			location.coords.longitude
-		);
-	};
+        this.onRegionChange(region, region.latitude, region.longitude);
+    }
 
-	changeLocation(lat, long) {
-		if (!this.props.giveawayObject.address.location) {
-			this.props.giveawayObject.address.location = {
-				type: "Point",
-				coordinates: [lat, long]
-			};
-		} else {
-			this.props.giveawayObject.address.location.coordinates = [
-				lat,
-				long
-			];
-		}
+    updateLocation() {
+        console.log("updating location.....");
+        let address = this.props.giveawayObject.address;
+        if (address.city && address.streetName) {
+            let addressString = `${address.city} ${address.streetName} ${address.houseNumber} ${address.aptNumber}`;
+            console.log("geocoding location...", addressString)
+            Geocoder.from(addressString)
 
-		let region = {
-			latitude: lat,
-			longitude: long,
-			latitudeDelta: 0.00922 * 1.5,
-			longitudeDelta: 0.00421 * 1.5
-		};
+                .then(json => {
+                    var location = json.results[0].geometry.location;
+                    this.changeLocation(
+                        location.lat,
+                        location.lng
+                    );
 
-		this.onRegionChange(region, region.latitude, region.longitude);
-	}
+                    this.setState({ invalidLocation: false });
+                })
+                .catch(error => this.setState({ invalidLocation: true }));
+        }
+    }
 
-	onRegionChange(region, lastLat, lastLong) {
-		this.setState({
-			mapRegion: region,
-			lastLat: lastLat || this.state.lastLat,
-			lastLong: lastLong || this.state.lastLong,
-			itemLocation: { latitude: lastLat, longitude: lastLong }
-		});
-	}
+    onRegionChange(region, lastLat, lastLong) {
+        this.setState({
+            mapRegion: region,
+            lastLat: lastLat || this.state.lastLat,
+            lastLong: lastLong || this.state.lastLong,
+            itemLocation: { latitude: lastLat, longitude: lastLong }
+        });
+    }
 
-	render() {
-		return (
-			<Grid>
+    render() {
+        return (
+            <Grid>
 				<Row>
-					<Col>
-						<GooglePlacesAutocomplete
-							placeholder="חפש מיקום"
-							minLength={2}
-							autoFocus={false}
-							returnKeyType={"search"}
-							fetchDetails={true}
-							onPress={(data, details = null) => {
-								let location = details.geometry.location;
-								this.changeLocation(location.lat, location.lng);
-							}}
-							ref={instance => {
-								this.locationRef = instance;
-							}}
-							query={{
-								key: "AIzaSyC2QhtACfVZ2cr9HVvxQuzxd3HT36NNK3Q",
-								language: "he",
-								types: "address"
-							}}
-							styles={{
-								description: {
-									fontWeight: "bold"
-								},
-								predefinedPlacesDescription: {
-									color: "#1faadb"
-								},
-								powered: null
-							}}
-						/>
-						{/*<Input placeholder="עיר" />
-				    				<Input placeholder="רחוב" />
-				    				<Input placeholder="מס' בית" />
-				    				<Input placeholder="דירה" /> */}
-						<MapView
+						<MapView pitchEnabled={false}
 							region={this.state.mapRegion}
-							onRegionChange={this.onRegionChange.bind(this)}
 							style={styles.mapStyle}
 						>
 							<MapView.Marker
 								title="גרור כדי לשנות"
-								draggable
 								coordinate={this.state.itemLocation}
-								onDragEnd={e => {
-									const coords = e.nativeEvent.coordinate;
-									this.changeLocation(
-										coords.latitude,
-										coords.longitude
-									);
-									this.setState({
-										itemLocation: coords
-									});
-								}}
 							/>
 						</MapView>
-						<Button
-							onPress={this.getLocationAsync.bind(this)}
-							style={styles.locationButton}
-						>
-							<Icon name="locate" style={{ color: "#333333" }} />
-						</Button>
-					</Col>
 				</Row>
 				<Row>
 					<Col>
@@ -216,7 +170,7 @@ class LocationPickerContainer extends Component {
 										placeholder="דירה "
 										value={this.props.giveawayObject.address.aptNumber.toString()}
 										onChangeText={value =>
-											(this.props.giveawayObject.address.aptNumber = value.toString())
+											(this.props.giveawayObject.address.aptNumber = value.toString()) && this.updateLocation()
 										}
 									/>
 								</Item>
@@ -231,18 +185,22 @@ class LocationPickerContainer extends Component {
 												.houseNumber
 										}
 										onChangeText={value =>
-											(this.props.giveawayObject.address.houseNumber = value)
+											(this.props.giveawayObject.address.houseNumber = value) && this.updateLocation()
 										}
 									/>
 								</Item>
 							</Col>
 						</Grid>
+					
 						<ModalFilterPicker
 							cancelButtonText="בטל"
 							visible={this.state.citiesVisible}
 							onSelect={value =>
-								(this.props.giveawayObject.address.city = value) &&
-								this.setState({ citiesVisible: false })
+								{
+								this.props.giveawayObject.address.city = value;
+								this.setState({ citiesVisible: false });
+								this.updateLocation()
+								}
 							}
 							onCancel={() =>
 								this.setState({ citiesVisible: false })
@@ -253,8 +211,11 @@ class LocationPickerContainer extends Component {
 							cancelButtonText="בטל"
 							visible={this.state.streetsVisible}
 							onSelect={value =>
-								(this.props.giveawayObject.address.streetName = value) &&
-								this.setState({ streetsVisible: false })
+								{
+								this.props.giveawayObject.address.streetName = value;
+								this.setState({ streetsVisible: false });
+								this.updateLocation()
+								}
 							}
 							onCancel={() =>
 								this.setState({ streetsVisible: false })
@@ -263,9 +224,14 @@ class LocationPickerContainer extends Component {
 						/>
 					</Col>
 				</Row>
+				<Row>
+					<Col>
+						{this.state.invalidLocation?<Button full iconLeft light danger><Text>מיקום לא תקין </Text><Icon name='warning' /></Button>:null}
+					</Col>
+				</Row>
 			</Grid>
-		);
-	}
+        );
+    }
 }
 
 export default LocationPickerContainer;

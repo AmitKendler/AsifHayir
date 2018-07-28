@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { observer, inject } from "mobx-react/native";
 import {
     Button,
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     actionTiles: {
         color: "#fff",
         fontSize: 60,
-        textShadowRadius: 10
+        textShadowRadius: 10,
     },
     middleActionTile: {
         alignItems: "center",
@@ -119,7 +119,7 @@ class UserContainer extends Component {
                             </Grid>
                         </Body>
                     </CardItem>
-                    <CardItem>
+                    <CardItem style={{height:Dimensions.get('window').height/5}}>
                         <Grid>
                             <Col style={styles.centerize}>
                                 <H1>{userStore.user.rank}</H1>

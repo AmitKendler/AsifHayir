@@ -14,15 +14,14 @@ class Giveaways {
 
     loadGiveaways() {
         fetch(
-            `${backendStore.BACKEND_URL()}/giveaways/users/${
+                `${backendStore.BACKEND_URL()}/giveaways/users/${
                 userStore.user._id
-            }`,
-            {
-                headers: {
-                    "auth-token": userStore.token
+            }`, {
+                    headers: {
+                        "auth-token": userStore.token
+                    }
                 }
-            }
-        )
+            )
             .then(response => response.json())
             .then(responseJson => {
                 this.giveaways = {
@@ -36,11 +35,10 @@ class Giveaways {
                 // HORIFIC CODE AHEAD - NO TIME TO BURN ON ES6 PRETYNESS
                 for (var i = responseJson.length - 1; i >= 0; i--) {
                     for (
-                        var j = responseJson[i].products.length - 1;
-                        j >= 0;
-                        j--
+                        var j = responseJson[i].products.length - 1; j >= 0; j--
                     ) {
                         var currProd = responseJson[i].products[j];
+                        currProd.addressString = `${responseJson[i].address.city} ${responseJson[i].address.streetName} ${responseJson[i].address.houseNumber} ${responseJson[i].address.aptNumber}`;
                         if (currProd.status === Constants.STATUSES.NEW) {
                             this.giveaways.newArr.push(currProd);
                             this.giveawaysCount++;
