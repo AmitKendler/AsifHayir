@@ -1,17 +1,17 @@
-<div class="modal fade" id="planRouteModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content" style="width: 80%">
+<div class="modal fade darkBackground" id="planRouteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md align-center" role="document">
+        <div class="modal-content" style="width: 300px">
             <div class="modal-header">
-                <h2>תכנן מסלול איסוף</h2>
+                <h5>תכנן מסלול איסוף</h5>
             </div>
 
-            <form id="planRouteForm" ng-submit="planRoute(date, vehicleAmount)" name="planRouteForm"> 
+            <form id="planRouteForm" ng-submit="planRoute(date)" name="planRouteForm"> 
                  <div class="modal-body">                          
                     <div class="row">
                         <div class="col-md-12 form-group">
-                            <label for="vehicleAmount">תאריך</label>
+                            <label for="date">תאריך</label>
                             <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="left" title="תכנון המסלול יתבצע על התרומות אשר ניתנות לאסיפה בתאריך זה בלבד"></span>
-                            <input id="datepicker" width="370" ng-model="date" required/>
+                            <input id="datepicker" width="270" ng-model="date" required/>
                             <script>
                                 $('#datepicker').datepicker({
                                     uiLibrary: 'bootstrap4',
@@ -19,13 +19,7 @@
                                 });
                             </script>
                         </div>
-                    </div>  
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label for="vehicleAmount">מספר ניידות</label>
-                            <input type="number" name="vehicleAmount" class="form-control" min="1" id="vehicleAmount" ng-model="vehicleAmount" placeholder="מספר ניידות" required>                            
-                        </div>
-                    </div>    
+                    </div>   
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <label for="startPoint">נקודת התחלה</label>

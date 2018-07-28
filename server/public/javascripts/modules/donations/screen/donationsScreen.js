@@ -13,6 +13,14 @@ angular.module("AsifHayir").controller("donations", function ($scope, DonationsS
     });   
 
     $scope.openPlanRouteModal = function () {
+        $scope.openModal("planRouteModal");
+    }
+
+    $scope.openPlanConstantRouteModal = function () {
+        $scope.openModal("planConstantRouteModal");
+    }
+
+    $scope.openModal = function(modalId) {
         var relevantDonations = $scope.donations.filter(donation => donation.includeInAlgorithm);
 
         if (relevantDonations.length == 0) {
@@ -20,6 +28,6 @@ angular.module("AsifHayir").controller("donations", function ($scope, DonationsS
             alertify.error('שים לב: יש לבחור לפחות תרומה אחת');
 
         }
-        else $("#planRouteModal").modal("show");
+        else $("#" + modalId).modal("show");
     }
 });
