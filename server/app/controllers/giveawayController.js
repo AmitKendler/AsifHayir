@@ -160,16 +160,19 @@ exports.createGiveawayWithProducts = function (req, res, next) {
 				let volasTokens = store.getRegisteredVolunteerClientsToken();
 				
 				let payload = {
-					to: tolken,
+					// to: tolken,
 					// sound: 'default',
 					title: 'תרומה חדשה!',
 					body: 'בדיוק נכנסה תרומה חדשה, לך תבדוק!',
-					data: result.updatedGiveaway
+					// data: result.updatedGiveaway
 				};
 				
 				utils.pushFirebase(payload, volasTokens);
 
 				res.send(result);
+			})
+			.catch(function (err) {
+				next(err);
 			});
 		});
 	}
