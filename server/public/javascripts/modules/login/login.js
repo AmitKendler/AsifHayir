@@ -56,17 +56,60 @@ app.controller("AuthCtrl", function($scope, $location,/* Auth,*/ $http, $timeout
       }
 
       $scope.afterLogin = function (user) {
-        user.getIdToken(true).then(function(idToken) {
+        messaging.requestPermission()
+        .then(function() {
+            console.log('Notification permission granted.');
+
+            return user.getIdToken(true);
+        })
+        .then(function(idToken) {
             $scope.setToken(idToken);
-            UserAuth.finish();
-            $('#loginModal').modal('hide');
             
-            $timeout(function(){ 
-                if (!location.hash.split("/")[1]) {
-                    $location.path('/donations');
-                    // $('header nav a[href^="#!/donations"]').addClass('active');
-                }
-            },1);
+            // Get Instance ID token. Initia    lly this makes a network call, once retrieved
+            // subsequent calls to getToken will return from cache.
+            return messaging.getToken();
+        })
+        .then(function(currentToken) {
+            if (currentToken) {
+                sendTokenToServer(currentToken);
+                    
+                UserAuth.finish();
+                $('#loginModal').modal('hide');
+                
+                $timeout(function(){ 
+                    if (!location.hash.split("/")[1]) {
+                        $location.path('/donations');
+                        // $('header nav a[href^="#!/donations"]').addClass('active');
+                    }
+                },1);
+                // updateUIForPushEnabled(currentToken);
+            } else {
+            // Show permission request.
+            console.log('No Instance ID token available. Request permission to generate one.');
+                // Show permission UI.
+                // updateUIForPushPermissionRequired();
+                // setTokenSentToServer(false);
+            }
+        }).catch(function(err) {
+            console.log('An error occurred while retrieving token. ', err);
+            // showToken('Error retrieving Instance ID token. ', err);
+            // setTokenSentToServer(false);
+        });
+
+        // Callback fired if Instance ID token is updated.
+        messaging.onTokenRefresh(function() {
+            messaging.getToken().then(function(refreshedToken) {
+                console.log('Token refreshed.');
+                // Indicate that the new Instance ID token has not yet been sent to the
+                // app server.
+                // setTokenSentToServer(false);
+                // Send Instance ID token to app server.
+                sendTokenToServer(refreshedToken);
+                // ...
+            }).catch(function(err) {
+                console.log('Unable to retrieve refreshed token ', err);
+                // showToken('Unable to retrieve refreshed token ', err);
+            });
         });
       }
 
