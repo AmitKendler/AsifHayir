@@ -69,9 +69,7 @@ class GiveawayFinishContainer extends Component {
 
               source={media.animations.clap}
               />
-                <Container>
-                  <Text style={{textAlign:'center',marginTop:30,marginLeft:10,marginRight:10,fontSize:12}}>המתנדבים שלנו יעברו על פרטי המסירה שלך ויצרו עמך קשר בכדי לאסוף אותה, תוכל להתעדכן בסטטוס המסירה שלך בכל עת</Text>
-                </Container>
+               
                 <Container style={{alignItems:'center',margin:20}}>
                 <Button bordered dark onPress={() => Actions.HomeContainer()}>
                 <Text>

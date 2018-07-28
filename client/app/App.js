@@ -16,10 +16,12 @@ import product from "./stores/product";
 import leaderboardStore from "./stores/leaderboard";
 import userStore from "./stores/user";
 import backendStore from "./stores/backend";
+import { Root } from "native-base";
 
 export default class App extends React.Component {
     render() {
         return (
+            <Root>
             <Provider
         giveawaysStore={giveawaysStore}
         leaderboardStore={leaderboardStore}
@@ -68,6 +70,7 @@ export default class App extends React.Component {
           </Scene>
         </Router>
       </Provider>
+      </Root>
         );
     }
 }
