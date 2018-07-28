@@ -10,7 +10,7 @@ import ModalFilterPicker from "react-native-modal-filter-picker";
 import Geocoder from 'react-native-geocoding';
 
 // to do only once
-Geocoder.init('AIzaSyC2QhtACfVZ2cr9HVvxQuzxd3HT36NNK3Q'); // use a valid API key
+Geocoder.init('AIzaSyCHI4WmklIfn1tml_m5mOSxiUM9IKz01n4'); // use a valid API key
 
 
 const styles = StyleSheet.create({
@@ -42,7 +42,8 @@ class LocationPickerContainer extends Component {
             lastLong: null,
             itemLocation: { latitude: 0, longitude: 0 },
             citiesVisible: false,
-            streetsVisible: false
+            streetsVisible: false,
+            invalidLocation: true
         };
 
         this.citiesOptions = cities.cities.map(city => ({
@@ -62,38 +63,9 @@ class LocationPickerContainer extends Component {
                 errorMessage: "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
             });
         } else {
-            let address = this.props.giveawayObject.address;
-            console.log("before address : ", address);
-            if (address.city && address.streetName) {
-                let addressString = `${address.city} ${address.streetName} ${address.houseNumber} ${address.aptNumber}`;
-                console.log("geocoding location...", addressString)
-                Geocoder.from(addressString)
-
-                    .then(json => {
-                        var location = json.results[0].geometry.location;
-                        console.log("location fetched!", location);
-                    })
-                    .catch(error => console.warn(error));
-
-            }
+            this.updateLocation();
         }
     }
-
-    getLocationAsync = async() => {
-        let { status } = await Permissions.askAsync(Permissions.LOCATION);
-        if (status !== "granted") {
-            this.setState({
-                errorMessage: "Permission to access location was denied"
-            });
-        }
-
-        let location = await Location.getCurrentPositionAsync({});
-
-        this.changeLocation(
-            location.coords.latitude,
-            location.coords.longitude
-        );
-    };
 
     changeLocation(lat, long) {
         if (!this.props.giveawayObject.address.location) {
@@ -116,6 +88,27 @@ class LocationPickerContainer extends Component {
         };
 
         this.onRegionChange(region, region.latitude, region.longitude);
+    }
+
+    updateLocation() {
+        console.log("updating location.....");
+        let address = this.props.giveawayObject.address;
+        if (address.city && address.streetName) {
+            let addressString = `${address.city} ${address.streetName} ${address.houseNumber} ${address.aptNumber}`;
+            console.log("geocoding location...", addressString)
+            Geocoder.from(addressString)
+
+                .then(json => {
+                    var location = json.results[0].geometry.location;
+                    this.changeLocation(
+                        location.lat,
+                        location.lng
+                    );
+
+                    this.setState({ invalidLocation: false });
+                })
+                .catch(error => this.setState({ invalidLocation: true }));
+        }
     }
 
     onRegionChange(region, lastLat, lastLong) {
@@ -177,7 +170,7 @@ class LocationPickerContainer extends Component {
 										placeholder="דירה "
 										value={this.props.giveawayObject.address.aptNumber.toString()}
 										onChangeText={value =>
-											(this.props.giveawayObject.address.aptNumber = value.toString())
+											(this.props.giveawayObject.address.aptNumber = value.toString()) && this.updateLocation()
 										}
 									/>
 								</Item>
@@ -192,18 +185,19 @@ class LocationPickerContainer extends Component {
 												.houseNumber
 										}
 										onChangeText={value =>
-											(this.props.giveawayObject.address.houseNumber = value)
+											(this.props.giveawayObject.address.houseNumber = value) && this.updateLocation()
 										}
 									/>
 								</Item>
 							</Col>
 						</Grid>
+					
 						<ModalFilterPicker
 							cancelButtonText="בטל"
 							visible={this.state.citiesVisible}
 							onSelect={value =>
 								(this.props.giveawayObject.address.city = value) &&
-								this.setState({ citiesVisible: false })
+								this.setState({ citiesVisible: false }) && this.updateLocation()
 							}
 							onCancel={() =>
 								this.setState({ citiesVisible: false })
@@ -214,14 +208,22 @@ class LocationPickerContainer extends Component {
 							cancelButtonText="בטל"
 							visible={this.state.streetsVisible}
 							onSelect={value =>
-								(this.props.giveawayObject.address.streetName = value) &&
-								this.setState({ streetsVisible: false })
+								{
+								this.props.giveawayObject.address.streetName = value;
+								this.setState({ streetsVisible: false });
+								this.updateLocation()
+								}
 							}
 							onCancel={() =>
 								this.setState({ streetsVisible: false })
 							}
 							options={this.streetsOptions}
 						/>
+					</Col>
+				</Row>
+				<Row>
+					<Col>
+						{this.state.invalidLocation?<Button full iconLeft light danger><Text>מיקום לא תקין </Text><Icon name='warning' /></Button>:null}
 					</Col>
 				</Row>
 			</Grid>

@@ -70,7 +70,7 @@ class ItemGiveawayContainer extends Component {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         // Set store params to default
         try {
             this.props.giveawayStore.giveaway.contact.name = this.props.contact;
