@@ -10,7 +10,7 @@ exports.registerVolunteerClientToken = function(token) {
 }
 
 exports.getRegisteredVolunteerClientsToken = function () {
-	return new Array(loggedInVoluntarieesTokens);
+	return loggedInVoluntarieesTokens;
 }
 
 // exports.store = {registerVolunteerClientToken, getRegisteredVolunteerClientsToken};
