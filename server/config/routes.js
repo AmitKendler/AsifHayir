@@ -63,7 +63,7 @@ module.exports = function(app) {
      * User
      */
     app.post("/user/push-token", users.addPushTokenToUser);
-    app.post("user/volunteer/push-token", users.registerAssociationPushToken);
+    app.post("/user/volunteer/push-token", users.registerAssociationPushToken);
     app.post("/user/update", users.updateUserInfo);
     app.post("/user/exists", users.checkExists);
     app.post("/user/sendMessage", users.sendMessage);

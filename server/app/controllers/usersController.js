@@ -13,7 +13,7 @@ exports.login = function(req, res, next) {
 }
 
 exports.registerAssociationPushToken = function(req, res, next) {
-    store.registerVolunteerClientToken(req.pushToken);
+    store.registerVolunteerClientToken(req.body.token);
 }
 
 exports.checkExists = function(req, res, next) {
