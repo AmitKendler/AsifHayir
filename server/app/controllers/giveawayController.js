@@ -158,25 +158,17 @@ exports.createGiveawayWithProducts = function (req, res, next) {
 			.then(function (result) {
 
 				let volasTokens = store.getRegisteredVolunteerClientsToken();
-				messages = [];
-
-				volasTokens.forEach(function (token) {
-					// Check that all your push tokens appear to be valid Expo push tokens
-					if (!Expo.isExpoPushToken(token)) {
-						console.error(`Push token ${token} is not a valid Expo push token`);
-					} else {
-						messages.push({
-							to: tolken,
-							sound: 'default',
-							title: 'תרומה חדשה!',
-							body: 'בדיוק נכנסה תרומה חדשה, לך תבדוק!',
-							data: result.updatedGiveaway
-						})
-					}
-
-					utils.sendPush(messages);
-				})
 				
+				let payload = {
+					to: tolken,
+					// sound: 'default',
+					title: 'תרומה חדשה!',
+					body: 'בדיוק נכנסה תרומה חדשה, לך תבדוק!',
+					data: result.updatedGiveaway
+				};
+				
+				utils.pushFirebase(payload, volasTokens);
+
 				res.send(result);
 			});
 		});
