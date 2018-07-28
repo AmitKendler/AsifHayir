@@ -9,7 +9,10 @@ class Product {
     @observable product;
     @observable giveaway;
     @observable products = [];
-
+    @observable validations = {
+        productName: false,
+        productAmmount: false
+    }
     constructor(props) {
         this.initStore();
     }
@@ -55,6 +58,24 @@ class Product {
         this.products.push(product);
     }
 
+    validateGiveaway() {
+        let isValid = true;
+
+        if (this.product.name.length < 1) {
+            isValid = false;
+            this.validations.productName = true;
+        } else {
+            this.validations.productName = false;
+        }
+
+        if (!this.product.amount.amount) {
+            isValid = false;
+            this.validations.productAmmount = true;
+        } else {
+            this.validations.productAmmount = false;
+        }
+    }
+    validateGiveaway
     postGiveaway() {
         this.giveaway.products.push(this.product);
         // TODO: Validate data

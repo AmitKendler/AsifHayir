@@ -155,7 +155,7 @@ const AmountPicker = ({
 				</Form>
 			</Col>
 			<Col>
-				<Item>
+				<Item error={this.props.validatiionsObject.productAmmount}>
 					<Input
 						keyboardType="numeric"
 						placeholder="כמות"
@@ -175,7 +175,7 @@ class GeneralInfoContainer extends Component {
         super(props);
 
         this.state = {
-            itemName: " ",
+            itemName: "",
             itemState: undefined,
             itemPicture: undefined,
             itemUnit: Constants.AMMOUNT_TYPES.ITEMS,
@@ -202,7 +202,7 @@ class GeneralInfoContainer extends Component {
         return (
             <Form style={{ alignItems: "center" }}>
 				<CameraPicker productObject={productObject} />
-				<Item floatingLabel style={{ marginLeft: 35, marginRight: 35 }}>
+				<Item error={this.props.validationsObject.productName} floatingLabel style={{ marginLeft: 35, marginRight: 35 }}>
 					<Label
 						style={{
 							includeFontPadding: false,
@@ -211,7 +211,7 @@ class GeneralInfoContainer extends Component {
 					>
 						שם הפריט
 					</Label>
-					<Input
+					<Input 
 						value={productObject.name}
 						style={{
 							includeFontPadding: false,
@@ -232,6 +232,7 @@ class GeneralInfoContainer extends Component {
 						<Icon name="paper" />
 					</Item>
 					<AmountPicker
+						validationsObjec={this.props.validationsObject}
 						unit={productObject.amount.units}
 						quantity={productObject.amount.amount}
 						onChangeUnitValue={this.onChangeUnitValue.bind(this)}

@@ -196,8 +196,11 @@ class LocationPickerContainer extends Component {
 							cancelButtonText="בטל"
 							visible={this.state.citiesVisible}
 							onSelect={value =>
-								(this.props.giveawayObject.address.city = value) &&
-								this.setState({ citiesVisible: false }) && this.updateLocation()
+								{
+								this.props.giveawayObject.address.city = value;
+								this.setState({ citiesVisible: false });
+								this.updateLocation()
+								}
 							}
 							onCancel={() =>
 								this.setState({ citiesVisible: false })
