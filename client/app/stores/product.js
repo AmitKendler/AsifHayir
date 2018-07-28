@@ -74,8 +74,9 @@ class Product {
         } else {
             this.validations.productAmmount = false;
         }
+
+        return isValid;
     }
-    validateGiveaway
     postGiveaway() {
         this.giveaway.products.push(this.product);
         // TODO: Validate data

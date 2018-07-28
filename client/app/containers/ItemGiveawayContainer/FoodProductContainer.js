@@ -123,7 +123,8 @@ const AmountPicker = ({
     quantity,
     unit,
     onChangeUnitValue,
-    onChangeQuantityValue
+    onChangeQuantityValue,
+    validationsObject
 }) => {
     return (
         <Grid>
@@ -155,7 +156,7 @@ const AmountPicker = ({
 				</Form>
 			</Col>
 			<Col>
-				<Item error={this.props.validatiionsObject.productAmmount}>
+				<Item>
 					<Input
 						keyboardType="numeric"
 						placeholder="כמות"
