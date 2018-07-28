@@ -1,4 +1,7 @@
 const Expo = require("expo-server-sdk");
+const _ = require('lodash');
+const admin = require("firebase-admin");
+
 
 exports.sendPush = function (messages) {
 	let expo = new Expo();
@@ -23,4 +26,18 @@ exports.sendPush = function (messages) {
 			}
 		}
 	})();
+}
+
+exports.pushFirebase = function(message, tokens) {
+	// Send a message to the device corresponding to the provided
+	// registration token.
+	admin.messaging().sendToDevice(tokens, message)
+	.then(function(response) {
+		// See the MessagingDevicesResponse reference documentation for
+		// the contents of response.
+		console.log('Successfully sent message:', response);
+	})
+	.catch(function(error) {
+		console.log('Error sending message:', error);
+	});
 }
