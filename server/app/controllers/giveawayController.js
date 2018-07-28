@@ -160,14 +160,20 @@ exports.createGiveawayWithProducts = function (req, res, next) {
 				let volasTokens = store.getRegisteredVolunteerClientsToken();
 				
 				let payload = {
+					notification: {
 					// to: tolken,
-					// sound: 'default',
-					title: 'תרומה חדשה!',
-					body: 'בדיוק נכנסה תרומה חדשה, לך תבדוק!',
+						// sound: 'default',
+						title: 'תרומה חדשה!',
+						body: 'בדיוק נכנסה תרומה חדשה, לך תבדוק!'
+					}
 					// data: result.updatedGiveaway
 				};
 				
-				utils.pushFirebase(payload, volasTokens);
+				if (volasTokens.length > 0) {
+					utils.pushFirebase(payload, volasTokens);
+				} else {
+					console.log("wasnt able to send pudh because no volas tokens registered");
+				}
 
 				res.send(result);
 			})
