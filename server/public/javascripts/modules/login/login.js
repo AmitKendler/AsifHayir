@@ -64,7 +64,7 @@ app.controller("AuthCtrl", function($scope, $location,/* Auth,*/ $http, $timeout
         })
         .then(function(idToken) {
             $scope.setToken(idToken);
-            
+
             // Get Instance ID token. Initia    lly this makes a network call, once retrieved
             // subsequent calls to getToken will return from cache.
             return messaging.getToken();
@@ -72,7 +72,7 @@ app.controller("AuthCtrl", function($scope, $location,/* Auth,*/ $http, $timeout
         .then(function(currentToken) {
             if (currentToken) {
                 sendTokenToServer(currentToken);
-                    
+
                 UserAuth.finish();
                 $('#loginModal').modal('hide');
                 
@@ -82,14 +82,14 @@ app.controller("AuthCtrl", function($scope, $location,/* Auth,*/ $http, $timeout
                         // $('header nav a[href^="#!/donations"]').addClass('active');
                     }
                 },1);
-                // updateUIForPushEnabled(currentToken);
             } else {
-            // Show permission request.
-            console.log('No Instance ID token available. Request permission to generate one.');
-                // Show permission UI.
-                // updateUIForPushPermissionRequired();
-                // setTokenSentToServer(false);
+                throw new Error("problem with push token"); 
             }
+        })
+        .then(function () {
+                
+            
+            // updateUIForPushEnabled(currentToken);
         }).catch(function(err) {
             console.log('An error occurred while retrieving token. ', err);
             // showToken('Error retrieving Instance ID token. ', err);
@@ -171,6 +171,6 @@ app.controller("AuthCtrl", function($scope, $location,/* Auth,*/ $http, $timeout
     }
     
     function sendTokenToServer(token) {
-        $http.post('/user/push-token', {token: token});
+        $http.post('/user/volunteer/push-token', {token: token});
     }
 });
