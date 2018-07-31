@@ -25,6 +25,52 @@ import uuid from "uuid";
 
 const PickerItem = Picker.Item;
 
+
+@observer
+class AmountPicker extends Component {
+    render() {
+        return (<Grid>
+			<Col>
+				<Form>
+					<Picker
+						mode="dropdown"
+						placeholder="בחר מידה"
+						selectedValue={this.props.unit}
+						onValueChange={this.props.onChangeUnitValue}
+					>
+						<Picker.Item
+							label="פריטים"
+							value={Constants.AMMOUNT_TYPES.ITEMS}
+						/>
+						<Picker.Item
+							label="ק''ג"
+							value={Constants.AMMOUNT_TYPES.KG}
+						/>
+						<Picker.Item
+							label="ליטר"
+							value={Constants.AMMOUNT_TYPES.LITRE}
+						/>
+						<Picker.Item
+							label="מנות"
+							value={Constants.AMMOUNT_TYPES.PORTIONS}
+						/>
+					</Picker>
+				</Form>
+			</Col>
+			<Col>
+				<Item error={this.props.validationsObject.productAmmount}>
+					<Input
+						keyboardType="numeric"
+						placeholder="כמות *"
+						value={this.props.quantity}
+						onChangeText={this.props.onChangeQuantityValue}
+					/>
+					<Icon name="stats" />
+				</Item>
+			</Col>
+		</Grid>)
+    }
+}
 class CameraPicker extends Component {
     constructor(props) {
         super(props);
@@ -119,56 +165,6 @@ class CameraPicker extends Component {
     }
 }
 
-const AmountPicker = ({
-    quantity,
-    unit,
-    onChangeUnitValue,
-    onChangeQuantityValue
-}) => {
-    return (
-        <Grid>
-			<Col>
-				<Form>
-					<Picker
-						mode="dropdown"
-						placeholder="בחר מידה"
-						selectedValue={unit}
-						onValueChange={onChangeUnitValue}
-					>
-						<Picker.Item
-							label="פריטים"
-							value={Constants.AMMOUNT_TYPES.ITEMS}
-						/>
-						<Picker.Item
-							label="ק''ג"
-							value={Constants.AMMOUNT_TYPES.KG}
-						/>
-						<Picker.Item
-							label="ליטר"
-							value={Constants.AMMOUNT_TYPES.LITRE}
-						/>
-						<Picker.Item
-							label="מנות"
-							value={Constants.AMMOUNT_TYPES.PORTIONS}
-						/>
-					</Picker>
-				</Form>
-			</Col>
-			<Col>
-				<Item error={this.props.validatiionsObject.productAmmount}>
-					<Input
-						keyboardType="numeric"
-						placeholder="כמות"
-						value={quantity}
-						onChangeText={onChangeQuantityValue}
-					/>
-					<Icon name="stats" />
-				</Item>
-			</Col>
-		</Grid>
-    );
-};
-
 @observer
 class GeneralInfoContainer extends Component {
     constructor(props) {
@@ -209,7 +205,7 @@ class GeneralInfoContainer extends Component {
 							textAlign: "center"
 						}}
 					>
-						שם הפריט
+						שם  הפריט*	
 					</Label>
 					<Input 
 						value={productObject.name}
@@ -232,7 +228,7 @@ class GeneralInfoContainer extends Component {
 						<Icon name="paper" />
 					</Item>
 					<AmountPicker
-						validationsObjec={this.props.validationsObject}
+						validationsObject={this.props.validationsObject}
 						unit={productObject.amount.units}
 						quantity={productObject.amount.amount}
 						onChangeUnitValue={this.onChangeUnitValue.bind(this)}

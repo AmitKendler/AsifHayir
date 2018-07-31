@@ -11,7 +11,9 @@ class Product {
     @observable products = [];
     @observable validations = {
         productName: false,
-        productAmmount: false
+        productAmmount: false,
+        contactPhone: false,
+        contactName: false
     }
     constructor(props) {
         this.initStore();
@@ -74,8 +76,25 @@ class Product {
         } else {
             this.validations.productAmmount = false;
         }
+
+        if (!this.giveaway.contact.name.length) {
+            isValid = false;
+            this.validations.contactName = true;
+        } else {
+            this.validations.contactName = false;
+        }
+
+        if (!this.giveaway.contact.phone.length) {
+            isValid = false;
+            this.validations.contactPhone = true;
+        } else {
+            this.validations.contactPhone = false;
+        }
+
+
+
+        return isValid;
     }
-    validateGiveaway
     postGiveaway() {
         this.giveaway.products.push(this.product);
         // TODO: Validate data
@@ -92,13 +111,10 @@ class Product {
             })
             .then(response => {
 
-                if (response.ok) {
-
-                    response.json().then(responseJson => {
-                        giveawayStore.loadGiveaways();
-                        this.initStore();
-                        Actions.GiveawayFinishContainer();
-                    });
+                if (response.ok && response.status == 200) {
+                    giveawayStore.loadGiveaways();
+                    this.initStore();
+                    Actions.GiveawayFinishContainer();
 
                 } else {
                     alert("error in creating giveaway");

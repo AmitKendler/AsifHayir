@@ -5,19 +5,19 @@ import { observer } from "mobx-react/native";
 
 // TODO add to global styles
 const styles = StyleSheet.create({
-	mainLabel: { margin: 15, color: "#333333", fontSize: 18 }
+    mainLabel: { margin: 15, color: "#333333", fontSize: 18 }
 });
 
 @observer
 class ContactInfoContainer extends Component {
-	render() {
-		const { giveawayObject } = this.props;
-		return (
-			<Form>
+    render() {
+        const { giveawayObject, validationsObject } = this.props;
+        return (
+            <Form>
 				<Text style={styles.mainLabel}>
 					אנא וודא שפרטי איש הקשר שלך נכונים
 				</Text>
-				<Item>
+				<Item error={validationsObject.contactName}>
 					<Input
 						placeholder="שם איש הקשר"
 						value={giveawayObject.contact.name}
@@ -26,7 +26,7 @@ class ContactInfoContainer extends Component {
 					/>
 					<Icon name="contact" />
 				</Item>
-				<Item>
+				<Item error={validationsObject.contactPhone}>
 					<Input
 						keyboardType="phone-pad"
 						placeholder="טלפון"
@@ -37,8 +37,8 @@ class ContactInfoContainer extends Component {
 					<Icon name="call" />
 				</Item>
 			</Form>
-		);
-	}
+        );
+    }
 }
 
 export default ContactInfoContainer;

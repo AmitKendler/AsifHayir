@@ -91,11 +91,9 @@ class LocationPickerContainer extends Component {
     }
 
     updateLocation() {
-        console.log("updating location.....");
         let address = this.props.giveawayObject.address;
         if (address.city && address.streetName) {
             let addressString = `${address.city} ${address.streetName} ${address.houseNumber} ${address.aptNumber}`;
-            console.log("geocoding location...", addressString)
             Geocoder.from(addressString)
 
                 .then(json => {

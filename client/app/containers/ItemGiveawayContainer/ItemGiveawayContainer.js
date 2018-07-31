@@ -10,7 +10,8 @@ import {
     Label,
     Picker,
     Icon,
-    Form
+    Form,
+    Toast
 } from "native-base";
 import { Actions } from "react-native-router-flux";
 import NavbarContainer from "./../NavbarContainer/NavbarContainer";
@@ -101,6 +102,19 @@ class ItemGiveawayContainer extends Component {
         this.refs.mySwiper.scrollBy(i - this.state.currentPosition);
     }
 
+    postProduct() {
+        if (this.props.giveawayStore.validateGiveaway()) {
+            this.props.giveawayStore.postGiveaway();
+        } else {
+            Toast.show({
+                text: "קיימים שדות חובה שלא מילאת!",
+                buttonText: "אישור",
+                type: "danger",
+                duration: 10000
+            });
+        }
+    }
+
     render() {
         const { product, giveaway, validations } = this.props.giveawayStore;
         return (
@@ -111,7 +125,7 @@ class ItemGiveawayContainer extends Component {
                     hasNext={!this.state.isCheckAvailable}
                     onPressNext={this.moveNext.bind(this)}
                     hasCheck={this.state.isCheckAvailable}
-                    onPressCheck={() => this.props.giveawayStore.validateGiveaway() && this.props.giveawayStore.postGiveaway()}
+                    onPressCheck={() =>this.postProduct() }
                 >
                     <Content>
                         <View style={styles.marginView} />
@@ -154,6 +168,7 @@ class ItemGiveawayContainer extends Component {
                             <Content>
                                 <ContactInfoContainer
                                     giveawayObject={giveaway}
+                                    validationsObject= {validations}
                                 />
                             </Content>
                         </Swiper>
