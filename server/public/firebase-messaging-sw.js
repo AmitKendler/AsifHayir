@@ -6,7 +6,8 @@ firebase.initializeApp({
   });
 
 
-const messaging = firebase.messaging();var config = {
+const messaging = firebase.messaging();
+var config = {
 	apiKey: "AIzaSyCLjvInkTICWVDqRKx7HcGztQD--pI0mEE",
 	authDomain: "leftright-2e5de.firebaseapp.com",
 	databaseURL: "https://leftright-2e5de.firebaseio.com",
