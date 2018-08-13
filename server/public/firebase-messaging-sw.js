@@ -18,3 +18,16 @@ var config = {
 firebase.initializeApp(config);
 
 const messaging = firebase.messaging();
+
+// messaging.setBackgroundMessageHandler(function(payload) {
+// 	console.log('[firebase-messaging-sw.js] Received background message ', payload);
+// 	// Customize notification here
+// 	var notificationTitle = 'התקבלה תרומה חדשה!';
+// 	var notificationOptions = {
+// 	  body: 'לך תבדוק בעמוד התרומות מה נכנס'
+// 	//   icon: '/firebase-logo.png'
+// 	};
+  
+// 	return self.registration.showNotification(notificationTitle,
+// 	  notificationOptions);
+//   });

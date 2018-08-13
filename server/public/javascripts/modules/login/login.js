@@ -96,6 +96,11 @@ app.controller("AuthCtrl", function($scope, $location,/* Auth,*/ $http, $timeout
             // setTokenSentToServer(false);
         });
 
+        messaging.onMessage(function(payload) {
+            console.log('Message received. ', payload);
+            // ...
+          });
+
         // Callback fired if Instance ID token is updated.
         messaging.onTokenRefresh(function() {
             messaging.getToken().then(function(refreshedToken) {
