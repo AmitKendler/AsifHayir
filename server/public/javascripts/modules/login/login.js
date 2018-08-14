@@ -37,7 +37,7 @@ app.factory("UserAuth", function($q, $timeout){
 //   }
 // ]);
 
-app.controller("AuthCtrl", function($scope, $location,/* Auth,*/ $http, $timeout, UserAuth){
+app.controller("AuthCtrl", function($scope, $location,/* Auth,*/ $http, $timeout, UserAuth, alertify){
 
      // any time auth state changes, add the user data to scope
      firebase.auth().onAuthStateChanged(function(firebaseUser) {
@@ -98,7 +98,7 @@ app.controller("AuthCtrl", function($scope, $location,/* Auth,*/ $http, $timeout
 
         messaging.onMessage(function(payload) {
             console.log('Message received. ', payload);
-            // ...
+            alertify.success(payload.notification.body);
           });
 
         // Callback fired if Instance ID token is updated.
