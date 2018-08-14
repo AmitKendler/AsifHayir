@@ -1,195 +1,230 @@
 angular.module('AsifHayir')
-	.directive('donationsTable', ['$compile', function($compile) {
-	  return {
-	  	restrict: 'E',
-	  	scope: {
-			donations: '=',
-			hideCheckboxes: '='
-		},
-		templateUrl: "/javascripts/modules/donations/table/donationsTable.html",
-	    link: function(scope, element, attrs) {
+    .directive('donationsTable', ['$compile', function($compile) {
+        return {
+            restrict: 'E',
+            scope: {
+                donations: '=',
+                hideCheckboxes: '='
+            },
+            templateUrl: "/javascripts/modules/donations/table/donationsTable.html",
+            link: function(scope, element, attrs) {
 
-			// scope.columnWidth = scope.hideCheckboxes ? "13%" : "11%";
+                // scope.columnWidth = scope.hideCheckboxes ? "13%" : "11%";
 
-			scope.$on("updateDonations", function(e, donations) {
-				scope.donations = donations;
-			});
+                scope.$on("updateDonations", function(e, donations) {
+                    scope.donations = donations;
+                });
 
-			scope.tableColumns = [
-				{
-					label: "סטטוס",
-					getValue: function (row) { return scope.getStatusLabel(row.product.status); },
-					width: "10%",
-					className: "status"
-				},
-				{
-					label: "סוג",
-					getValue: function (row) { return scope.getTypeLabel(row.product.prodType); },
-					width: "6%"
-				},
-				{
-					label: "תרומה",
-					getValue: "product.name",
-					width: "11%"
-				},
-				{
-					label: "תיאור",
-					getValue: "product.description",
-					width: "10%"
-				},
-				{
-					label: "כתובת לאיסוף",
-					getValue: function (row) { return scope.getAddressLabel(row.address); },
-					width: "12%"
-				},
-				{
-					label: "זמין מ",
-					getValue: function (row) { return scope.getTimeLabel(row.pickupTime.startTime); },
-					width: "16%"
-				},
-				{
-					label: "זמין עד",
-					getValue: function (row) { return scope.getTimeLabel(row.pickupTime.endTime); },
-					width: "16%"
-				}
-			];
+                scope.tableColumns = [{
+                        label: "סטטוס",
+                        getValue: function(row) { return scope.getStatusLabel(row.product.status); },
+                        width: "10%",
+                        className: "status"
+                    },
+                    {
+                        label: "סוג",
+                        getValue: function(row) { return scope.getTypeLabel(row.product.prodType); },
+                        width: "6%"
+                    },
+                    {
+                        label: "תרומה",
+                        getValue: "product.name",
+                        width: "11%"
+                    },
+                    {
+                        label: "תיאור",
+                        getValue: "product.description",
+                        width: "10%"
+                    },
+                    {
+                        label: "כתובת לאיסוף",
+                        getValue: function(row) { return scope.getAddressLabel(row.address); },
+                        width: "12%"
+                    },
+                    {
+                        label: "זמין מ",
+                        getValue: function(row) { return scope.getTimeLabel(row.pickupTime.startTime); },
+                        width: "16%"
+                    },
+                    {
+                        label: "זמין עד",
+                        getValue: function(row) { return scope.getTimeLabel(row.pickupTime.endTime); },
+                        width: "16%"
+                    }
+                ];
 
-			scope.getValue = function (column, row) {
-				return (typeof(column.getValue) == "string") ? scope.getNestedValue(row, column.getValue) : 
-															   column.getValue(row);
-			}
+                scope.getValue = function(column, row) {
+                    return (typeof(column.getValue) == "string") ? scope.getNestedValue(row, column.getValue) :
+                        column.getValue(row);
+                }
 
-			scope.getNestedValue = function (object, property) {
+                scope.getNestedValue = function(object, property) {
 
-				var obj = angular.copy(object);
-				var properties = property.split(".");
-				properties.forEach(x => obj = obj[x]);
+                    var obj = angular.copy(object);
+                    var properties = property.split(".");
+                    properties.forEach(x => obj = obj[x]);
 
-				return obj;
-			}
+                    return obj;
+                }
 
-			scope.TYPE_ENUM = {
-				FOOD: "אוכל",
-				CLOTHES: "ביגוד",
-				FURNITURE: "ריהוט"
-			};
+                scope.TYPE_ENUM = {
+                    FOOD: "אוכל",
+                    CLOTHES: "ביגוד",
+                    FURNITURE: "ריהוט"
+                };
 
-			scope.STATUS_ENUM = {
-				NEW: "חדש",
-				PENDING: "ממתין לאיסוף",
-				TAKEN: "נלקח"
-			};
+                scope.STATUS_ENUM = {
+                    NEW: "חדש",
+                    PENDING: "ממתין לאיסוף",
+                    TAKEN: "נלקח"
+                };
 
-			scope.getTypeLabel = function (type) {
-				return scope.TYPE_ENUM[type];
-			}
+                scope.getTypeLabel = function(type) {
+                    return scope.TYPE_ENUM[type];
+                }
 
-			scope.getStatusLabel = function (status) {
-				return scope.STATUS_ENUM[status];
-			}	
-			
-			scope.getAddressLabel = function (pickupAddress) {
-				return pickupAddress.streetName + " " + pickupAddress.houseNumber + ", " + pickupAddress.city;
-			}
+                scope.getStatusLabel = function(status) {
+                    return scope.STATUS_ENUM[status];
+                }
 
-			scope.getTimeLabel = function (pickupTime) {
-				return scope.stringToDate(pickupTime);
-			}
+                scope.getAddressLabel = function(pickupAddress) {
+                    return pickupAddress.streetName + " " + pickupAddress.houseNumber + ", " + pickupAddress.city;
+                }
 
-			scope.stringToDate = function (dateString) {
-				return moment(new Date(dateString)).format("DD/MM/YYYY HH:mm:ss");
-			}
+                scope.getTimeLabel = function(pickupTime) {
+                    return scope.stringToDate(pickupTime);
+                }
 
-			scope.openSendMessageModal = function (userId) {
+                scope.stringToDate = function(dateString) {
+                    return moment(new Date(dateString)).format("DD/MM/YYYY HH:mm:ss");
+                }
 
-				// scope.userIdForMessage = userId;
-				$("#sendMessageModal").modal("show");
-			}
-		}
-	}
-}]);
+                scope.openSendMessageModal = function(userId) {
 
-angular.module('AsifHayir').directive('popoverContactDetails', function($compile){
-	return {
-		restrict: 'E',		  
-		scope: {
-			contact: "="
-		},
-		link: function(scope, element, attrs) {
-			scope.definePopover = function () {
+                    // scope.userIdForMessage = userId;
+                    $("#sendMessageModal").modal("show");
+                }
+            }
+        }
+    }]);
 
-				// var popoverId = scope.getPopoverIdByType();
+angular.module('AsifHayir').directive('popoverContactDetails', function($compile) {
+    return {
+        restrict: 'E',
+        scope: {
+            contact: "="
+        },
+        link: function(scope, element, attrs) {
+            scope.definePopover = function() {
 
-				$(element).popover({
-					title: "פרטי איש קשר",
-					trigger: "hover",
-					container: 'body',
-					html: true,
-					placement: "right",
-					content: $compile($("#contactInfo").html())(scope)
-				});	
+                // var popoverId = scope.getPopoverIdByType();
 
-				$(element).on("show.bs.popover", function() { 
-					var popover = $($(this).data("bs.popover").tip);
-					popover.css("maxWidth", "170px");
-					popover.css("height", "110px");
-				});
-			}
+                $(element).popover({
+                    title: "פרטי איש קשר",
+                    trigger: "hover",
+                    container: 'body',
+                    html: true,
+                    placement: "right",
+                    content: $compile($("#contactInfo").html())(scope)
+                });
 
-			scope.definePopover();
-		}
-	}
+                $(element).on("show.bs.popover", function() {
+                    var popover = $($(this).data("bs.popover").tip);
+                    popover.css("maxWidth", "170px");
+                    popover.css("height", "110px");
+                });
+            }
+
+            scope.definePopover();
+        }
+    }
 });
 
-angular.module('AsifHayir').directive('popoverAdvancedDetails', function($compile){
-	return {
-		restrict: 'E',		  
-		scope: {
-			product: "=",
-			type: "="
-		},
-		link: function(scope, element, attrs) {
+angular.module('AsifHayir').directive('popoverProductImage', function($compile) {
+    return {
+        restrict: 'E',
+        scope: {
+            product: "="
+        },
+        link: function(scope, element, attrs) {
+            scope.definePopover = function() {
 
-			scope.AMOUNT_TYPE_ENUM = {
-				ITEMS: "פריטים",
-				KG: "ק''ג",
-				LITRE: "ליטר",
-				PORTIONS: "חלקים"
-			};
+                // var popoverId = scope.getPopoverIdByType();
 
-			scope.getAmountTypeLabel = function (amountUnits) {
-				return scope.AMOUNT_TYPE_ENUM[amountUnits];
-			}
+                $(element).popover({
+                    title: "תמונה",
+                    trigger: "hover",
+                    container: 'body',
+                    html: true,
+                    placement: "right",
+                    content: $compile($("#productImage").html())(scope)
+                });
 
-			scope.definePopover = function () {
+                $(element).on("show.bs.popover", function() {
+                    var popover = $($(this).data("bs.popover").tip);
+                    popover.css("maxWidth", "170px");
+                    popover.css("height", "170px");
+                });
+            }
 
-				var popoverId = scope.getPopoverIdByType();
+            scope.definePopover();
+        }
+    }
+});
 
-				$(element).popover({
-					title: "פרטים נוספים",
-					trigger: "hover",
-					container: 'body',
-					html: true,
-					placement: "right",
-					content: $compile($("#" + popoverId).html())(scope)
-				});	
-			}
+angular.module('AsifHayir').directive('popoverAdvancedDetails', function($compile) {
+    return {
+        restrict: 'E',
+        scope: {
+            product: "=",
+            type: "="
+        },
+        link: function(scope, element, attrs) {
 
-			scope.getPopoverIdByType = function () {
+            scope.AMOUNT_TYPE_ENUM = {
+                ITEMS: "פריטים",
+                KG: "ק''ג",
+                LITRE: "ליטר",
+                PORTIONS: "חלקים"
+            };
 
-				switch (scope.type) {
-					case "FOOD": return "foodPopover";
-					case "CLOTHES": return "clothingPopover";
-					case "FURNITURE": return "furniturePopover";
-					default: return "";
-				}
-			}
+            scope.getAmountTypeLabel = function(amountUnits) {
+                return scope.AMOUNT_TYPE_ENUM[amountUnits];
+            }
 
-			scope.getIconClass = function (key, valueForSuccess)	 {
-				return (scope.product[key] == valueForSuccess) ? 'fa fa-check success-icon' : 'fa fa-times danger-icon';
-			}
+            scope.definePopover = function() {
 
-			scope.definePopover();
-		}
-	}
+                var popoverId = scope.getPopoverIdByType();
+
+                $(element).popover({
+                    title: "פרטים נוספים",
+                    trigger: "hover",
+                    container: 'body',
+                    html: true,
+                    placement: "right",
+                    content: $compile($("#" + popoverId).html())(scope)
+                });
+            }
+
+            scope.getPopoverIdByType = function() {
+
+                switch (scope.type) {
+                    case "FOOD":
+                        return "foodPopover";
+                    case "CLOTHES":
+                        return "clothingPopover";
+                    case "FURNITURE":
+                        return "furniturePopover";
+                    default:
+                        return "";
+                }
+            }
+
+            scope.getIconClass = function(key, valueForSuccess) {
+                return (scope.product[key] == valueForSuccess) ? 'fa fa-check success-icon' : 'fa fa-times danger-icon';
+            }
+
+            scope.definePopover();
+        }
+    }
 });

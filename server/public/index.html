@@ -72,7 +72,6 @@
     <script src="javascripts/modules/constantPaths/screen/constantPathsScreen.js"></script>    
     <script src="javascripts/modules/constantPaths/table/constantPathsTable.js"></script>
     <script src="javascripts/modules/constantPaths/constantPathsService.js"></script>
-    <script src="javascripts/modules/statistics/statistics.js"></script>
     <script src="javascripts/modules/map/mapViewDonations.js"></script> 
     <script src="javascripts/modules/routes/screen/routesScreen.js"></script> 
     <script src="javascripts/modules/routes/table/routeInfo.js"></script> 
@@ -82,8 +81,6 @@
     <script src="javascripts/modules/modals/routeIsReadyModal/routeIsReadyModal.js"></script>   
     <script src="javascripts/modules/modals/routeSettingsModal/routeSettingsModal.js"></script> 
     <script src="javascripts/modules/modals/sendMessageModal/sendMessageModal.js"></script> 
-    <script src="javascripts/modules/findv/findv.js"></script> 
-    <script src="javascripts/modules/photolabels/photolabels.js"></script> 
 
     <!--Niv-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
@@ -103,35 +100,6 @@
     <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     
-    <!-- Push notification for a new donation
-    <script>
-        function notifyMe() {
-            // Let's check if the browser supports notifications
-            if (!("Notification" in window)) {
-                console.log("This browser does not support system notifications");
-            }
-            // Let's check whether notification permissions have already been granted
-            else if (Notification.permission === "granted") {
-                // If it's okay let's create a notification
-                var notification = new Notification("התקבלה תרומה חדשה! ראה במסך התרומות");
-            }
-            // Otherwise, we need to ask the user for permission
-            else if (Notification.permission !== 'denied') {
-                Notification.requestPermission(function(permission) {
-                    // If the user accepts, let's create a notification
-                    if (permission === "granted") {
-                        var notification = new Notification("התקבלה תרומה חדשה! ראה במסך התרומות");
-                    }
-                });
-            }
-
-            if (notification) setTimeout(notification.close.bind(notification), 5000);
-            // Finally, if the user has denied notifications and you 
-            // want to be respectful there is no need to bother them any more.
-        }
-        notifyMe();
-
-    </script> -->
 </head>
 <body dir="rtl">
 <header>
@@ -141,9 +109,6 @@
         <a class="nav-item nav-link" ng-href="#/constantPaths">נתיבים קבועים</a>
         <a class="nav-item nav-link" ng-href="#/vehicles">ניידות</a>
         <a class="nav-item nav-link" ng-href="#/volunteers">מתנדבים</a>
-        <a class="nav-item nav-link" ng-href="#/statistics">סטטיסטיקות</a>
-        <a class="nav-item nav-link" ng-href="#/findv">מציאת תרומה</a>
-        <a class="nav-item nav-link" ng-href="#/photolabels">מרכיבי תרומה</a>
         <a class="nav-item nav-link" ng-href="#/routes">מסלולים</a>
     </div>
 </nav>
