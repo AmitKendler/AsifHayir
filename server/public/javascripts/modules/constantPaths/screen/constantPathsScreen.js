@@ -12,7 +12,6 @@ angular.module("AsifHayir").controller("constantPaths", function ($scope, Consta
             setTimeout(() => {
                 constantPath.points.forEach(point => $scope.getPlaceByCoords(point));
             }, 10);
-            // $scope.getPlaceByCoords(constantPath.points[0]);
         }
     }
 
@@ -50,7 +49,6 @@ angular.module("AsifHayir").controller("constantPaths", function ($scope, Consta
         var geocoder = new google.maps.Geocoder();
         var latlng = new google.maps.LatLng(coordinate.y, coordinate.x);
         geocoder.geocode({
-            // 'latLng': latlng
             placeId: coordinate.placeId
           }, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
@@ -76,11 +74,6 @@ angular.module("AsifHayir").controller("constantPaths", function ($scope, Consta
     }
 
     $scope.setPoints = function () {
-        // var place = point.getPlace();        
-        // var x = place.geometry.location.lng();
-        // var y = place.geometry.location.lat();
-        // scope[elementId] = new google.maps.LatLng(y, x);
-
         $scope.path.points = [];
         $scope.geoPoints.forEach(point => {
             var place = point.getPlace();        
